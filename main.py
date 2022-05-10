@@ -1,3 +1,0 @@
-# TheHealingInc
-
-print('Hello World')
