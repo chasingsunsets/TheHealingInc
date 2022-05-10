@@ -31,6 +31,7 @@ Bootstrap with custom variables
   --dark: #212529;
   --primary-light: #ff8833;
   --gray: #e5e7ea;
+  --beige: #F1EDE5;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -46,7 +47,7 @@ Bootstrap with custom variables
           box-sizing: border-box; }
 
 html {
-  font-family: sans-serif;
+  font-family: Poppins;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
@@ -60,9 +61,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: #000000;
   text-align: right;
-  background-color: #fff; }
+  background-color: #F1EDE5; }
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -183,7 +184,7 @@ table {
 caption {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  color: #969696;
+  color: #F1EDE5;
   text-align: left;
   caption-side: bottom; }
 
