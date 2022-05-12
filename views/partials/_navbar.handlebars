@@ -20,12 +20,21 @@
 			<ul class="navbar-nav ml-auto">
 				{{#if user}}
 				<li class="nav-item">
+					<a href="" class="nav-link">|</a>
+				</li>
+				<li class="nav-item">
 					<a href="" class="nav-link">CART</a>
 				</li>
 				<li class="nav-item">
 					<a href="" class="nav-link">LOGOUT</a>
 				</li>
 				{{else}}
+				<li class="nav-item">
+					<a href="#" class="nav-link"><i class="fa-regular fa-magnifying-glass"></i></a>
+				</li>
+				<li class="nav-item">
+					<a href="#" class="nav-link">|</a>
+				</li>
 				<li class="nav-item">
 					<a href="" class="nav-link">CART</a>
 				</li>
@@ -40,3 +49,4 @@
 		</div>
 	</div>
 </nav>
+<hr style="height:1px;border:none;color:#333;background-color:#333;" />
