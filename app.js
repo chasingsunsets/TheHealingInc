@@ -52,8 +52,8 @@ app.use(session({
 	saveUninitialized: false,
 }));
 
-// const flash = require('connect-flash');
-// app.use(flash());
+const flash = require('connect-flash');
+app.use(flash());
 const flashMessenger = require('flash-messenger');
 app.use(flashMessenger.middleware);
 
@@ -61,8 +61,8 @@ app.use(flashMessenger.middleware);
 
 // Place to define global variables
 app.use(function (req, res, next) {
-	// res.locals.messages = req.flash('message');
-    // res.locals.errors = req.flash('error');
+	res.locals.messages = req.flash('message');
+    res.locals.errors = req.flash('error');
 	next();
 });
 

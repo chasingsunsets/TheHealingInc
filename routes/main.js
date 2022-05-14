@@ -28,7 +28,7 @@ router.get('/catalogue', (req, res) => {
 // 	flashMessage(res, 'info', message);
 // 	flashMessage(res, 'error', error);
 // 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
-// 	res.redirect('/landing');
+// 	res.redirect('/');
 // });
 
 
