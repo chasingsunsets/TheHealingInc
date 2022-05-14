@@ -38,32 +38,21 @@
   transform-origin: bottom left;
 }
 
-.landing-intro {
-  width: 545px;
-  height: 134px;
-  left: 100px;
-  top: 382px;
-
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 33px;
-
-  color: #000000;
+/* landing page first item */
+@media(min-width: 768px) {
+  .news-input {
+    width: 50%;
+  }
 }
 
-.landing-title {
-  width: 438px;
-  height: 89px;
-  left: 100px;
-  top: 227px;
-
+.landing-page {
   font-family: 'Libre Baskerville';
   font-style: italic;
   font-weight: 400;
   font-size: 48px;
   line-height: 60px;
+}
 
-  color: #000000;
+.text-color {
+  color: #ffaa00;
 }
