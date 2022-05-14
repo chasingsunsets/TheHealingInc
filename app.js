@@ -52,17 +52,27 @@ app.use(session({
 	saveUninitialized: false,
 }));
 
+// const flash = require('connect-flash');
+// app.use(flash());
+const flashMessenger = require('flash-messenger');
+app.use(flashMessenger.middleware);
+
+
+
 // Place to define global variables
 app.use(function (req, res, next) {
+	// res.locals.messages = req.flash('message');
+    // res.locals.errors = req.flash('error');
 	next();
 });
 
 // mainRoute is declared to point to routes/main.js
 const mainRoute = require('./routes/main');
+const userRoute = require('./routes/user');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
-
+app.use('/user', userRoute);
 /*
 * Creates a port for express server since we don't want our app to clash with well known
 * ports such as 80 or 8080.

@@ -8,13 +8,14 @@
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.5",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "express-handlebars": "^6.0.2",
     "express-session": "^1.15.6",
+    "flash-messenger": "^1.1.1",
     "handlebars": "^4.7.7"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Lnnatthida/TheHealingInc.git"
