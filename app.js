@@ -9,6 +9,7 @@ const Handlebars = require('handlebars');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
+require('dotenv').config();
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -44,13 +45,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Enables session to be stored using browser's Cookie ID
 app.use(cookieParser());
 
+// Library to use MySQL to store session objects
+const MySQLStore = require('express-mysql-session');
+var options = {
+	host: process.env.DB_HOST,
+	port: process.env.DB_PORT,
+	user: process.env.DB_USER,
+	password: process.env.DB_PWD,
+	database: process.env.DB_NAME,
+	clearExpired: true,
+	// The maximum age of a valid session; milliseconds:
+	expiration: 3600000, // 1 hour = 60x60x1000 milliseconds
+	// How frequently expired sessions will be cleared; milliseconds:
+	checkExpirationInterval: 1800000 // 30 min
+};
+
 // To store session information. By default it is stored as a cookie on browser
 app.use(session({
 	key: 'vidjot_session',
 	secret: 'tojdiv',
+	store: new MySQLStore(options),
 	resave: false,
 	saveUninitialized: false,
 }));
+
+// Bring in database connection
+const DBConnection = require('./config/DBConnection');
+// Connects to MySQL database
+DBConnection.setUpDB(false); // To set up database with new tables
+(true)
 
 const flash = require('connect-flash');
 app.use(flash());
@@ -62,7 +85,7 @@ app.use(flashMessenger.middleware);
 // Place to define global variables
 app.use(function (req, res, next) {
 	res.locals.messages = req.flash('message');
-    res.locals.errors = req.flash('error');
+	res.locals.errors = req.flash('error');
 	next();
 });
 

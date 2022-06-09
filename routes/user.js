@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+
 router.get('/login', (req, res) => {
     res.render('user/login');
 });
@@ -9,7 +12,7 @@ router.get('/register', (req, res) => {
     res.render('user/register');
 });
 
-router.post('/register', function (req, res) {
+router.post('/register', async function (req, res) {
     let { name, email, password, password2 } = req.body;
     let isValid = true;
     if (password.length < 6) {
@@ -26,8 +29,36 @@ router.post('/register', function (req, res) {
         });
         return;
     }
-    flashMessage(res, 'success', email + ' registered successfully');
-    res.redirect('/user/login');
+    // flashMessage(res, 'success', email + ' registered successfully');
+    // res.redirect('/user/login');
+    try {
+        // If all is well, checks if user is already registered
+        let user = await User.findOne({ where: { email: email } });
+        if (user) {
+            // If user is found, that means email has already been registered
+            flashMessage(res, 'error', email + ' already registered');
+            res.render('user/register', {
+                name, email
+            });
+        }
+        else {
+            // Create new user record
+            var salt = bcrypt.genSaltSync(10);
+            var hash = bcrypt.hashSync(password, salt);
+            // Use hashed password
+            let user = await User.create({ name, email, password: hash });
+            flashMessage(res, 'success', email + ' registered successfully');
+            res.redirect('/user/login');
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
 });
+
+router.get('/profile', (req, res) => {
+    res.render('user/profile');
+    });
 
 module.exports = router;
