@@ -4,8 +4,9 @@
 }
 
 #home {
-  padding-top: 250px;
+  padding-top: 75px;
   margin: auto;
+  width: 100%;
 }
 
 .logo{
@@ -79,7 +80,7 @@ h2 {
   width: 80%;
   text-align: center;
   margin: auto;
-  padding-top: 50px;
+  padding-top: 100px;
   /* make text into center */
 }
 
@@ -124,7 +125,7 @@ p {
   width: 80%;
   margin: auto;
   text-align: center;
-  padding-top: 50px;
+  padding-top: 100px;
 }
 
 .countries-col {
