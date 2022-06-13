@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/catalogue', (req, res) => {
-	res.render('catalogue');
+	res.render('./product/catalogue');
 });
 
 
