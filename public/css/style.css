@@ -64,27 +64,3 @@ h2 {
   font-size: 48px;
   line-height: 60px;
 }
-
-.curved-div {
-  background: rgba(152, 152, 191, 0.5);
-  color: #FFF;
-  text-align: center;
-}
-
-.curved-div h1 {
-  font-size: 6rem;
-  margin-top: 0;
-}
-
-.curved-div p {
-  font-size: 1rem;
-  margin-top: 0 5rem 0 5rem;
-}
-
-.curved-div svg {
-  display: block;
-}
-
-.curved.upper {
-  background: #F1EDE5;
-}
