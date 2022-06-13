@@ -3,6 +3,11 @@
   margin: 0;
 }
 
+#home {
+  padding-top: 250px;
+  margin: auto;
+}
+
 .logo{
   width:130px;
   margin:auto;
@@ -70,15 +75,11 @@ h2 {
   line-height: 60px;
 }
 
-#home {
-  padding-top: 150px;
-  margin: auto;
-}
-
 .services {
   width: 80%;
   text-align: center;
   margin: auto;
+  padding-top: 50px;
   /* make text into center */
 }
 
@@ -182,7 +183,7 @@ p {
 .testimonials {
   width: 80%;
   margin: auto;
-  padding-top: 100px;
+  padding-top: 50px;
   text-align: center;
   /* the header of the testimonial */
 }
@@ -199,7 +200,7 @@ p {
 }
 
 .testimonial-col img {
-  height: 40px;
+  height: 100px;
   margin-left: 5px;
   margin-right: 30px;
   border-radius: 50%;
