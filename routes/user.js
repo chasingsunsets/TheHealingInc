@@ -5,6 +5,8 @@ const flashMessage = require('../helpers/messenger');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
+const passport = require('passport');
+
 router.get('/login', (req, res) => {
     res.render('user/login');
 });
@@ -57,8 +59,46 @@ router.post('/register', async function (req, res) {
 
 });
 
-router.get('/profile', (req, res) => {
-    res.render('user/profile');
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        // Success redirect URL
+        successRedirect: '/user/profile',
+        // Failure redirect URL
+        failureRedirect: '/user/login',
+        /* Setting the failureFlash option to true instructs Passport to flash
+        an error message using the message given by the strategy's verify callback.
+        When a failure occur passport passes the message object as error */
+        failureFlash: true
+    })(req, res, next);
+});
+
+// router.get('/logout', (req, res) => {
+//         req.logout();
+//         res.redirect('/');
+//         });  here broken, fix found online was:
+router.get('/logout', (req, res) => {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        res.redirect('/');
     });
+});
+
+router.get('/profile', (req, res) => {
+
+    res.render('user/profile');
+});
 
 module.exports = router;
+
+// router.get('/listVideos', (req, res) => {
+//     Video.findAll({
+//     where: { userId: req.user.id },
+//     order: [['dateRelease', 'DESC']],
+//     raw: true
+//     })
+//     .then((videos) => {
+//     // pass object to listVideos.handlebar
+//     res.render('video/listVideos', { videos });
+//     })
+//     .catch(err => console.log(err));
+//     });

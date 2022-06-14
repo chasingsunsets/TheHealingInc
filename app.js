@@ -80,12 +80,20 @@ app.use(flash());
 const flashMessenger = require('flash-messenger');
 app.use(flashMessenger.middleware);
 
+// Passport Config
+const passport = require('passport');
+const passportConfig = require('./config/passportConfig');
+passportConfig.localStrategy(passport);
 
+// Initilize Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Place to define global variables
 app.use(function (req, res, next) {
 	res.locals.messages = req.flash('message');
 	res.locals.errors = req.flash('error');
+	res.locals.user = req.user || null;
 	next();
 });
 
