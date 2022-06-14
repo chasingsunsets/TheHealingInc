@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs');
 
 const passport = require('passport');
 
+const ensureAuthenticated = require('../helpers/auth');
+
 router.get('/login', (req, res) => {
     res.render('user/login');
 });
@@ -83,9 +85,9 @@ router.get('/logout', (req, res) => {
     });
 });
 
-router.get('/profile', (req, res) => {
+router.get('/profile', ensureAuthenticated, (req, res) => {
 
-    res.render('user/profile');
+    res.render('user/profile',{ title: 'Profile', user: req.user, name: req.user.name , email: req.user.email});
 });
 
 module.exports = router;
