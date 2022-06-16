@@ -1,19 +1,28 @@
-<div class="row">
+<div class="row" id="accountpg">
 	<div class="col-md-6 mx-auto">
-		<div class="card card-body">
+		<div class="card card-body" style="border-radius: 60px ; top: 100px">
 			<img class="logo" src="/img/logo.png">
-			<h3 class="text-center">Account Login</h3>
+			<h3 class="text-center">LOGIN</h3>
 			<form method="post" action="">
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" name="email" class="form-control" required>
+				<div class="accountform">
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" name="email" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" name="password" class="form-control" required>
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" name="password" class="form-control" required>
+				<div class="centered">
+					<h6 style="font-weight: normal ">New user? <a href="/user/register" style="color: #8BAD97"><u>Sign
+								Up</u></a></h6>
+
+					<button type="submit" class="accountbtn">LOGIN</button>
 				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
+
 			</form>
 		</div>
+
 	</div>
 </div>

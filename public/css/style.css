@@ -228,3 +228,40 @@ p {
 
   /* to make use of less space */
 }
+
+
+
+
+
+
+
+
+#accountpg {
+  background-image: url('/img/account-page.PNG');
+  background-repeat: no-repeat;
+  background-size: contain;
+  /* background-position: 0% 0%; */
+  height: 700px;
+
+}
+
+.accountbtn {
+  background-color: #8BAD97 ; /* Green */
+  border: none;
+  color: black;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 60px;
+}
+.centered{
+  text-align: center;
+}
+
+.accountform {
+  width: 50%;
+  margin-left: 25%;
+  margin-right:25%;
+}

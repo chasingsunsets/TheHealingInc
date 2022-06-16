@@ -1,26 +1,35 @@
-<div class="row">
+<div class="row" id="accountpg">
 	<div class="col-md-6 mx-auto">
-		<div class="card card-body">
+		<div class="card card-body" style="border-radius: 60px ; top: 100px">
 			<img class="logo" src="/img/logo.png">
-			<h3 class="text-center">Account Register</h3>
+			<h3 class="text-center">ACCOUNT REGISTER</h3>
 			<form action="" method="post">
-				<div class="form-group">
-					<label for="name">Name</label>
-					<input type="text" class="form-control" name="name" value="{{name}}" required>
+				<div class="accountform">
+					<div class="form-group">
+						<label for="name">Name</label>
+						<input type="text" class="form-control" name="name" value="{{name}}" required>
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" name="email" class="form-control" value="{{email}}" required>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" name="password" class="form-control" value="" required>
+					</div>
+					<div class="form-group">
+						<label for="password2">Confirm Password</label>
+						<input type="password" name="password2" class="form-control" value="" required>
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" name="email" class="form-control" value="{{email}}" required>
+
+				<div class="centered">
+					<h6 style="font-weight: normal ">Have an account? <a href="/user/login"
+							style="color: #8BAD97"><u>Login</u></a></h6>
+
+					<button type="submit" class="accountbtn">REGISTER</button>
 				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" name="password" class="form-control" value="" required>
-				</div>
-				<div class="form-group">
-					<label for="password2">Confirm Password</label>
-					<input type="password" name="password2" class="form-control" value="" required>
-				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
+
 			</form>
 		</div>
 	</div>
