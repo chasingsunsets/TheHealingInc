@@ -17,7 +17,8 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', async function (req, res) {
-    let { name, email, password, password2 } = req.body;
+
+    let { firstname, lastname, username, phoneno, address, email, password, password2 } = req.body;
     let isValid = true;
     if (password.length < 6) {
         flashMessage(res, 'error', 'Password must be at least 6 characters');
@@ -27,9 +28,14 @@ router.post('/register', async function (req, res) {
         flashMessage(res, 'error', 'Passwords do not match');
         isValid = false;
     }
+    if (phoneno.length != 8) {
+        flashMessage(res, 'error', 'Phone number must be 8 digits');
+        isValid = false;
+    }
+
     if (!isValid) {
         res.render('user/register', {
-            name, email
+            firstname, lastname, username, phoneno, address, email
         });
         return;
     }
@@ -38,11 +44,21 @@ router.post('/register', async function (req, res) {
     try {
         // If all is well, checks if user is already registered
         let user = await User.findOne({ where: { email: email } });
+        let usern = await User.findOne({ where: { username: username } });
+
         if (user) {
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', email + ' already registered');
             res.render('user/register', {
-                name, email
+                firstname, lastname, username, phoneno, address, email
+            });
+        }
+
+        else if (usern) {
+            // If user is found, that means username has already been registered
+            flashMessage(res, 'error', username + ' already registered');
+            res.render('user/register', {
+                firstname, lastname, username, phoneno, address, email
             });
         }
         else {
@@ -50,7 +66,7 @@ router.post('/register', async function (req, res) {
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
-            let user = await User.create({ name, email, password: hash });
+            let user = await User.create({ firstname, lastname, username, phoneno, address, email, password: hash });
             flashMessage(res, 'success', email + ' registered successfully');
             res.redirect('/user/login');
         }
@@ -87,9 +103,36 @@ router.get('/logout', (req, res) => {
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
 
-    res.render('user/profile',{ title: 'Profile', user: req.user, name: req.user.name , email: req.user.email});
+    res.render('user/profile', { title: 'Profile', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id:req.user.id });
 });
 
+router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
+    User.findByPk(req.params.id)
+        .then((user) => {
+            res.render('user/editprofile', {user});
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let username = req.body.username;
+    let phoneno = req.body.phoneno;
+    let address = req.body.address;
+    let email = req.body.email;
+    let password = req.body.password;
+
+    User.update(
+    { firstname, lastname, username, phoneno, address, email, password },
+    { where: { id: req.params.id } }
+    )
+    .then((result) => {
+    console.log(result[0] + ' profile updated');
+    res.redirect('/user/profile');
+    })
+    .catch(err => console.log(err));
+    });
 module.exports = router;
 
 // router.get('/listVideos', (req, res) => {

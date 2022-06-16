@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 function localStrategy(passport) {
     passport.use(
-        new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-            User.findOne({ where: { email: email } })
+        new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
+            User.findOne({ where: { username: username } })
                 .then(user => {
                     if (!user) {
                         return done(null, false, { message: 'No User Found' });
