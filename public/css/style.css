@@ -69,9 +69,9 @@
 }
 
 h2 {
-  font-family: 'Libre Baskerville';
+  /* font-family: 'Libre Baskerville';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400; */
   font-size: 48px;
   line-height: 60px;
 }
@@ -86,8 +86,8 @@ h2 {
 
 p {
   color: rgb(0, 0, 0);
-  font-size: 14px;
-  font-weight: 300;
+  /* font-size: 14px;
+  font-weight: 300; */
   line-height: 22px;
   padding: 10px;
 }
@@ -229,13 +229,7 @@ p {
   /* to make use of less space */
 }
 
-
-
-
-
-
-
-
+/* user: login */
 #accountpg {
   background-image: url('/img/account-page.PNG');
   background-repeat: no-repeat;
