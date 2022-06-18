@@ -259,3 +259,17 @@ p {
   margin-left: 25%;
   margin-right:25%;
 }
+
+.left{
+  float:left;
+}
+
+.clear{
+  clear:both;
+}
+.spacing1{
+  margin-left: 9%
+}
+.spacing2{
+  margin-left: 15%
+}

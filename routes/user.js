@@ -103,13 +103,19 @@ router.get('/logout', (req, res) => {
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
 
-    res.render('user/profile', { title: 'Profile', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id:req.user.id });
+    res.render('user/profile', { title: 'Profile', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
 router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
     User.findByPk(req.params.id)
         .then((user) => {
-            res.render('user/editprofile', {user});
+            // if (req.user.id != user.userId) {
+            //     flashMessage(res, 'error', 'Unauthorised access');
+            //     res.redirect('/user/login');
+            //     return;
+            //     }
+
+            res.render('user/editprofile', { user });
         })
         .catch(err => console.log(err));
 });
@@ -124,15 +130,39 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     let password = req.body.password;
 
     User.update(
-    { firstname, lastname, username, phoneno, address, email, password },
-    { where: { id: req.params.id } }
+        { firstname, lastname, username, phoneno, address, email, password },
+        { where: { id: req.params.id } }
     )
-    .then((result) => {
-    console.log(result[0] + ' profile updated');
-    res.redirect('/user/profile');
-    })
-    .catch(err => console.log(err));
-    });
+        .then((result) => {
+            console.log(result[0] + ' profile updated');
+            res.redirect('/user/profile');
+        })
+        .catch(err => console.log(err));
+});
+
+router.get('/deleteaccount/:id', ensureAuthenticated, async function (req, res) {
+    try {
+        let user = await User.findByPk(req.params.id);
+        // if (!user) {
+        //     flashMessage(res, 'error', 'Video not found');
+        //     res.redirect('/video/listVideos');
+        //     return;
+        // }
+
+        // if (req.user.id != user.userId) {
+        //     flashMessage(res, 'error', 'Unauthorised access');
+        //     res.redirect('/user/login');
+        //     return;
+        // }
+        let result = await User.destroy({ where: { id: user.id } });
+        console.log(result + ' account deleted');
+        flashMessage(res, 'success', 'Account successfully deleted');
+        res.redirect('/user/login');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 module.exports = router;
 
 // router.get('/listVideos', (req, res) => {
