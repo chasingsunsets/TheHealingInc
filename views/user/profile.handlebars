@@ -1,89 +1,82 @@
 <div class="container">
 	{{#if user}}
-	<div class="card card-body">
-		{{!-- <h3 class="text-primary">{{title}}</h3> --}}
-		{{!-- {{!-- {{#each videos}} --}}
-		<div class="card border-primary mb-2 w-100 mx-auto">
-			<div class="card-header">
-				<h5 class="card-title">{{title}}</h5>
-			</div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">First Name</p>
-						<p class="text-info">
-							{{firstname}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Last Name</p>
-						<p class="text-info">
-							{{lastname}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Username</p>
-						<p class="text-info">
-							{{username}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Phone Number</p>
-						<p class="text-info">
-							{{phoneno}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Address</p>
-						<p class="text-info">
-							{{address}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Email</p>
-						<p class="text-info">
-							{{email}}
-						</p>
-					</div>
+	{{> _accountnav }}
+	<div class="besidenav" >
 
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p>
-							<a href="/user/editprofile/{{id}}" class="card-link mb-2">
-								<i class="fas fa-pencil-alt"></i>
-								Edit
-							</a>
-						</p>
-						<p>
-							<a href="/user/deleteaccount/{{id}}" class="card-link" data-toggle="confirmation"
-								data-title="Confirm delete?">
-								<i class="far fa-trash-alt"></i>
-								Delete
-							</a>
-						</p>
-					</div>
+		<h4 class="card-title">PROFILE</h4>
+		
+			<div style="font-size:20px;  float: right;" >
+				<div >
+					<a href="/user/editprofile/{{id}}" class="card-link mb-2">
+						<i class="fas fa-pencil-alt"></i>
+						Edit
+					</a>
+				</div>
+				<div >
+					<a href="/user/deleteaccount/{{id}}" class="card-link" data-toggle="confirmation"
+						data-title="Confirm delete?">
+						<i class="far fa-trash-alt"></i>
+						Delete
+					</a>
 				</div>
 			</div>
+		<div class="card-body" id="mytxt">
 
-			{{!-- <div class="accordion" id="storyAccordion">
-				<div class="card-header" id="headingOne">
-					<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne{{id}}"
-						aria-expanded="false" aria-controls="collapseOne{{id}}" style="text-decoration: none;">
-						Story <i class="fas fa-chevron-down"></i>
-					</button>
-				</div>
-				<div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne" data-parent="#storyAccordion">
-					<div class="card-body">
-						{{story}}
-					</div>
-				</div>
-			</div> --}}
-		</div>
-		{{!-- {{/each}} --}} --}}
+
+			<div >
+				First Name : <a> &emsp;&emsp;&emsp;{{firstname}} </a>
+
+			</div>
+
+			<div>
+				Last Name : <a>&emsp;&emsp;&emsp;{{lastname}} </a>
+
+			</div>
+
+			<div >
+				Username : <a>&emsp;&emsp;&emsp;{{username}} </a>
+
+			</div>
+
+			<div >
+				Phone Number : <a>&emsp;&emsp;&emsp;{{phoneno}} </a>
+
+			</div>
+
+			<div >
+				Address : <a>&emsp;&emsp;&emsp;{{address}} </a>
+
+			</div>
+
+			<div >
+				Email : <a>&emsp;&emsp;&emsp;{{email}} </a>
+
+			</div>
+
+
+			{{!--
+		</div> --}}
 	</div>
 
+	{{!-- <div class="accordion" id="storyAccordion">
+		<div class="card-header" id="headingOne">
+			<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne{{id}}"
+				aria-expanded="false" aria-controls="collapseOne{{id}}" style="text-decoration: none;">
+				Story <i class="fas fa-chevron-down"></i>
+			</button>
+		</div>
+		<div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne" data-parent="#storyAccordion">
+			<div class="card-body">
+				{{story}}
+			</div>
+		</div>
+	</div> --}}
 </div>
-{{!-- {{else}}
-<h3>No videos jotted</h3> --}}
+
+
+
+</div>
+
 {{/if}}
 
 <script>

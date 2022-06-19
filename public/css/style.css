@@ -9,13 +9,13 @@
   width: 100%;
 }
 
-.logo{
-  width:130px;
-  margin:auto;
+.logo {
+  width: 130px;
+  margin: auto;
 }
 
 /* Modify the background color + text colour*/
-.navbar{
+.navbar {
   background-color: #F1EDE5;
   font-family: 'Poppins';
 }
@@ -240,7 +240,8 @@ p {
 }
 
 .accountbtn {
-  background-color: #8BAD97 ; /* Green */
+  background-color: #8BAD97;
+  /* Green */
   border: none;
   color: black;
   padding: 10px 30px;
@@ -250,26 +251,88 @@ p {
   font-size: 16px;
   border-radius: 60px;
 }
-.centered{
+
+.centered {
   text-align: center;
 }
 
 .accountform {
   width: 50%;
   margin-left: 25%;
-  margin-right:25%;
+  margin-right: 25%;
 }
 
-.left{
-  float:left;
+.left {
+  float: left;
 }
 
-.clear{
-  clear:both;
+.clear {
+  clear: both;
 }
-.spacing1{
+
+.spacing1 {
   margin-left: 9%
 }
-.spacing2{
+
+.spacing2 {
   margin-left: 15%
+}
+
+.spacing1o {
+  margin-left: 27%
+}
+
+.spacing2o {
+  margin-left: 15%
+}
+
+.accnav {
+
+  list-style-type: none;
+  margin: 0;
+  padding: 40px;
+  width: 300px;
+  background-color:#E8DCD0;
+  font-size: large;
+  /* display: flex; 
+  position: relative; */
+  height: 500px;
+  position: absolute;
+}
+
+li a {
+  display: block;
+  color: grey;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.accnav:active {
+  color: black;
+}
+
+.container-width {
+  width: 300px;
+  position: absolute;
+  float: left;
+}
+
+.besidenav{
+  background-color:#E8DCD0;
+  /* display: flex; 
+  position: relative; */
+  /* width: 100%; */
+  margin-left: 320px;
+  padding: 40px;
+  height: 500px;
+}
+
+#mytxt
+{
+    font-size:20px;
+    text-align: left;
+}
+#mytxt a
+{
+    font-size:30px;
 }
