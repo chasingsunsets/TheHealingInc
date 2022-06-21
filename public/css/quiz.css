@@ -3,12 +3,12 @@ body {
 } */
 
 h1 {
-    font-weight: 300;
+    font-family: 'Libre Baskerville';
     margin: 0px;
     padding: 10px;
     font-size: 20px;
-    background-color: #444;
-    color: #fff;
+    background-color: rgb(68, 68, 68);
+    color: rgb(255, 17, 17);
 }
 
 .question {
@@ -62,5 +62,76 @@ button:hover {
     position: relative;
     height: 200px;
     margin-top: 40px;
+    background-image: url("/img/account-page.png");
+    height: 700px;
+    background-size: contain;
 }
+
+.question {
+    font-family: 'Libre Baskerville';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 60px;
+}
+
+#border {
+    border: 2px solid #E8DCD0;
+    border-radius: 15px;
+    background-color: #E8DCD0;
+    width: 500px;
+    height: 50px;
+}
+
+.option {
+    font-size: 24px;
+}
+
+input[type="radio"] {
+    appearance: none;
+}
+
+input[type="radio"]{
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    line-height: 20px;
+}
+
+input[type="radio"]::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    aspect-ratio: 1;
+    border: 1px solid #000000;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    opacity: 1;
+    transition: all 0.3s;
+}
+
+input[type="radio"]::after {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    aspect-ratio: 1;
+    border: 1px solid #8BAD97;
+    background: #8BAD97;
+    border-radius: 50%;
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+input[type="radio"]:checked::after {
+    opacity: 1;
+}
+
+
 
