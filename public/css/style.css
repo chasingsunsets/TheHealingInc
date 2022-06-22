@@ -234,6 +234,12 @@ p {
   /* to make use of less space */
 }
 
+
+/* to capitalise text at nav */
+.navbar .navbar-nav>li>a {
+  text-transform: capitalize;
+}
+
 /* user: login */
 #accountpg {
   background-image: url('/img/account-page.PNG');
@@ -305,14 +311,16 @@ p {
   position: absolute;
 }
 
-li a {
+.accnav li a {
   display: block;
   color: grey;
   padding: 8px 16px;
   text-decoration: none;
+  
 }
 
-.accnav:active {
+.accnav li a:hover,
+.accnav li a .active {
   color: black;
 }
 
