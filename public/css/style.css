@@ -186,6 +186,11 @@ p {
   margin: auto;
   padding-top: 50px;
   text-align: center;
+  /* background-image: url('/img/account-page.PNG');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center; */
+  /* background-position: 0% 0%; */
   /* the header of the testimonial */
 }
 
