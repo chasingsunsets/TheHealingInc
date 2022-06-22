@@ -27,41 +27,44 @@
 </script> --}}
 
 <body>
+    <section class="quiz">
+        <div class="quiz-container">
+            <div class="title">Personalization Quiz</div>
 
-    <div class="quiz-container">
-        <div class="title">Personalization Quiz</div>
+            <br>
+        
+            <div id="question" class="question"></div>
 
-        <div id="question" class="question"></div>
-        <p id="totalQuestions"></p>
-
-        <label class="option" id="border">
-            <input type="radio" name="option" value="1" />
-            <span class="option1"></span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="option" value="2" />
-            <span class="option2"></span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="option" value="3" />
-            <span class="option3"></span>
-        </label>
-        <!-- Buttons -->
-        <div class="controls">
-            <button class="previous">Previous</button>
-            <button class="next">Next</button>
+            <br>
+        
+            <label class="option" id="border">
+                <input type="radio" name="option" value="1" />
+                <span class="option1"></span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="option" value="2" />
+                <span class="option2"></span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="option" value="3">
+                <span class="option3"></span>
+            </label>
+            <br>
+            <br>
+            <!-- Buttons -->
+            <div class="controls">
+                <button class="previous"><i class="fa-solid fa-left-long"></i> Previous</button>
+                <button class="next"><i class="fa-solid fa-arrow-right-long"></i> Next</button>
+            </div>
         </div>
-    </div>
-
-    <div class="result">
-
-    </div>
+        
+        <div class="result">
+        
+        </div>
+    </section>
+    
 </body>
 
 <script src="./js/common.js"></script>
-<script>
-    const blehh = questions.length;
-    document.getElementById("totalQuestions").innerHTML = blehh;
-</script>
