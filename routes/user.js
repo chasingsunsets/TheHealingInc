@@ -109,11 +109,18 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
 router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
     User.findByPk(req.params.id)
         .then((user) => {
-            // if (req.user.id != user.userId) {
-            //     flashMessage(res, 'error', 'Unauthorised access');
-            //     res.redirect('/user/login');
-            //     return;
-            //     }
+
+            if (!user) {
+                flashMessage(res, 'error', 'Invalid access');
+                res.redirect('/user/profile');
+                return;
+            }
+
+            if (req.user.id != req.params.id) {
+                flashMessage(res, 'error', 'Unauthorised access');
+                res.redirect('/user/profile');
+                return;
+                }
 
             res.render('user/editprofile', { user });
         })
@@ -127,10 +134,13 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     let phoneno = req.body.phoneno;
     let address = req.body.address;
     let email = req.body.email;
+    
     let password = req.body.password;
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
 
     User.update(
-        { firstname, lastname, username, phoneno, address, email, password },
+        { firstname, lastname, username, phoneno, address, email, password: hash },
         { where: { id: req.params.id } }
     )
         .then((result) => {
