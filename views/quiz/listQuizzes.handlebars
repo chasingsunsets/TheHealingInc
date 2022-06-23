@@ -1,0 +1,39 @@
+{{!-- <div class="container"> --}}
+    {{#if quizzes}}
+    <div class="card card-body">
+        <h3 class="text-primary">Quiz</h3>
+        {{#each quizzes}}
+        <div class="card border-primary mb-2 w-100 mx-auto">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-3">
+                        <p class="font-italic">Name</p>
+                        <p class="text-info">
+                            {{quizName}}
+                        </p>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-3">
+                        <p class="font-italic">age</p>
+                        <p class="text-info">
+                            {{age}}
+                        </p>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-3">
+                        <p class="font-italic">tcm</p>
+                        <p class="text-info">
+                            {{tcmKnowledge}}
+                        </p>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-3">
+                        <p class="font-italic">supplements</p>
+                        <p class="text-info">
+                            {{supplements}}
+                        </p>
+                    </div>
+        </div>
+        {{/each}}
+    </div>
+    {{else}}
+    <h3>No quiz</h3>
+    {{/if}}
+</div>

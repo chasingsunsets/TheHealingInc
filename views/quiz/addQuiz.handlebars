@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="card card-body">
+        <h3>Add Quiz</h3>
+        <form action="" method="post">
+            <div class="form-group">
+                <label class="font-italic" for="quizName">Quiz Name</label>
+                <textarea class="form-control" id="quizName" name="quizName" rows="7" maxlength="2000"></textarea>
+            </div>
+            <div class="form-group mb-4">
+                {{!-- <label class="font-italic" for="story">age</label>
+                <textarea class="form-control" id="story" name="story" rows="7" maxlength="2000"></textarea> --}}
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
+                    <label class="font-italic">Age</label>
+                    <input id="datepicker" width="200" name="age"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="font-italic" for="tcm">Tcm knowledge</label>
+                <textarea class="form-control" id="tcm" name="tcmKnowledge" rows="7" maxlength="2000"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="font-italic" for="supplements">Supplements</label>
+                <textarea class="form-control" id="supplements" name="supplements" rows="7" maxlength="2000"></textarea>
+            </div>
+
+            </div>
+            <br>
+            <button id="btnSubmit" type="submit" class="btn btn-primary">Save
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        uiLibrary: 'bootstrap4',
+        value: moment().format('DD/MM/YYYY'),
+    });
+</script>
