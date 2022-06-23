@@ -2,8 +2,19 @@ const express = require('express');
 const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 
+const Staff = require('../models/Staff');
+const bcrypt = require('bcryptjs');
+
+const passport = require('passport');
+
+const ensureAuthenticated = require('../helpers/auth');
+
 router.get('/login', (req, res) => {
-    res.render('./staff/login', { layout: 'staffMain' });
+    res.render('./staff/login', { layout: 'stafflogin' });
+});
+
+router.get('/register', (req, res) => {
+    res.render('./staff/register', { layout: 'staffMain' });
 });
 
 router.get('/dashboard', (req, res) => {

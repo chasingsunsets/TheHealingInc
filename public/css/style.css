@@ -349,3 +349,36 @@ p {
 {
     font-size:30px;
 }
+
+
+
+/* staff */
+#staffpg {
+  background-image: url('/img/stafflog.png');
+  background-repeat: no-repeat;
+  background-size: 1550px 725px;
+}
+
+.logo2 {
+  background-color: #8BAD97; 
+  padding:15px; 
+  border-radius: 30px;
+  width: 50%;
+  height: 50%;
+}
+
+.staffbtn {
+  background-color: #F9CF85;
+  border: none;
+  color: black;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 60px;
+}
+
+.cen2{
+  margin: auto;
+}

@@ -12,6 +12,7 @@ const ensureAuthenticated = require('../helpers/auth');
 router.get('/login', (req, res) => {
     res.render('user/login');
 });
+
 router.get('/register', (req, res) => {
     res.render('user/register');
 });
