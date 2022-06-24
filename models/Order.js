@@ -9,4 +9,5 @@ const Order = db.define('order',
         amount: { type: Sequelize.INTEGER },
         price: { type: Sequelize.FLOAT },
     });
+
 module.exports = Order;

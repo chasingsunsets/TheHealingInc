@@ -34,6 +34,7 @@ router.get('/listOrder', (req, res) => {
 		raw: true
 	})
 		.then((orders) => {
+			// pass object to cart.handlebars
 			res.render('../views/cart/cart.handlebars', {orders});
 		})
 		.catch(err => console.log(err));
