@@ -357,14 +357,15 @@ p {
   background-image: url('/img/stafflog.png');
   background-repeat: no-repeat;
   background-size: 1550px 725px;
+  overflow: hidden;
 }
 
 .logo2 {
   background-color: #8BAD97; 
   padding:15px; 
   border-radius: 30px;
-  width: 50%;
-  height: 50%;
+  width: 30%;
+  height: 30%;
 }
 
 .staffbtn {
