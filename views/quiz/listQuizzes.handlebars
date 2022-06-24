@@ -5,6 +5,15 @@
         {{#each quizzes}}
         <div class="card border-primary mb-2 w-100 mx-auto">
             <div class="card-body">
+                <a href="/quiz/editQuiz/{{id}}" class="card-link mb-2">
+                    <i class="fas fa-pencil-alt"></i>
+                    Edit
+                </a>
+                <a href="/quiz/deleteQuiz/{{id}}" class="card-link" data-toggle="con-
+                firmation" data-title="Confirm delete?">
+                    <i class="far fa-trash-alt"></i>
+                    Delete
+                </a>
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-3">
                         <p class="font-italic">Name</p>
@@ -19,13 +28,13 @@
                         </p>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-3">
-                        <p class="font-italic">tcm</p>
+                        <p class="font-italic">supplements</p>
                         <p class="text-info">
                             {{supplements}}
                         </p>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-3">
-                        <p class="font-italic">supplements</p>
+                        <p class="font-italic">health area</p>
                         <p class="text-info">
                             {{area}}
                         </p>

@@ -11,7 +11,6 @@ const replaceCommas = function(value) {
 const checkboxCheck = function (value, checkboxValue) {
     return (value.search(checkboxValue) >= 0) ? 'checked' : '';
 };
-
 const radioCheck = function (value, radioValue) {
     return (value == radioValue) ? 'checked' : '';
 };

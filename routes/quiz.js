@@ -38,4 +38,36 @@ router.post('/addQuiz', ensureAuthenticated, (req, res) => {
         })
         .catch(err => console.log(err))
 });
+
+router.get('/editQuiz/:id', ensureAuthenticated, (req, res) => {
+    Quiz.findByPk(req.params.id)
+        .then((quiz) => {
+            res.render('quiz/editQuiz', { quiz });
+        })
+        .catch(err => console.log(err));
+});
+
+router.get('/deleteQUiz/:id', ensureAuthenticated, async function
+    (req, res) {
+    try {
+        let quiz = await Quiz.findByPk(req.params.id);
+        if (!quiz) {
+            flashMessage(res, 'error', 'Quiz not found');
+            res.redirect('/quiz/listQuizzes');
+            return;
+        }
+        if (req.user.id != quiz.userId) {
+            flashMessage(res, 'error', 'Unauthorised access');
+            res.redirect('/quiz/listQuizzes');
+            return;
+        }
+        let result = await Quiz.destroy({ where: { id: quiz.id } });
+        console.log(result + ' quiz deleted');
+        res.redirect('/quiz/listQuizzes');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
 module.exports = router;
