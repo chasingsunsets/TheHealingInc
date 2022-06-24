@@ -195,7 +195,7 @@ const questions = [
         "answer3Total": "3"
     },
     {
-        "question": "How you taken supplements/ traditional chinese medicine in the past?",
+        "question": "Have you taken supplements/ traditional chinese medicine in the past?",
         "answer1": "For a while",
         "answer1Total": "1",
         "answer2": "On and Off",

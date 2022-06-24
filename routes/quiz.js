@@ -23,13 +23,13 @@ router.get('/addQuiz', ensureAuthenticated, (req, res) => {
 
 router.post('/addQuiz', ensureAuthenticated, (req, res) => {
     let quizName = req.body.quizName;
-    let age = moment(req.body.age, 'DD/MM/YYYY');
-    let tcmKnowledge = req.body.tcmKnowledge;
+    let age = req.body.age;
     let supplements = req.body.supplements;
+    let area = req.body.area;
     let userId = req.user.id;
     Quiz.create(
         {
-            quizName,age,tcmKnowledge,supplements, userId
+            quizName,age,supplements, area, userId
         }
     )
         .then((quiz) => {

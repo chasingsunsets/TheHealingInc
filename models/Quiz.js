@@ -5,8 +5,8 @@ const db = require('../config/DBConfig');
 const Quiz = db.define('quiz',
     {
         quizName: { type: Sequelize.STRING },
-        age: { type: Sequelize.DATE },
-        tcmKnowledge: { type: Sequelize.STRING },
+        age: { type: Sequelize.STRING },
         supplements: { type: Sequelize.STRING },
+        area: {type: Sequelize.STRING}
     });
 module.exports = Quiz;
