@@ -6,11 +6,11 @@
         <div class="col-10">
 
         </div>
-        <div class="col-2">
+        {{!-- <div class="col-2">
             <button>
                 HELLO
             </button>
-        </div>
+        </div> --}}
     </div>
     <div class="container">
         <div class="row">
@@ -37,26 +37,26 @@
                     <div class="row">
 					<div class="col-sm-2 col-md-2 col-lg-2">
 						<p class="font-italic">No.</p>
-						<p class="text-muted"> 1
-							{{!-- {{replaceCommas subtitles}} --}}
+						<p class="text-muted"> 
+							{{replaceCommas orderno}}
 						</p>
 					</div>
                     <div class="col-sm-2 col-md-2 col-lg-2">
 						<p class="font-italic">Name</p>
-						<p class="text-muted"> Product
-							{{!-- {{replaceCommas language}} --}}
+						<p class="text-muted"> 
+							{{replaceCommas product}}
 						</p>
 					</div>
 					<div class="col-sm-2 col-md-2 col-lg-2">
 						<p class="font-italic">Amount</p>
-						<p class="text-muted"> 1
-							{{!-- {{replaceCommas language}} --}}
+						<p class="text-muted"> 
+							{{replaceCommas amount}}
 						</p>
 					</div>
 					<div class="col-sm-2 col-md-2 col-lg-2">
 						<p class="font-italic">Price</p>
-						<p class="text-muted"> $85.00
-                            {{!-- {{replaceCommas classification}} --}}
+						<p class="text-muted"> 
+                            {{replaceCommas price}}
                             </p>
 					</div>
 					<div class="col-sm-2 col-md-2 col-lg-2">
