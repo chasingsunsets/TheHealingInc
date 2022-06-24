@@ -1,0 +1,137 @@
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+
+
+    <div class="row">
+        <div class="col-10">
+
+        </div>
+        <div class="col-2">
+            <button>
+                HELLO
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="col-sm-6" style="float:left;">
+                    <button class="btn btn-secondary"><span class="fa-solid fa-circle-arrow-left"></span> BACK </button>
+                </div>
+                <div class="col-sm-6" style="float:right;">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="float:right; ;">
+                            <i class="fa-solid fa-arrow-up-wide-short"></i>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Comprehensive</a></li>
+                            <li><a href="#">Price Ascending Order</a></li>
+                            <li><a href="#">Price Descending Order</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <br><br>
+                <hr size="12px" width="100%">
+                <br><br>
+                <div class="container">
+                    <div class="row">
+					<div class="col-sm-2 col-md-2 col-lg-2">
+						<p class="font-italic">No.</p>
+						<p class="text-muted"> 1
+							{{!-- {{replaceCommas subtitles}} --}}
+						</p>
+					</div>
+                    <div class="col-sm-2 col-md-2 col-lg-2">
+						<p class="font-italic">Name</p>
+						<p class="text-muted"> Product
+							{{!-- {{replaceCommas language}} --}}
+						</p>
+					</div>
+					<div class="col-sm-2 col-md-2 col-lg-2">
+						<p class="font-italic">Amount</p>
+						<p class="text-muted"> 1
+							{{!-- {{replaceCommas language}} --}}
+						</p>
+					</div>
+					<div class="col-sm-2 col-md-2 col-lg-2">
+						<p class="font-italic">Price</p>
+						<p class="text-muted"> $85.00
+                            {{!-- {{replaceCommas classification}} --}}
+                            </p>
+					</div>
+					<div class="col-sm-2 col-md-2 col-lg-2">
+						<p class="font-italic">Action</p>
+						<p>
+							<a href="/video/editVideo/{{id}}" class="card-link mb-2">
+								<i class="fas fa-pencil-alt"></i>
+								Edit
+							</a>
+						</p>
+					</div>
+				</div>
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <h5><b>Summary</b></h5>
+                <hr size="12px" width="100%">
+                <div class="row">
+                    <p class="col-sm-3" style="float: left;">Product #1</p>
+                    <p class="col-sm-3" style="float: right;">SG $85.00</p>
+                </div>
+                {{!-- <div class="row">
+                    <p class="col-sm-3" style="float: left;">Product #2</p>
+                    <p class="col-sm-3" style="float: right;">SG $80.00</p>
+                </div>
+                <div class="row">
+                    <p class="col-sm-3" style="float: left;">Product #3</p>
+                    <p class="col-sm-3" style="float: right;">SG $76.00</p>
+                </div> --}}
+                <hr size="12px" width="100%">
+                <div class="row">
+                    <h5 class="col-sm-3" style="float: left;"><b>Shipping</b></h5>
+                    <p class="col-sm-3" style="float: right;">SG $12.00</p>
+                </div>
+                <hr size="12px" width="100%">
+                <div class="row">
+                    <h5 class="col-sm-3" style="float: left;"><b>GST</b></h5>
+                    <p class="col-sm-3" style="float: right;">SG $16.78</p>
+                </div>
+                <hr size="12px" width="100%">
+                <label for="email"><b>Promotion: </b></label>
+                <form action="#" style="display: inline;">
+                    <div class="form-group">
+
+                        <input type="text" class="form-control col-sm-9" id="promo_code"
+                            placeholder="Enter Your Voucher Code Here..." style="float: left; width: 450px;">
+                        <button type="submit" class="btn btn-secondary col-sm-3" style="float: right;">Apply</button>
+                    </div>
+                </form>
+                <hr size="12px" width="100%">
+                <br>
+                <div class="row">
+                    <h4 class="col-sm-3" style="float: left;"><b>Total Cost: </b></h4>
+                    <p class="col-sm-3" style="float: right;">
+                    <h5>SG $269.78</h5>
+                    </p>
+                </div>
+                <br>
+                <div>
+                    <button type="submit" class="btn btn-success btn-block">
+                        <h4>Check Out</h4>
+                    </button>
+                    <div class="text-center">
+                        <button type="button" class="btn"><u>Add More?</u></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
