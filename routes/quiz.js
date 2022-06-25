@@ -8,7 +8,7 @@ router.get('/quizResult/:id', ensureAuthenticated, (req, res) => {
     Quiz.findByPk(req.params.id)
         .then((quizzes) => {
             // pass object to listVideos.handlebar
-            res.render('quiz/quizResult', { quizzes });
+            res.render('quiz/quizResult', { quizzes, layout: 'account' });
         })
         .catch(err => console.log(err));
 });
@@ -21,7 +21,8 @@ router.get('/listQuizzes', (req, res) => {
     })
         .then((quizzes) => {
             // pass object to listVideos.handlebar
-            res.render('quiz/listQuizzes', { quizzes });
+            res.render('quiz/listQuizzes', { quizzes, layout: 'account' });
+            // res.render('quiz/listQuizzes', { quizzes });
         })
         .catch(err => console.log(err));
 });

@@ -32,15 +32,16 @@
         </div>
     </div>
     {{/each}}
+    {{else}}
+        <div class="empty-div">
+            <h1 class="empty"><i class="fa-solid fa-face-surprise icon"></i><br><br>Oh No!</h1>
+            <h6 class="empty">You currently have no quiz to view. Click on "Start Quiz" to get started!</h6>
+        </div>
+    {{/if}}
 </div>
-{{/if}}
 {{/if}}
 
 <style>
-    .noQuiz {
-        text-align: center;
-    }
-
     .btn-addQuiz{
 		color: #000000;
 		background: #8BAD97;
@@ -50,15 +51,9 @@
         float: right;
     }
 
-    #top {
-        display: inline;
-    }
-
-    .btn-modal {
-        width: 18rem;
-        height: 50px;
-        background-color: #8BAD97;
-    }
+    {{!-- #top {
+        {{!-- display: inline; --}}
+    } --}}
 
     .quizName {
         color: #ffaa00;
@@ -87,6 +82,22 @@
         text-align: center;
         float: right;
         font-size: 15px;
+    }
+
+    .empty {
+        text-align: center;
+    }
+
+    .empty-div {
+        margin: auto;
+        height: 300px;
+        width: 50%;
+        text-align: center;
+    }
+
+    .icon {
+        font-size: 120px;
+        color:#ffaa00;
     }
 
 </style>
