@@ -324,6 +324,10 @@ p {
   color: black;
 }
 
+.black {
+  color: black;
+}
+
 .container-width {
   width: 300px;
   position: absolute;
@@ -332,12 +336,12 @@ p {
 
 .besidenav{
   background-color:#E8DCD0;
+  padding: 35px;
   /* display: flex; 
-  position: relative; */
-  /* width: 100%; */
+  position: relative; 
+  width: 100%; 
   margin-left: 320px;
-  padding: 40px;
-  height: 500px;
+  height: 500px; */
 }
 
 #mytxt
@@ -358,10 +362,15 @@ div .container {
 
 /* staff */
 #staffpg {
-  background-image: url('/img/stafflog.png');
+  background-image: url('/img/stafflogin.png');
   background-repeat: no-repeat;
-  background-size: 1550px 725px;
+  background-size: contain;
   overflow: hidden;
+  background-position: center;
+}
+
+.staffbg{
+  background-color: #F1EDE5;
 }
 
 .logo2 {

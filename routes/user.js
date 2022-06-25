@@ -104,7 +104,7 @@ router.get('/logout', (req, res) => {
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
 
-    res.render('user/profile', { user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
+    res.render('user/profile', { layout: 'account', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
 router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
