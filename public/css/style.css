@@ -350,6 +350,10 @@ p {
     font-size:30px;
 }
 
+div .container {
+  padding-bottom: 15px;
+}
+
 
 
 /* staff */

@@ -21,6 +21,10 @@ router.get('/addQuiz', ensureAuthenticated, (req, res) => {
     res.render('quiz/addQuiz');
 });
 
+router.get('/test', ensureAuthenticated, (req, res) => {
+    res.render('quiz/blan', {layout: "userMain"});
+});
+
 router.post('/addQuiz', ensureAuthenticated, (req, res) => {
     let quizName = req.body.quizName;
     let age = req.body.age;
