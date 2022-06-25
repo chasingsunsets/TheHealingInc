@@ -1,31 +1,13 @@
-{{#if user}}
-{{#if quizzes}}
-<div class="card-deck" data-toggle="modal" data-target="#exampleModal">
-    {{#each quizzes}}
-    <div class="card ser-col">
-        <div class="card-body">
-            <button type="button" class="btn btn-updateQuiz" id="top">
-                <a href="/quiz/editQuiz/{{id}}">
-                    Update
-                </a>
-            </button>
-            <br>
-            <h6 class="text-muted">#quiz: {{id}}</h6>
-            <br><br><br>
-            <h1 class="card-title title">For <span class="quizName">{{quizName}}</span></h1>
-            <br><br><br>
-            <h6 class="delete"><a href="/quiz/deleteQuiz/{{id}}" data-toggle="confirmation"
-                    data-title="Confirm delete?">
-                    Delete
-                </a></h6>
-        </div>
-        <div class="card-footer">
-            Created On:
-            <br>
-            <small class="text-muted">{{createdAt}}</small>
-        </div>
-    </div>
-    {{/each}}
-</div>
-{{/if}}
-{{/if}}
+<p>{{quizzes.area}}</p>
+
+{{#comparison quizzes.area "immunity"}}
+<p>immunity med</p>
+{{/comparison}}
+
+{{#comparison quizzes.area "stress"}}
+<p>stress med</p>
+{{/comparison}}
+
+{{#comparison quizzes.area "hair"}}
+<p>hair med</p>
+{{/comparison}}

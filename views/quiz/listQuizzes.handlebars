@@ -1,35 +1,9 @@
 <button type="button" class="btn btn-lg btn-addQuiz" id="top"><a href="/quiz/addQuiz">Start Quiz</a></button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {{#if user}}
-                {{#if quizzes}}
-                <p>{{quizName}}</p>
-                {{/if}}
-                {{/if}}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <br><br><br>
 {{#if user}}
 {{#if quizzes}}
-<div class="card-deck" data-toggle="modal" data-target="#exampleModal">
+<div class="card-deck">
     {{#each quizzes}}
     <div class="card ser-col">
         <div class="card-body">
@@ -41,16 +15,20 @@
             <br>
             <h6 class="text-muted">#quiz: {{id}}</h6>
             <br><br><br>
-            <h1 class="card-title title">For <span class="quizName">{{quizName}}</span></h1>
+            <a href="/quiz/quizResult/{{id}}">
+                <h1 class="card-title title">For <span class="quizName">{{quizName}}</span></h1>
+            </a>
             <br><br><br>
-            <h6 class="delete"><a href="/quiz/deleteQuiz/{{id}}" data-toggle="confirmation" data-title="Confirm delete?">
-                Delete
-            </a></h6>
         </div>
         <div class="card-footer">
             Created On:
             <br>
             <small class="text-muted">{{createdAt}}</small>
+        </div>
+        <div class="card-footer">
+            <h6 class="delete"><a href="/quiz/deleteQuiz/{{id}}" data-toggle="confirmation" data-title="Confirm delete?">
+                    Delete
+            </a></h6>
         </div>
     </div>
     {{/each}}

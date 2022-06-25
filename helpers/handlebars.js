@@ -1,4 +1,6 @@
 const moment = require('moment');
+const { options } = require('../config/DBConfig');
+const Quiz = require('../models/Quiz');
 
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
@@ -16,4 +18,8 @@ const radioCheck = function (value, radioValue) {
     return (value == radioValue) ? 'checked' : '';
 };
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck };
+const comparison = ('compareStrings', function(p, q, options) {
+    return ( p == q ) ? options.fn(this) : options.inverse(this);
+});
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison};

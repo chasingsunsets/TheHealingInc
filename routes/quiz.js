@@ -5,14 +5,10 @@ const ensureAuthenticated = require('../helpers/auth');
 const Quiz = require('../models/Quiz');
 
 router.get('/quizResult/:id', ensureAuthenticated, (req, res) => {
-    Quiz.findAll({
-        where: { userId: req.user.id },
-        // order: [['dateRelease', 'DESC']],
-        raw: true
-    })
+    Quiz.findByPk(req.params.id)
         .then((quizzes) => {
             // pass object to listVideos.handlebar
-            res.render('quiz/quizResult', { quizzes: id });
+            res.render('quiz/quizResult', { quizzes });
         })
         .catch(err => console.log(err));
 });
