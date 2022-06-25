@@ -33,6 +33,14 @@ app.engine('handlebars', engine({
 }));
 app.set('view engine', 'handlebars');
 
+const helpers = require('./helpers/handlebars');
+app.engine('handlebars', engine({
+	helpers: helpers,
+	handlebars: allowInsecurePrototypeAccess(Handlebars),
+	defaultLayout: 'main' // Specify default template views/lay-out/ main.handlebar
+}));
+app.set('view engine', 'handlebars');
+
 // Express middleware to parse HTTP body in order to read HTTP data
 app.use(express.urlencoded({
 	extended: false

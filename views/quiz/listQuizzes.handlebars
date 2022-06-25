@@ -1,60 +1,63 @@
-<div class="container">
-    {{#if user}}
-    {{> _accountnav }}
-    <div class="besidenav">
-        <h1 class="card-title" id="top">Quiz Library</h1>
-        <button type="button" class="btn btn-lg btn-addQuiz" id="top"><a href="/quiz/addQuiz">Start Quiz</a></button>
-        {{#if quizzes}}
-            {{#each quizzes}}
-            {{!-- <div class="card border-primary mb-2 w-100 mx-auto"> --}}
-                <div class="card-body">
-                    <a href="/quiz/editQuiz/{{id}}" class="card-link mb-2">
-                        <i class="fas fa-pencil-alt"></i>
-                        Edit
-                    </a>
-                    <a href="/quiz/deleteQuiz/{{id}}" class="card-link" data-toggle="con-
-                        firmation" data-title="Confirm delete?">
-                        <i class="far fa-trash-alt"></i>
-                        Delete
-                    </a>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-3">
-                            <p class="font-italic">Name</p>
-                            <p class="text-info">
-                                {{quizName}}
-                            </p>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-3">
-                            <p class="font-italic">age</p>
-                            <p class="text-info">
-                                {{age}}
-                            </p>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-3">
-                            <p class="font-italic">supplements</p>
-                            <p class="text-info">
-                                {{supplements}}
-                            </p>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-3">
-                            <p class="font-italic">health area</p>
-                            <p class="text-info">
-                                {{area}}
-                            </p>
-                        </div>
-                    </div>
-                    {{/each}}
-                </div>
-                <div>
-                    {{else}}
-                    <h3 class="noQuiz">No quiz</h3>
-                </div>
-            {{/if}}
+<button type="button" class="btn btn-lg btn-addQuiz" id="top"><a href="/quiz/addQuiz">Start Quiz</a></button>
 
-            
-    {{/if}}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{#if user}}
+                {{#if quizzes}}
+                <p>{{quizName}}</p>
+                {{/if}}
+                {{/if}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<br><br><br>
+{{#if user}}
+{{#if quizzes}}
+<div class="card-deck" data-toggle="modal" data-target="#exampleModal">
+    {{#each quizzes}}
+    <div class="card ser-col">
+        <div class="card-body">
+            <button type="button" class="btn btn-updateQuiz" id="top">
+                <a href="/quiz/editQuiz/{{id}}">
+                    Update
+                </a>
+            </button>
+            <br>
+            <h6 class="text-muted">#quiz: {{id}}</h6>
+            <br><br><br>
+            <h1 class="card-title title">For <span class="quizName">{{quizName}}</span></h1>
+            <br><br><br>
+            <h6 class="delete"><a href="/quiz/deleteQuiz/{{id}}" data-toggle="confirmation" data-title="Confirm delete?">
+                Delete
+            </a></h6>
+        </div>
+        <div class="card-footer">
+            Created On:
+            <br>
+            <small class="text-muted">{{createdAt}}</small>
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{/if}}
+{{/if}}
+
 <style>
     .noQuiz {
         text-align: center;
@@ -73,9 +76,48 @@
         display: inline;
     }
 
+    .btn-modal {
+        width: 18rem;
+        height: 50px;
+        background-color: #8BAD97;
+    }
+
+    .quizName {
+        color: #ffaa00;
+        font-family: 'Libre Baskerville';
+        font-style: italic;
+    }
+
+    .delete {
+        text-decoration: underline;
+        text-align: center;
+    }
+    
+    .title {
+        font-size: 50px;
+    }
+
+    .ser-col {
+        border-radius: 45px;
+    }
+
+    .btn-updateQuiz{
+		color: #000000;
+		background: #8BAD97;
+		border-radius: 60px;
+		width: 100px;
+        text-align: center;
+        float: right;
+        font-size: 15px;
+    }
+
 </style>
 <script>
     $('[data-toggle=confirmation]').confirmation({
         rootSelector: '[data-toggle=confirmation]',
     });
+
+    $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
 </script>

@@ -4,6 +4,19 @@ const moment = require('moment');
 const ensureAuthenticated = require('../helpers/auth');
 const Quiz = require('../models/Quiz');
 
+router.get('/quizResult/:id', ensureAuthenticated, (req, res) => {
+    Quiz.findAll({
+        where: { userId: req.user.id },
+        // order: [['dateRelease', 'DESC']],
+        raw: true
+    })
+        .then((quizzes) => {
+            // pass object to listVideos.handlebar
+            res.render('quiz/quizResult', { quizzes: id });
+        })
+        .catch(err => console.log(err));
+});
+
 router.get('/listQuizzes', (req, res) => {
     Quiz.findAll({
         where: { userId: req.user.id },
@@ -19,10 +32,6 @@ router.get('/listQuizzes', (req, res) => {
 
 router.get('/addQuiz', ensureAuthenticated, (req, res) => {
     res.render('quiz/addQuiz');
-});
-
-router.get('/test', ensureAuthenticated, (req, res) => {
-    res.render('quiz/blan', {layout: "userMain"});
 });
 
 router.post('/addQuiz', ensureAuthenticated, (req, res) => {
@@ -47,6 +56,24 @@ router.get('/editQuiz/:id', ensureAuthenticated, (req, res) => {
     Quiz.findByPk(req.params.id)
         .then((quiz) => {
             res.render('quiz/editQuiz', { quiz });
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/editQuiz/:id', ensureAuthenticated, (req, res) => {
+    let quizName = req.body.quizName;
+    let age = req.body.age;
+    let supplements = req.body.supplements;
+    let area = req.body.area;
+    Quiz.update(
+        {
+            quizName, age, supplements, area
+        },
+        { where: { id: req.params.id } }
+    )
+        .then((quiz) => {
+            console.log(quiz[0] + ' quiz updated');
+            res.redirect('/quiz/listQuizzes');
         })
         .catch(err => console.log(err));
 });

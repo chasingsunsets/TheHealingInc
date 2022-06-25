@@ -1,8 +1,13 @@
-<link rel="stylesheet" href="/css/quiz.css">
+{{!--
+<link rel="stylesheet" href="/css/quiz.css"> --}}
 
 <style>
     body {
         text-align: center;
+    }
+
+    p {
+        font: poppins;
     }
 
     /* Style the form */
@@ -10,7 +15,6 @@
         background-image: url("/img/account-page.png");
         background-repeat: no-repeat;
         background-size: contain;
-        /* background-position: 0% 0%; */
         background-position: center;
         top: 50%;
         left: 50%;
@@ -18,7 +22,7 @@
     }
 
     /* Style the input fields */
-    input {
+    input[type="text"] {
         border: 2px solid #E8DCD0;
         border-radius: 30px;
         background-color: #E8DCD0;
@@ -29,6 +33,15 @@
         text-align: center;
     }
 
+    #border {
+        border: 2px solid #E8DCD0;
+        border-radius: 15px;
+        background-color: #E8DCD0;
+        width: 500px;
+        height: 50px;
+        display: inline-block;
+    }
+
     /* Mark input boxes that gets an error on validation: */
     input.invalid {
         background-color: #ffdddd;
@@ -37,11 +50,14 @@
     /* Hide all steps by default: */
     .tab {
         display: none;
+        font-weight: 400;
+        line-height: 60px;
+    }
+
+    .qn {
         font-family: 'Libre Baskerville';
         font-style: italic;
-        font-weight: 400;
         font-size: 30px;
-        line-height: 60px;
     }
 
     /* Make circles that indicate the steps of the form: */
@@ -146,7 +162,7 @@
         box-sizing: border-box;
     }
 
-    .list .form-element {
+    .form-element {
         position: relative;
         width: 100px;
         height: 100px;
@@ -172,21 +188,16 @@
     }
 
     .form-element .icon {
-            {
-                {
-                 !-- margin-top: 10px;
-                --
-            }
-        }
-
-        font-size:30px;
-        color:rgb(248, 0, 0);
-        transition:all 200ms ease-in-out;
+        margin-top: 10px;
+        font-size: 30px;
+        color: #555;
+        transition: all 200ms ease-in-out;
     }
 
     .form-element .title {
         font-size: 15px;
         color: #555;
+        padding: 5px 0px;
         transition: all 200ms ease-in-out;
     }
 
@@ -197,7 +208,7 @@
         height: 18px;
         top: 8px;
         left: 8px;
-        background: #0d0df1;
+        background: #ffaa00;
         color: #fff;
         text-align: center;
         line-height: 18px;
@@ -215,15 +226,15 @@
     }
 
     .form-element input:checked+label .icon {
-        color: #0d0df1;
+        color: #ffaa00;
     }
 
     .form-element input:checked+label .title {
-        color: #0d0df1;
+        color: #ffaa00;
     }
 
     .form-element input:checked+label {
-        border: 2px solid #0d0df1;
+        border: 2px solid #ffaa00;
     }
 </style>
 
@@ -326,36 +337,41 @@
     <p>Personalization Quiz</p>
 
     <!-- One "tab" for each step in the form: -->
-    <div class="tab">Name your quiz:
-        <p><input placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName" value="{{quiz.quizName}}"></p>
+    <div class="tab">
+        <div class="qn">Name your quiz</div>
+        <p><input type="text" placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName" value="{{quiz.quizName}}">
+        </p>
     </div>
 
-    <div class="tab">What is your age?
-        <p><input placeholder="35" oninput="this.className = ''" name="age" value="{{quiz.age}}></p>
+    <div class="tab">
+        <div class="qn">What is your age?</div>
+        <p><input type="text" placeholder="35" oninput="this.className = ''" name="age" value="{{quiz.age}}"></p>
     </div>
 
     {{!-- <div class="tab">When is your birthday?
         <p><input type="date" oninput="this.className = ''"></p>
     </div> --}}
 
-    {{!-- <div class="tab">When it comes to traditional chinese medicine, you:
+    <div class="tab form-check">
+        <div class="qn">When it comes to traditional chinese medicine, you:</div>
         <label class="option" id="border">
-            <input type="radio" name="option" value="1" {{radioCheck quiz.option "1" }}/>
+            <input type="radio" name="tcm" value="yes" {{radioCheck quiz.tcm "yes" }}/>
             <span class="option1">Know more than the average person.</span>
         </label>
         <br>
         <label class="option" id="border">
-            <input type="radio" name="option" value="1" {{radioCheck quiz.option "1" }}/>
+            <input type="radio" name="tcm" value="sometimes" {{radioCheck quiz.tcm "sometimes" }}/>
             <span class="option1">Know a bit, but want to learn more.</span>
         </label>
         <br>
         <label class="option" id="border">
-            <input type="radio" name="option" value="1" {{radioCheck quiz.option "1" }}/>
-            <span class="option1">Are not convinced yet</span>
+            <input type="radio" name="tcm" value="never" {{radioCheck quiz.tcm "never" }}/>
+            <span class="option1">Are not convinced yet.</span>
         </label>
-    </div> --}}
+    </div>
 
-    <div class="tab">Have you taken supplements/ traditional chinese medicine in the past?
+    <div class="tab">
+        <div class="qn">Have you taken supplements/ traditional chinese medicine in the past?</div>
         <label class="option" id="border">
             <input type="radio" name="supplements" value="yes" {{radioCheck quiz.supplements "yes" }}/>
             <span class="option1">For a while</span>
@@ -372,39 +388,34 @@
         </label>
     </div>
 
-    <div class="tab">Which areas of health are you looking to improve?
+    <div class="tab">
+        <div class="qn">Which areas of health are you looking to improve?</div>
         <p>You can choose more than 1 area.</p>
         <div class="list">
             <div class="form-element">
-                <input type="checkbox" name="area" value="immunity" id="immunity" {{checkboxCheck quiz.area "immunity" }}>
+                <input type="checkbox" name="area" value="immunity" id="immunity" {{ checkboxCheck quiz.area "immunity" }}>
                 <label for="immunity">
                     <div class="icon">
-                        <i class="fa-solid fa-syringe"></i>
-                    </div>
-                    <div class="title">
-                        Immunity
+                        <i class="fa-solid fa-virus-covid"></i>
+                        <p class="title">Immunity</p>
                     </div>
                 </label>
             </div>
             <div class="form-element">
-                <input type="checkbox" name="area" value="hair" id="hair" {{checkboxCheck quiz.area "hair" }}>
+                <input type="checkbox" name="area" value="hair" id="hair"  {{ checkboxCheck quiz.area "hair" }}>
                 <label for="hair">
                     <div class="icon">
-                        <i class="fa-solid fa-syringe"></i>
-                    </div>
-                    <div class="title">
-                        Hair
+                        <i class="fa-brands fa-apple-pay"></i>
+                        <p class="title">Hair</p>
                     </div>
                 </label>
             </div>
             <div class="form-element">
-                <input type="checkbox" name="area" value="stress" id="stress" {{checkboxCheck quiz.area "stress" }}>
+                <input type="checkbox" name="area" value="stress" id="stress"  {{ checkboxCheck quiz.area "stress" }}>
                 <label for="stress">
                     <div class="icon">
-                        <i class="fa-solid fa-syringe"></i>
-                    </div>
-                    <div class="title">
-                        Stress
+                        <i class="fa-solid fa-face-tired"></i>
+                        <p class="title">Stress</p>
                     </div>
                 </label>
             </div>
@@ -508,6 +519,24 @@
         }
         //... and adds the "active" class to the current step:
         x[n].className += " active";
+    }
+
+    function ensureOneCheck(checkBoxName, messageId, submitId) {
+            const checkBoxes = $('[name=' + checkBoxName + ']');
+            let checkCount = 0;
+            for (let i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].checked)
+                    checkCount++;
+            }
+            if (checkCount === 0) {
+                $('#' + messageId).show();
+                $('#' + submitId).prop('disabled', true);
+                return false;
+            } else {
+                $('#' + messageId).hide();
+                $('#' + submitId).prop('disabled', false);
+                return true;
+            }
     }
 
 
