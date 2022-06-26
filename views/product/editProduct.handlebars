@@ -1,0 +1,99 @@
+<div class="container">
+	<div class="card card-body">
+		<h3>Edit Product</h3>
+		<form action="" method="post">
+			<div class="form-group">
+				<label class="font-italic" for="name">Name</label>
+				<input class="form-control" id="name" name="name" value="{{product.name}}"
+                    onblur="initialiseName()" required />
+			</div>
+
+			<div class="form-group">
+				<div class="row mb-2">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
+                        <label class="font-italic" for="stock">Stock</label>
+                        <input class="form-control" type="number" id="stock" name="stock" {{stock}} required/>
+					</div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                        <label class="font-italic">Pack Size</label>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="25" value="25" name="classification" 
+                            {{radioCheck product.size "25" }} checked>
+                            <label class="form-check-label" for="25">25</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="50" value="50" name="classification"
+                            {{radioCheck product.size "50" }}>
+                            <label class="form-check-label" for="50">50</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="75" value="75" name="classification"
+                            {{radioCheck product.size "75" }}>
+                            <label class="form-check-label" for="75">75</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="100" value="100" name="classification"
+                            {{radioCheck product.size "100" }}>
+                            <label class="form-check-label" for="100">100</label>
+                        </div>
+                    </div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">                    
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6">
+						<label class="font-italic" for="price">Price</label>
+						<input class="form-control" type="text" id="price" name="price" {{price}} required/>
+					</div>
+					<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+						<label class="font-italic">Category</label>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="heart"
+								value="heart" {{checkboxCheck product.category "Heart" }}>
+							<label class="form-check-label" for="heart">Heart</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="brain"
+								value="brain" {{checkboxCheck product.category "Brain" }}>
+							<label class="form-check-label" for="brain">Brain</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="gut" 
+                            value="gut" {{checkboxCheck product.category "Gut" }}>
+							<label class="form-check-label" for="gut">Gut</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="eyes" 
+                            value="eyes" {{checkboxCheck product.category "Eyes" }}>
+							<label class="form-check-label" for="eyes">Eyes</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="immunity" 
+                            value="immunity" {{checkboxCheck product.category "Immunity" }}>
+							<label class="form-check-label" for="immunity">Immunity</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="joints" 
+                            value="joints" {{checkboxCheck product.category "Joints" }}>
+							<label class="form-check-label" for="joints">Joints</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="skin" 
+                            value="skin" {{checkboxCheck product.category "Skin" }}>
+							<label class="form-check-label" for="skin">Skin</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<button id="btnSubmit" type="submit" class="btn btn-primary">Save
+			</button>
+		</form>
+	</div>
+</div>
+
+{{!-- <script>
+</script> --}}

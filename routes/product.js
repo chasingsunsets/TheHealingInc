@@ -1,27 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const moment = require('moment');
-const Product = require('../models/Product');
-const ensureAuthenticated = require('../helpers/auth');
 const flashMessage = require('../helpers/messenger');
 
-router.get('/listProducts', ensureAuthenticated, (req, res) => {
+const Product = require('../models/Product');
+const bcrypt = require('bcryptjs');
+
+const passport = require('passport');
+
+const ensureAuthenticated = require('../helpers/auth');
+
+router.get('/listProducts', (req, res) => {
     Product.findAll({
         where: { productId: req.product.id },
-        order: [['dateRelease', 'DESC']],
-        raw: true
     })
         .then((products) => {
-            res.render('product/listProducts', { products });
+            res.render('product/listProducts', { products, layout: 'staffMain' });
         })
         .catch(err => console.log(err));
 });
 
-router.get('/addProduct', ensureAuthenticated, (req, res) => {
-    res.render('product/addProduct');
+router.get('/addProduct', (req, res) => {
+    res.render('product/addProduct', { layout: 'staffMain' });
 });
 
-router.post('/addProduct', ensureAuthenticated, (req, res) => {
+router.post('/addProduct', (req, res) => {
     let name = req.body.name;
     let stock = req.body.stock;
     let size = req.body.size;
@@ -35,26 +37,26 @@ router.post('/addProduct', ensureAuthenticated, (req, res) => {
     )
         .then((product) => {
             console.log(product.toJSON());
-            res.redirect('/product/listProducts');
+            res.redirect('/product/listProducts', { layout: 'staffMain' });
         })
         .catch(err => console.log(err))
 });
 
-router.get('/editProduct/:id', ensureAuthenticated, (req, res) => {
+router.get('/editProduct/:id', (req, res) => {
     Product.findByPk(req.params.id)
         .then((product) => {
             if (!product) {
                 flashMessage(res, 'error', 'Product not found');
-                res.redirect('/product/listProducts');
+                res.redirect('/product/listProducts', {layout: 'staffMain'});
                 return;
             }
 
-            res.render('product/editProduct', { product });
+            res.render('product/editProduct', { product, layout: 'staffMain'});
         })
         .catch(err => console.log(err));
 });
 
-router.post('/editProduct/:id', ensureAuthenticated, (req, res) => {
+router.post('/editProduct/:id', (req, res) => {
     let name = req.body.name;
     let stock = req.body.stock;
     let size = req.body.size;
@@ -66,22 +68,22 @@ router.post('/editProduct/:id', ensureAuthenticated, (req, res) => {
     )
         .then((result) => {
             console.log(result[0] + ' product updated');
-            res.redirect('/product/listProducts');
+            res.redirect('/product/listProducts', {layout: 'staffMain'});
         })
         .catch(err => console.log(err));
 });
 
-router.get('/deleteProduct/:id', ensureAuthenticated, async function (req, res) {
+router.get('/deleteProduct/:id', async function (req, res) {
     try {
         let product = await Product.findByPk(req.params.id);
         if (!product) {
             flashMessage(res, 'error', 'Product not found');
-            res.redirect('/product/listProducts');
+            res.redirect('/product/listProducts', {layout: 'staffMain'});
             return;
         }
         let result = await Product.destroy({ where: { id: product.id } });
         console.log(result + ' product deleted');
-        res.redirect('/product/listProducts');
+        res.redirect('/product/listProducts', {layout: 'staffMain'});
     }
     catch (err) {
         console.log(err);
