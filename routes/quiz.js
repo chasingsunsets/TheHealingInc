@@ -33,13 +33,19 @@ router.get('/addQuiz', ensureAuthenticated, (req, res) => {
 
 router.post('/addQuiz', ensureAuthenticated, (req, res) => {
     let quizName = req.body.quizName;
+    let gender = req.body.gender;
     let age = req.body.age;
+    let tcm = req.body.tcm;
     let supplements = req.body.supplements;
     let area = req.body.area;
+    let diet = req.body.diet;
+    let medication = req.body.medication;
+    let allergy = req.body.allergy;
+    let smoke = req.body.smoke;
     let userId = req.user.id;
     Quiz.create(
         {
-            quizName, age, supplements, area, userId
+            quizName, gender, age, tcm, supplements, area, diet, medication, allergy, smoke, userId
         }
     )
         .then((quiz) => {
@@ -59,12 +65,19 @@ router.get('/editQuiz/:id', ensureAuthenticated, (req, res) => {
 
 router.post('/editQuiz/:id', ensureAuthenticated, (req, res) => {
     let quizName = req.body.quizName;
+    let gender = req.body.gender;
     let age = req.body.age;
+    let tcm = req.body.tcm;
     let supplements = req.body.supplements;
     let area = req.body.area;
+    let diet = req.body.diet;
+    let medication = req.body.medication;
+    let allergy = req.body.allergy;
+    let smoke = req.body.smoke;
+    let userId = req.user.id;
     Quiz.update(
         {
-            quizName, age, supplements, area
+            quizName, gender, age, tcm, supplements, area, diet, medication, allergy, smoke, userId
         },
         { where: { id: req.params.id } }
     )

@@ -1,17 +1,10 @@
-{{!--
-<link rel="stylesheet" href="/css/quiz.css"> --}}
-
 <style>
-    body {
-        text-align: center;
-    }
-
     p {
         font: poppins;
     }
 
     /* Style the form */
-    #regForm {
+    .quiz-container {
         background-image: url("/img/account-page.png");
         background-repeat: no-repeat;
         background-size: contain;
@@ -19,6 +12,8 @@
         top: 50%;
         left: 50%;
         padding: 100px;
+        width: 100%;
+        text-align: center;
     }
 
     /* Style the input fields */
@@ -57,7 +52,7 @@
     .qn {
         font-family: 'Libre Baskerville';
         font-style: italic;
-        font-size: 30px;
+        font-size: 35px;
     }
 
     /* Make circles that indicate the steps of the form: */
@@ -236,215 +231,264 @@
     .form-element input:checked+label {
         border: 2px solid #ffaa00;
     }
+
+    .container-gender {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    label.gender {
+        user-select: none;
+    }
+
+    input[type="radio"].gender {
+        display: none;
+    }
+
+    input[type="radio"].gender+label.gender {
+        z-index: 10;
+        margin: 0 10px 10px 0;
+        position: relative;
+        color: #ced4da;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+        font-weight: bold;
+        background-color: #ffffff;
+        border: 2px solid #ced4da;
+        cursor: pointer;
+        transition: all 200ms ease;
+    }
+
+    input[type="radio"].gender:checked+label.gender {
+        color: #495057;
+        background-color: #ced4da;
+    }
+
+    input[type="radio"].gender+label.gender {
+        padding: 0px 20px;
+        border-radius: 10px;
+        width: 100px;
+    }
 </style>
 
-{{!--
+<div class="quiz-container">
+    <form id="regForm" name="regForm" action="" onsubmit="return validateForm()" method="POST">
 
-<body>
-    <section class="quiz">
-        <div class="quiz-container">
-            <div class="title">Personalization Quiz</div>
+        <p>Personalization Quiz</p>
 
-            <br>
+        <!-- One "tab" for each step in the form: -->
+        <div class="tab">
+            <div class="qn">Name your quiz</div>
+            <p>We will use this to personalize your experience.</p>
+            <p><input type="text" placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName" value="{{quiz.quizName}}">
+            </p>
+        </div>
 
-            <form action="" method="POST" class="quiz-form">
-                <fieldset>
-                    <div id="question" class="question">
-                        <label class="quiz-step step1 current">
-                            Name your Quiz
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="text" name="quizName" />
-                        </label>
-
-                        <br>
-
-                        <label class="quiz-step step2">
-                            What is your age?
-                        </label>
-
-                        <br>
-                        <label class="option" id="border">
-                            <input type="text" name="age" />
-                        </label>
-
-                        <br>
-
-                        <label class="quiz-step step2">
-                            Have you taken supplements/ traditional chinese medicine in the past?
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <label class="option" id="border">
-                                <input type="radio" name="supplements" value="yes" />
-                                <span class="option1">Yes</span>
-                            </label>
-                            <br>
-                            <label class="option" id="border">
-                                <input type="radio" name="supplements" value="no" />
-                                <span class="option2">No</span>
-                            </label>
-                        </label>
-
-                        <br>
-
-                        <label class="quiz-step step2">
-                            Which areas of health are you looking to improve?
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="radio" name="area" value="immunity" />
-                            <span class="option1">Immunity</span>
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="radio" name="area" value="hair" />
-                            <span class="option2">Hair</span>
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="radio" name="area" value="stress">
-                            <span class="option3">Stress</span>
-                        </label>
-                        <br>
-                        <button type="submit">Save</button>
-                    </div>
-                </fieldset>
-            </form>
-            <div id="question" class="question"></div>
-
-            <br>
-
-            <br>
-            <br>
-            <!-- Buttons -->
-            <div class="controls">
-                <button class="previous"><i class="fa-solid fa-left-long"></i> Previous</button>
-                <button class="next"><i class="fa-solid fa-arrow-right-long"></i> Next</button>
+        <div class="tab">
+            <div class="qn">Which gender are you assigned at birth?</div>
+            <div class="container-gender">
+                <input type='radio' id='male' checked='checked' name='gender' class="gender" value="male" {{radioCheck quiz.gender "male" }}>
+                <label for='male' class="gender">Male</label>
+                <input type='radio' id='female' name='gender' class="gender" value="female" {{radioCheck quiz.gender "female" }}>
+                <label for='female' class="gender">Female</label>
             </div>
         </div>
 
-        <div class="result">
-
+        <div class="tab">
+            <div class="qn">What is your age?</div>
+            <p><input type="text" placeholder="35" oninput="this.className = ''" name="age" value="{{quiz.age}}"></p>
         </div>
-    </section>
 
-</body> --}}
+        <div class="tab">
+            <div class="qn">When it comes to traditional chinese medicine, you:</div>
+            <label class="option" id="border">
+                <input type="radio" name="tcm" value="yes" {{radioCheck quiz.tcm "yes" }}/>
+                <span class="option1">Know more than the average person.</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="tcm" value="sometimes" {{radioCheck quiz.tcm "sometimes" }}/>
+                <span class="option1">Know a bit, but want to learn more.</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="tcm" value="never" {{radioCheck quiz.tcm "never" }}/>
+                <span class="option1">Are not convinced yet.</span>
+            </label>
+        </div>
 
-<form id="regForm" action="" method="POST">
+        <div class="tab">
+            <div class="qn">Have you taken supplements/ traditional chinese medicine in the past?</div>
+            <label class="option" id="border">
+                <input type="radio" name="supplements" value="yes" {{radioCheck quiz.supplements "yes" }}/>
+                <span class="option1">For a while</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="supplements" value="sometimes" {{radioCheck quiz.supplements "sometimes" }}/>
+                <span class="option1">On and Off</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="supplements" value="never" {{radioCheck quiz.tcm "never" }}/>
+                <span class="option1">Never</span>
+            </label>
+        </div>
 
-    <p>Personalization Quiz</p>
-
-    <!-- One "tab" for each step in the form: -->
-    <div class="tab">
-        <div class="qn">Name your quiz</div>
-        <p><input type="text" placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName" value="{{quiz.quizName}}">
-        </p>
-    </div>
-
-    <div class="tab">
-        <div class="qn">What is your age?</div>
-        <p><input type="text" placeholder="35" oninput="this.className = ''" name="age" value="{{quiz.age}}"></p>
-    </div>
-
-    {{!-- <div class="tab">When is your birthday?
-        <p><input type="date" oninput="this.className = ''"></p>
-    </div> --}}
-
-    <div class="tab form-check">
-        <div class="qn">When it comes to traditional chinese medicine, you:</div>
-        <label class="option" id="border">
-            <input type="radio" name="tcm" value="yes" {{radioCheck quiz.tcm "yes" }}/>
-            <span class="option1">Know more than the average person.</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="tcm" value="sometimes" {{radioCheck quiz.tcm "sometimes" }}/>
-            <span class="option1">Know a bit, but want to learn more.</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="tcm" value="never" {{radioCheck quiz.tcm "never" }}/>
-            <span class="option1">Are not convinced yet.</span>
-        </label>
-    </div>
-
-    <div class="tab">
-        <div class="qn">Have you taken supplements/ traditional chinese medicine in the past?</div>
-        <label class="option" id="border">
-            <input type="radio" name="supplements" value="yes" {{radioCheck quiz.supplements "yes" }}/>
-            <span class="option1">For a while</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="supplements" value="sometimes" {{radioCheck quiz.supplements "sometimes" }}/>
-            <span class="option1">On and Off</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="supplements" value="never" {{radioCheck quiz.supplements "never" }}/>
-            <span class="option1">Never</span>
-        </label>
-    </div>
-
-    <div class="tab">
-        <div class="qn">Which areas of health are you looking to improve?</div>
-        <p>You can choose more than 1 area.</p>
-        <div class="list">
-            <div class="form-element">
-                <input type="checkbox" name="area" value="immunity" id="immunity" {{ checkboxCheck quiz.area "immunity" }}>
-                <label for="immunity">
-                    <div class="icon">
-                        <i class="fa-solid fa-virus-covid"></i>
-                        <p class="title">Immunity</p>
-                    </div>
-                </label>
+        <div class="tab">
+            <div class="qn">Which areas of health are you looking to improve?</div>
+            <p>You can choose more than 1 area.</p>
+            <div class="list">
+                <div class="form-element">
+                    <input type="checkbox" name="area" value="immunity" id="immunity"
+                        onclick="ensureOneCheck('area', 'areaErr', 'nextBtn')" {{ checkboxCheck quiz.area "immunity" }}>
+                    <label for="immunity">
+                        <div class="icon">
+                            <i class="fa-solid fa-virus-covid"></i>
+                            <p class="title">Immunity</p>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-element">
+                    <input type="checkbox" name="area" value="hair" id="hair"
+                        onclick="ensureOneCheck('area', 'areaErr', 'nextBtn')" {{ checkboxCheck quiz.area "hair" }}>
+                    <label for="hair">
+                        <div class="icon">
+                            <i class="fa-solid fa-person"></i>
+                            <p class="title">Hair</p>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-element">
+                    <input type="checkbox" name="area" value="stress" id="stress"
+                        onclick="ensureOneCheck('area', 'areaErr', 'nextBtn')" {{ checkboxCheck quiz.area "stress" }}>
+                    <label for="stress">
+                        <div class="icon">
+                            <i class="fa-solid fa-face-tired"></i>
+                            <p class="title">Stress</p>
+                        </div>
+                    </label>
+                </div>
             </div>
-            <div class="form-element">
-                <input type="checkbox" name="area" value="hair" id="hair"  {{ checkboxCheck quiz.area "hair" }}>
-                <label for="hair">
-                    <div class="icon">
-                        <i class="fa-solid fa-person"></i>
-                        <p class="title">Hair</p>
-                    </div>
-                </label>
+            <p class="text-danger m-0" id="areaErr" style="display:none">Please select at least one health area.</p>
+        </div>
+
+        <div class="tab">
+            <div class="qn">What is current diet like?</div>
+            <label class="option" id="border">
+                <input type="radio" name="diet" value="normal" {{radioCheck quiz.diet "normal" }}/>
+                <span class="option1">Normal</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="diet" value="vegetarian" {{radioCheck quiz.diet "vegetarian" }}/>
+                <span class="option1">Vegetarian</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="diet" value="pescatarian" {{radioCheck quiz.diet "pescatarian" }}/>
+                <span class="option1">Pescatarian</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="diet" value="others" {{radioCheck quiz.diet "others" }}/>
+                <span class="option1">Others</span>
+            </label>
+        </div>
+
+        <div class="tab">
+            <div class="qn">Are you on any medication?</div>
+            <label class="option" id="border">
+                <input type="radio" name="medication" value="no" {{radioCheck quiz.medication "no" }}/>
+                <span class="option1">No</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="medication" value="yes" {{radioCheck quiz.medication "yes" }}/>
+                <span class="option1">Yes</span>
+            </label>
+        </div>
+
+        <div class="tab">
+            <div class="qn">Do you have any allergies?</div>
+            <p>You can choose more than 1 allergy type.</p>
+            <div class="list">
+                <div class="form-element">
+                    <input type="checkbox" name="allergy" value="none" id="none"
+                        onclick="ensureOneCheck('allergy', 'allergyErr', 'nextBtn')" {{ checkboxCheck quiz.allergy "none" }}>
+                    <label for="none">
+                        <div class="icon">
+                            <i class="fa-solid fa-xmark"></i>
+                            <p class="title">None</p>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-element">
+                    <input type="checkbox" name="allergy" value="fish" id="fish"
+                        onclick="ensureOneCheck('allergy', 'allergyErr', 'nextBtn')" {{ checkboxCheck quiz.allergy "fish" }}>
+                    <label for="fish">
+                        <div class="icon">
+                            <i class="fa-solid fa-fish-fins"></i>
+                            <p class="title">Fish</p>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-element">
+                    <input type="checkbox" name="allergy" value="egg" id="egg"
+                        onclick="ensureOneCheck('allergy', 'allergyErr', 'nextBtn')" {{ checkboxCheck quiz.allergy "egg" }}>
+                    <label for="egg">
+                        <div class="icon">
+                            <i class="fa-solid fa-egg"></i>
+                            <p class="title">Egg</p>
+                        </div>
+                    </label>
+                </div>
             </div>
-            <div class="form-element">
-                <input type="checkbox" name="area" value="stress" id="stress"  {{ checkboxCheck quiz.area "stress" }}>
-                <label for="stress">
-                    <div class="icon">
-                        <i class="fa-solid fa-face-tired"></i>
-                        <p class="title">Stress</p>
-                    </div>
-                </label>
+            <p class="text-danger m-0" id="allergyErr" style="display:none">Please select one option.</p>
+        </div>
+
+        <div class="tab">
+            <div class="qn">Do you smoke?</div>
+            <label class="option" id="border">
+                <input type="radio" name="smoke" value="no" {{radioCheck quiz.smoke "no" }}/>
+                <span class="option1">No</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="smoke" value="yes" {{radioCheck quiz.smoke "yes" }}/>
+                <span class="option1">Yes</span>
+            </label>
+        </div>
+
+        <br>
+        <br>
+
+        <div style="overflow:auto;">
+            <div style="float:center;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next<i
+                        class="fa-solid fa-arrow-right"></i></button>
             </div>
         </div>
-        {{!--
-    </div> --}}
-    </div>
 
-    <br>
-    <br>
-
-    <div style="overflow:auto;">
-        <div style="float:center;">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next<i
-                    class="fa-solid fa-arrow-right"></i></button>
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
         </div>
-    </div>
 
-    <!-- Circles which indicates the steps of the form: -->
-    <div style="text-align:center;margin-top:40px;">
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-    </div>
+    </form>
+</div>
 
-</form>
 
 <script>
     var currentTab = 0; // Current tab is set to be the first tab (0)
@@ -522,22 +566,21 @@
     }
 
     function ensureOneCheck(checkBoxName, messageId, submitId) {
-            const checkBoxes = $('[name=' + checkBoxName + ']');
-            let checkCount = 0;
-            for (let i = 0; i < checkBoxes.length; i++) {
-                if (checkBoxes[i].checked)
-                    checkCount++;
-            }
-            if (checkCount === 0) {
-                $('#' + messageId).show();
-                $('#' + submitId).prop('disabled', true);
-                return false;
-            } else {
-                $('#' + messageId).hide();
-                $('#' + submitId).prop('disabled', false);
-                return true;
-            }
+        const checkBoxes = $('[name=' + checkBoxName + ']');
+        let checkCount = 0;
+        for (let i = 0; i < checkBoxes.length; i++) {
+            if (checkBoxes[i].checked)
+                checkCount++;
+        }
+        if (checkCount === 0) {
+            $('#' + messageId).show();
+            $('#' + submitId).prop('disabled', true);
+            return false;
+        } else {
+            $('#' + messageId).hide();
+            $('#' + submitId).prop('disabled', false);
+            return true;
+        }
     }
-
 
 </script>

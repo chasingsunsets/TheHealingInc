@@ -1,13 +1,30 @@
-<p>{{quizzes.area}}</p>
-
-{{#comparison quizzes.area "immunity"}}
-<p>immunity med</p>
-{{/comparison}}
-
-{{#comparison quizzes.area "stress"}}
-<p>stress med</p>
-{{/comparison}}
-
-{{#comparison quizzes.area "hair"}}
-<p>hair med</p>
-{{/comparison}}
+<table class="table">
+    <thead style="background-color: black; color: white;">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Health Focus</th>
+            <th scope="col">Suggested Products</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>
+                {{quizzes.area}}
+            </td>
+            <td>
+                {{#comparison quizzes.area "immunity"}}
+                immunity med
+                {{/comparison}}
+                
+                {{#comparison quizzes.area "stress"}}
+                stress med
+                {{/comparison}}
+                
+                {{#comparison quizzes.area "hair"}}
+                hair med
+                {{/comparison}}
+            </td>
+        </tr>
+    </tbody>
+</table>
