@@ -23,7 +23,7 @@
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.20.1"
+    "sequelize": "^6.21.1"
   },
   "repository": {
     "type": "git",
