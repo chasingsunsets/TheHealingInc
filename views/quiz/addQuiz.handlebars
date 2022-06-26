@@ -1,15 +1,11 @@
 {{!-- <link rel="stylesheet" href="/css/quiz.css"> --}}
 
 <style>
-body {
-    text-align: center;
-}
-
 p {
     font: poppins;
 }
    /* Style the form */
-#regForm {
+.quiz-container {
     background-image: url("/img/account-page.png");
     background-repeat: no-repeat;
     background-size: contain;
@@ -17,6 +13,8 @@ p {
     top: 50%;
     left: 50%;
     padding: 100px;
+    width: 100%;
+    text-align: center;
 }
 
 /* Style the input fields */
@@ -318,63 +316,65 @@ input[type="radio"]:checked::after {
 
 </body> --}}
 
-<form id="regForm" action="" method="POST">
-
-    <p>Personalization Quiz</p>
-
-    <!-- One "tab" for each step in the form: -->
-    <div class="tab">
-        <div class="qn">Name your quiz</div>
-        <p><input type="text" placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName"></p>
-    </div>
-
-    <div class="tab">
-        <div class="qn">What is your age?</div>
-        <p><input type="text" placeholder="35" oninput="this.className = ''" name="age"></p>
-    </div>
-
-    {{!-- <div class="tab">When is your birthday?
-        <p><input type="date" oninput="this.className = ''"></p>
-    </div> --}}
-
-    <div class="tab form-check">
-        <div class="qn">When it comes to traditional chinese medicine, you:</div>
-        <label class="option" id="border">
-            <input type="radio" name="tcm" value="yes" />
-            <span class="option1">Know more than the average person.</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="tcm" value="sometimes" />
-            <span class="option1">Know a bit, but want to learn more.</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="tcm" value="never" />
-            <span class="option1">Are not convinced yet.</span>
-        </label>
-    </div>
-
-    <div class="tab">
-        <div class="qn">Have you taken supplements/ traditional chinese medicine in the past?</div>
-        <label class="option" id="border">
-            <input type="radio" name="supplements" value="yes" />
-            <span class="option1">For a while</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="supplements" value="sometimes" />
-            <span class="option1">On and Off</span>
-        </label>
-        <br>
-        <label class="option" id="border">
-            <input type="radio" name="supplements" value="never" />
-            <span class="option1">Never</span>
-        </label>
-    </div>
-
-    <div class="tab">
-        <div class="qn">Which areas of health are you looking to improve?</div>
+<div class="quiz-container">
+    <form id="regForm" action="" method="POST">
+    
+        <p>Personalization Quiz</p>
+    
+        <!-- One "tab" for each step in the form: -->
+        <div class="tab">
+            <div class="qn">Name your quiz</div>
+            <p><input type="text" placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName">
+            </p>
+        </div>
+    
+        <div class="tab">
+            <div class="qn">What is your age?</div>
+            <p><input type="text" placeholder="35" oninput="this.className = ''" name="age"></p>
+        </div>
+    
+        {{!-- <div class="tab">When is your birthday?
+            <p><input type="date" oninput="this.className = ''"></p>
+        </div> --}}
+    
+        <div class="tab form-check">
+            <div class="qn">When it comes to traditional chinese medicine, you:</div>
+            <label class="option" id="border">
+                <input type="radio" name="tcm" value="yes" />
+                <span class="option1">Know more than the average person.</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="tcm" value="sometimes" />
+                <span class="option1">Know a bit, but want to learn more.</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="tcm" value="never" />
+                <span class="option1">Are not convinced yet.</span>
+            </label>
+        </div>
+    
+        <div class="tab">
+            <div class="qn">Have you taken supplements/ traditional chinese medicine in the past?</div>
+            <label class="option" id="border">
+                <input type="radio" name="supplements" value="yes" />
+                <span class="option1">For a while</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="supplements" value="sometimes" />
+                <span class="option1">On and Off</span>
+            </label>
+            <br>
+            <label class="option" id="border">
+                <input type="radio" name="supplements" value="never" />
+                <span class="option1">Never</span>
+            </label>
+        </div>
+    
+        <div class="tab">
+            <div class="qn">Which areas of health are you looking to improve?</div>
             <p>You can choose more than 1 area.</p>
             <div class="list">
                 <div class="form-element">
@@ -405,29 +405,33 @@ input[type="radio"]:checked::after {
                     </label>
                 </div>
             </div>
-        {{!-- </div> --}}
-    </div>
-
-    <br>
-    <br>
-
-    <div style="overflow:auto;">
-        <div style="float:center;">
-            <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-            <button type="button" id="nextBtn" onclick="nextPrev(1)">Next<i class="fa-solid fa-arrow-right"></i></button>
+            {{!--
+        </div> --}}
         </div>
-    </div>
+    
+        <br>
+        <br>
+    
+        <div style="overflow:auto;">
+            <div style="float:center;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next<i
+                        class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
+    
+    </form>
+</div>
 
-    <!-- Circles which indicates the steps of the form: -->
-    <div style="text-align:center;margin-top:40px;">
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-    </div>
-
-</form>
 
 <script>
     var currentTab = 0; // Current tab is set to be the first tab (0)

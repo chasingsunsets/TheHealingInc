@@ -117,11 +117,11 @@ router.get('/dashboard', (req, res) => {
     res.render('./staff/dashboard', { layout: 'staffMain' });
 });
 
-router.get('/addProduct', ensureAuthenticated, (req, res) => {
+router.get('/addProduct', ensureAuthenticatedStaff, (req, res) => {
     res.render('product/addProduct');
 });
 
-router.get('/listProducts', ensureAuthenticated, (req, res) => {
+router.get('/listProducts', ensureAuthenticatedStaff, (req, res) => {
     Product.findAll({
         where: { userId: req.user.id },
         order: [['dateRelease', 'DESC']],
