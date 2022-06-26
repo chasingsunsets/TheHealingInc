@@ -1,0 +1,55 @@
+{{!-- <div class="container besidenav" style="padding-left:70px; width:max-content;"> --}}
+
+    <body>
+        <div>{{!-- <div style="background-color: #F1EDE5;"> --}}
+                {{#if staffs}}
+                <h4 class="container">Staff List</h4>
+                <table class="container staffbg">
+                    <tr>
+                        <th>&nbsp;ID</th>
+                        <th>&nbsp;Staff Number</th>
+                        <th>&nbsp;Name</th>
+                        <th>&nbsp;Username</th>
+                        <th>&nbsp;Email</th>
+                        <th>&nbsp;Action</th>
+                    </tr>
+                </table>
+                {{#each staffs}}
+
+                <table class="container">
+                    <tr>
+                        <td>&nbsp;{{id}}</td>
+                        <td>&nbsp;{{staffno}}</td>
+                        <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
+                        <td>&nbsp;{{username}}</td>
+                        <td>&nbsp;{{email}}</td>
+                        <td>
+                            <div>
+                                <a href="/staff/editStaff/{{id}}" class="card-link mb-2" style="color: #8BAD97">
+                                    <i class="fas fa-pencil-alt"></i>
+                                    Edit
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/staff/deletestaff/{{id}}" class="card-link" style="color: darkred"
+                                    data-toggle="confirmation" data-title="Confirm delete?">
+                                    <i class="far fa-trash-alt"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+                {{/each}}
+            </div>
+
+            {{else}}
+            <h3>No Staff</h3>
+            {{/if}}
+    </body>
+    <script>
+        $('[data-toggle=confirmation]').confirmation({
+            rootSelector: '[data-toggle=confirmation]',
+        });
+    </script>

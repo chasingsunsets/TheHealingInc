@@ -395,3 +395,14 @@ div .container {
 .cen2{
   margin: auto;
 }
+
+table, th, td {
+  border: 1px solid;
+  table-layout:fixed;
+
+}
+
+th, td {
+  text-align: left;
+}
+

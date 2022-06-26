@@ -3,6 +3,8 @@ const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 
 const Staff = require('../models/Staff');
+const User = require('../models/User');
+
 const bcrypt = require('bcryptjs');
 
 const passport = require('passport');
@@ -111,6 +113,174 @@ router.post('/login', (req, res, next) => {
         When a failure occur passport passes the message object as error */
         failureFlash: true
     })(req, res, next);
+});
+
+router.get('/listCust',  (req, res) => {
+    User.findAll({
+        // where: { userId: req.user.id },
+        // order: [['dateRelease', 'DESC']],
+        raw: true
+    })
+        .then((users) => {
+            // pass object to listVideos.handlebar
+            res.render('staff/listCust', { users, layout: 'staffMain', firstname: users.firstname, lastname: users.lastname, username: users.username, phoneno: users.phoneno, address: users.address, email: users.email, id: users.id });
+        })
+        .catch(err => console.log(err));
+    // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
+});
+
+router.get('/listStaff',  (req, res) => {
+    Staff.findAll({
+        // where: { userId: req.user.id },
+        // order: [['dateRelease', 'DESC']],
+        raw: true
+    })
+        .then((staffs) => {
+            // pass object to listVideos.handlebar
+            res.render('staff/listStaff', { staffs, layout: 'staffMain', firstname: staffs.firstname, lastname: staffs.lastname, username: staffs.username, staffno: staffs.staffno, email: staffs.email, id: staffs.id });
+        })
+        .catch(err => console.log(err));
+    // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
+});
+
+router.get('/editCust/:id', (req, res) => {
+    User.findByPk(req.params.id)
+        .then((user) => {
+
+            if (!user) {
+                flashMessage(res, 'error', 'Invalid access');
+                res.redirect('/staff/listCust');
+                return;
+            }
+
+            // if (req.user.id != req.params.id) {
+            //     flashMessage(res, 'error', 'Unauthorised access');
+            //     res.redirect('/staff/listCust');
+            //     return;
+            //     }
+
+            res.render('staff/editCust', { user, layout: 'staffMain' });
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/editCust/:id', (req, res) => {
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let username = req.body.username;
+    let phoneno = req.body.phoneno;
+    let address = req.body.address;
+    let email = req.body.email;
+    
+    let password = req.body.password;
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
+
+    User.update(
+        { firstname, lastname, username, phoneno, address, email, password: hash },
+        { where: { id: req.params.id } }
+    )
+        .then((result) => {
+            console.log(result[0] + ' profile updated');
+            res.redirect('/staff/listCust');
+        })
+        .catch(err => console.log(err));
+});
+
+router.get('/deleteaccount/:id', async function (req, res) {
+    try {
+        let user = await User.findByPk(req.params.id);
+        if (!user) {
+            flashMessage(res, 'error', 'User not found');
+            res.redirect('/staff/listCust');
+            return;
+        }
+
+        // if (req.user.id != req.params.id) {
+        //     flashMessage(res, 'error', 'Unauthorised access');
+        //     res.redirect('/staff/listCust');
+        //     return;
+        // }
+
+
+        let result = await User.destroy({ where: { id: user.id } });
+        console.log(result + ' account deleted');
+        flashMessage(res, 'success', 'Account successfully deleted');
+        res.redirect('/staff/listCust');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+
+router.get('/editStaff/:id', (req, res) => {
+    Staff.findByPk(req.params.id)
+        .then((staff) => {
+
+            if (!staff) {
+                flashMessage(res, 'error', 'Invalid access');
+                res.redirect('/staff/listStaff');
+                return;
+            }
+
+            // if (req.user.id != req.params.id) {
+            //     flashMessage(res, 'error', 'Unauthorised access');
+            //     res.redirect('/staff/listCust');
+            //     return;
+            //     }
+
+            res.render('staff/editStaff', { staff, layout: 'staffMain' });
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/editStaff/:id', (req, res) => {
+    let staffno = req.body.staffno;
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let username = req.body.username;
+    let email = req.body.email;
+    
+    let password = req.body.password;
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
+
+    Staff.update(
+        { staffno, firstname, lastname, username, email, password: hash },
+        { where: { id: req.params.id } }
+    )
+        .then((result) => {
+            console.log(result[0] + ' profile updated');
+            res.redirect('/staff/listStaff');
+        })
+        .catch(err => console.log(err));
+});
+
+router.get('/deletestaff/:id', async function (req, res) {
+    try {
+        let staff = await Staff.findByPk(req.params.id);
+        if (!staff) {
+            flashMessage(res, 'error', 'Staff not found');
+            res.redirect('/staff/listStaff');
+            return;
+        }
+
+        // if (req.user.id != req.params.id) {
+        //     flashMessage(res, 'error', 'Unauthorised access');
+        //     res.redirect('/staff/listCust');
+        //     return;
+        // }
+
+
+        let result = await Staff.destroy({ where: { id: staff.id } });
+        console.log(result + ' account deleted');
+        flashMessage(res, 'success', 'Account successfully deleted');
+        res.redirect('/staff/listStaff');
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 router.get('/dashboard', (req, res) => {
