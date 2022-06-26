@@ -117,6 +117,22 @@ router.get('/dashboard', (req, res) => {
     res.render('./staff/dashboard', { layout: 'staffMain' });
 });
 
+router.get('/addProduct', ensureAuthenticated, (req, res) => {
+    res.render('product/addProduct');
+});
+
+router.get('/listProducts', ensureAuthenticated, (req, res) => {
+    Product.findAll({
+        where: { userId: req.user.id },
+        order: [['dateRelease', 'DESC']],
+        raw: true
+    })
+        .then((products) => {
+            res.render('product/listProducts', { products, layout:'account' });
+        })
+        .catch(err => console.log(err));
+});
+
 
 
 
