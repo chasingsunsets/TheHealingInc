@@ -8,11 +8,11 @@
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #8BAD97">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+            <a class="sidebar-brand d-flex align-items-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Staff</div>
             </a>
 
             <!-- Divider -->
@@ -27,11 +27,22 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+
             <li class="nav-item">
-                <a class="nav-link" href="/staff/register">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Register Staff</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Account</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/staff/listCust">Customer List</a>
+                        <a class="collapse-item" href="/staff/register">Register Staff</a>
+                        <a class="collapse-item" href="/staff/listStaff">Staff List</a>
+                    </div>
+                </div>
             </li>
+
             <!-- Heading -->
             <div class="sidebar-heading">
                 Interface

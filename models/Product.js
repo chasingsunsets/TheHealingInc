@@ -11,4 +11,4 @@ const Product = db.define('product',
         category: { type: Sequelize.STRING }
     });
 
-module.exports = Video;
+module.exports = Product;
