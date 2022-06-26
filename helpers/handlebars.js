@@ -1,6 +1,5 @@
 const moment = require('moment');
 const { options } = require('../config/DBConfig');
-const Quiz = require('../models/Quiz');
 
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);

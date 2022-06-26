@@ -53,7 +53,7 @@ input.invalid {
 .qn {
     font-family: 'Libre Baskerville';
     font-style: italic;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 /* Make circles that indicate the steps of the form: */
@@ -224,106 +224,15 @@ input[type="radio"]:checked::after {
 
 </style>
 
-{{!-- <body>
-    <section class="quiz">
-        <div class="quiz-container">
-            <div class="title">Personalization Quiz</div>
-
-            <br>
-            
-            <form action="" method="POST" class="quiz-form">
-                <fieldset>
-                    <div id="question" class="question">
-                        <label class="quiz-step step1 current">
-                            Name your Quiz
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="text" name="quizName" />
-                        </label>
-                    
-                        <br>
-                    
-                        <label class="quiz-step step2">
-                            What is your age?
-                        </label>
-                    
-                        <br>
-                        <label class="option" id="border">
-                            <input type="text" name="age" />
-                        </label>
-                    
-                        <br>
-                    
-                        <label class="quiz-step step2">
-                            Have you taken supplements/ traditional chinese medicine in the past?
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <label class="option" id="border">
-                                <input type="radio" name="supplements" value="yes" />
-                                <span class="option1">Yes</span>
-                            </label>
-                            <br>
-                            <label class="option" id="border">
-                                <input type="radio" name="supplements" value="no" />
-                                <span class="option2">No</span>
-                            </label>
-                        </label>
-                    
-                        <br>
-                    
-                        <label class="quiz-step step2">
-                            Which areas of health are you looking to improve?
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="radio" name="area" value="immunity" />
-                            <span class="option1">Immunity</span>
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="radio" name="area" value="hair" />
-                            <span class="option2">Hair</span>
-                        </label>
-                        <br>
-                        <label class="option" id="border">
-                            <input type="radio" name="area" value="stress">
-                            <span class="option3">Stress</span>
-                        </label>
-                        <br>
-                        <button type="submit">Save</button>
-                    </div>
-                </fieldset>
-            </form>
-            <div id="question" class="question"></div>
-
-            <br>
-
-            <br>
-            <br>
-            <!-- Buttons -->
-            <div class="controls">
-                <button class="previous"><i class="fa-solid fa-left-long"></i> Previous</button>
-                <button class="next"><i class="fa-solid fa-arrow-right-long"></i> Next</button>
-            </div>
-        </div>
-
-        <div class="result">
-
-        </div>
-    </section>
-
-</body> --}}
-
 <div class="quiz-container">
-    <form id="regForm" action="" method="POST">
+    <form id="regForm" name="regForm" action="" onsubmit="return validateForm()" method="POST">
     
         <p>Personalization Quiz</p>
     
         <!-- One "tab" for each step in the form: -->
         <div class="tab">
             <div class="qn">Name your quiz</div>
+            <p>We will use this to personalize your experience.</p>
             <p><input type="text" placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName">
             </p>
         </div>
@@ -337,7 +246,7 @@ input[type="radio"]:checked::after {
             <p><input type="date" oninput="this.className = ''"></p>
         </div> --}}
     
-        <div class="tab form-check">
+        <div class="tab">
             <div class="qn">When it comes to traditional chinese medicine, you:</div>
             <label class="option" id="border">
                 <input type="radio" name="tcm" value="yes" />
@@ -506,24 +415,6 @@ input[type="radio"]:checked::after {
             }
             //... and adds the "active" class to the current step:
             x[n].className += " active";
-        }
-
-        function ensureOneCheck(checkBoxName, messageId, submitId) {
-                const checkBoxes = $('[name=' + checkBoxName + ']');
-                let checkCount = 0;
-                for (let i = 0; i < checkBoxes.length; i++) {
-                    if (checkBoxes[i].checked)
-                        checkCount++;
-                }
-                if (checkCount === 0) {
-                    $('#' + messageId).show();
-                    $('#' + submitId).prop('disabled', true);
-                    return false;
-                } else {
-                    $('#' + messageId).hide();
-                    $('#' + submitId).prop('disabled', false);
-                    return true;
-                }
         }
     
 

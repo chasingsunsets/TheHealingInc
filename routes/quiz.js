@@ -39,7 +39,7 @@ router.post('/addQuiz', ensureAuthenticated, (req, res) => {
     let userId = req.user.id;
     Quiz.create(
         {
-            quizName,age,supplements, area, userId
+            quizName, age, supplements, area, userId
         }
     )
         .then((quiz) => {

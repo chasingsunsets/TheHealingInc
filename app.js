@@ -1,7 +1,3 @@
-/*
-* 'require' is similar to import used in Java and Python. It brings in the libraries required to be used
-* in this JS file.
-* */
 const express = require('express');
 const { engine } = require('express-handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
@@ -11,10 +7,6 @@ const session = require('express-session');
 const path = require('path');
 require('dotenv').config();
 
-/*
-* Creates an Express server - Express is a web application framework for creating web applications
-* in Node JS.
-*/
 const app = express();
 
 // Handlebars Middleware
