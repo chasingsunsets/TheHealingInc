@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 
 const passport = require('passport');
 
-const ensureAuthenticated = require('../helpers/auth');
+const ensureAuthenticatedStaff = require('../helpers/auth');
 
 router.get('/login', (req, res) => {
     res.render('./staff/login', { layout: 'stafflogin' });
@@ -91,13 +91,26 @@ router.post('/register', async function (req, res) {
             // Use hashed password
             let staff = await Staff.create({ staffno, username, firstname, lastname, email, password: hash });
             flashMessage(res, 'success', username + ' registered successfully');
-            res.redirect('./staff/login',{ layout: 'stafflogin' });
+            res.redirect('/staff/login');
         }
     }
     catch (err) {
         console.log(err);
     }
 
+});
+
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local.two', {
+        // Success redirect URL
+        successRedirect: '/staff/dashboard',
+        // Failure redirect URL
+        failureRedirect: '/staff/login',
+        /* Setting the failureFlash option to true instructs Passport to flash
+        an error message using the message given by the strategy's verify callback.
+        When a failure occur passport passes the message object as error */
+        failureFlash: true
+    })(req, res, next);
 });
 
 router.get('/dashboard', (req, res) => {

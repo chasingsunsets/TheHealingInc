@@ -1,28 +1,27 @@
 {{!-- <div class="container besidenav" style="padding-left:70px; width:max-content;"> --}}
 
-	<div >
+	<div>
 
 		<h4 class="card-title" style="padding-left:20px;">PROFILE</h4>
-		
-			<div style="font-size:20px;  float: right;" >
-				<div >
-					<a href="/user/editprofile/{{id}}" class="card-link mb-2">
-						<i class="fas fa-pencil-alt"></i>
-						Edit
-					</a>
-				</div>
-				<div >
-					<a href="/user/deleteaccount/{{id}}" class="card-link" data-toggle="confirmation"
-						data-title="Confirm delete?">
-						<i class="far fa-trash-alt"></i>
-						Delete
-					</a>
-				</div>
+
+		<div style="font-size:20px;  float: right;">
+			<div>
+				<a href="/user/editprofile/{{id}}" class="card-link mb-2">
+					<i class="fas fa-pencil-alt"></i>
+					Edit
+				</a>
 			</div>
+			<div>
+				<a href="/user/deleteaccount/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
+					<i class="far fa-trash-alt"></i>
+					Delete
+				</a>
+			</div>
+		</div>
 		<div class="card-body" id="mytxt">
 
 
-			<div >
+			<div>
 				First Name : <a> &emsp;&emsp;&emsp;{{firstname}} </a>
 
 			</div>
@@ -32,29 +31,29 @@
 
 			</div>
 
-			<div >
+			<div>
 				Username : <a>&emsp;&emsp;&emsp;{{username}} </a>
 
 			</div>
 
-			<div >
+			<div>
 				Phone Number : <a>&emsp;&emsp;&emsp;{{phoneno}} </a>
 
 			</div>
 
-			<div >
+			<div>
 				Address : <a>&emsp;&emsp;&emsp;{{address}} </a>
 
 			</div>
 
-			<div >
+			<div>
 				Email : <a>&emsp;&emsp;&emsp;{{email}} </a>
 
 			</div>
 
 
-			{{!--
-		</div> --}}
+
+		</div>
 	</div>
 
 	{{!-- <div class="accordion" id="storyAccordion">
@@ -70,13 +69,8 @@
 			</div>
 		</div>
 	</div> --}}
-</div>
-
-
-
-</div>
-
-</div>
+	{{!--
+</div> --}}
 
 <script>
 	$('[data-toggle=confirmation]').confirmation({

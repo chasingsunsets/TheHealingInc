@@ -92,6 +92,7 @@ app.use(flashMessenger.middleware);
 const passport = require('passport');
 const passportConfig = require('./config/passportConfig');
 passportConfig.localStrategy(passport);
+passportConfig.localStrategy2(passport);
 
 // Initilize Passport middleware
 app.use(passport.initialize());

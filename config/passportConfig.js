@@ -1,6 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Staff = require('../models/Staff');
+
 function localStrategy(passport) {
     passport.use(
         new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
@@ -37,5 +39,45 @@ return done(null, user);
                 console.log(done);
             });
     });
+
+    
 }
-module.exports = { localStrategy };
+
+function localStrategy2(passport) {
+    passport.use( "local.two",
+        new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
+            Staff.findOne({ where: { username: username } })
+                .then(staff => {
+                    if (!staff) {
+                        return done(null, false, { message: 'No User Found' });
+                    }
+                    // Match password
+                    isMatch = bcrypt.compareSync(password, staff.password);
+                    if (!isMatch) {
+                        return done(null, false, {
+                            message: 'Password incorrect' });
+}
+return done(null, staff);
+                    })
+        }));
+    // Serializes (stores) user id into session upon successful
+    // authentication
+    passport.serializeUser((staff, done) => {
+        // user.id is used to identify authenticated user
+        done(null, staff.id);
+    });
+    // User object is retrieved by userId from session and
+    // put into req.user
+    passport.deserializeUser((staffId, done) => {
+        Staff.findByPk(staffId)
+            .then((staff) => {
+                done(null, staff);
+                // user object saved in req.session
+            })
+            .catch((done) => {
+                // No user found, not stored in req.session
+                console.log(done);
+            });
+    });
+}
+module.exports = { localStrategy, localStrategy2 };

@@ -154,17 +154,19 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
 router.get('/deleteaccount/:id', ensureAuthenticated, async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
-        // if (!user) {
-        //     flashMessage(res, 'error', 'Video not found');
-        //     res.redirect('/video/listVideos');
-        //     return;
-        // }
+        if (!user) {
+            flashMessage(res, 'error', 'User not found');
+            res.redirect('/user/profile');
+            return;
+        }
 
-        // if (req.user.id != user.userId) {
-        //     flashMessage(res, 'error', 'Unauthorised access');
-        //     res.redirect('/user/login');
-        //     return;
-        // }
+        if (req.user.id != req.params.id) {
+            flashMessage(res, 'error', 'Unauthorised access');
+            res.redirect('/user/profile');
+            return;
+        }
+
+
         let result = await User.destroy({ where: { id: user.id } });
         console.log(result + ' account deleted');
         flashMessage(res, 'success', 'Account successfully deleted');

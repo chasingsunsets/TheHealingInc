@@ -237,7 +237,7 @@ p {
 
 /* to capitalise text at nav */
 .navbar .navbar-nav>li>a {
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 /* user: login */

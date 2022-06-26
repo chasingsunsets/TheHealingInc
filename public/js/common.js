@@ -297,7 +297,7 @@ function generateQuestions(index) {
 function loadNextQuestion() {
     const selectedOption = document.querySelector('input[type="radio"]:checked');
     //Check if there is a radio input checked
-    if (!selectedOption){
+    if (!selectedOption) {
         alert('Please select your answer!');
         return;
     }
@@ -325,7 +325,7 @@ function loadNextQuestion() {
     if (currentQuestion == totalQuestions) {
         container.style.display = 'none';
         result.innerHTML =
-        `<h1 class="final-score">Your score: ${totalScore}</h1>
+            `<h1 class="final-score">Your score: ${totalScore}</h1>
          <div class="summary">
             <h1>Summary</h1>
             <p>Possible - Personality Traits, see below for a summary based on your results:</p>
@@ -384,5 +384,20 @@ function ensureOneCheck(checkBoxName, messageId, submitId) {
         $('#' + messageId).hide();
         $('#' + submitId).prop('disabled', false);
         return true;
+    }
+}
+
+function initialiseTitle() {
+    let title = $('#title').val();
+    let titleArr = [];
+    let initTitle = '';
+    if (title) {
+        titleArr = title.trim().split(' ');
+        for (let i = 0; i < titleArr.length; i++) {
+            initTitle += titleArr[i].charAt(0).toUpperCase() + ti -
+                tleArr[i].slice(1)
+                + (i == titleArr.length - 1 ? '' : ' ');
+        }
+        $('#title').val(initTitle);
     }
 }
