@@ -6,7 +6,7 @@ const Product = db.define('product',
     {
         name: { type: Sequelize.STRING },
         stock: { type: Sequelize.INTEGER },
-        size: { type: Sequelize.INTEGER },
+        size: { type: Sequelize.STRING },
         price: { type: Sequelize.FLOAT },
         category: { type: Sequelize.STRING }
     });
