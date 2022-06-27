@@ -2,51 +2,75 @@
 
     <body>
         <div>{{!-- <div style="background-color: #F1EDE5;"> --}}
-            {{#if users}}
-            <h4 class="container">Customer List</h4>
-            <table class="container staffbg">
-                <tr>
-                    <th>&nbsp;ID</th>
-                    <th>&nbsp;Name</th>
-                    <th>&nbsp;Username</th>
-                    <th>&nbsp;Email</th>
-                    <th>&nbsp;Address</th>
-                    <th>&nbsp;Action</th>
-                </tr>
-            </table>
-            {{#each users}}
+                {{#if users}}
+                <div class="container-fluid">
 
-            <table class="container">
-                <tr>
-                    <td>&nbsp;{{id}}</td>
-                    <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
-                    <td>&nbsp;{{username}}</td>
-                    <td>&nbsp;{{email}}</td>
-                    <td>&nbsp;{{address}}</td>
-                    <td>
-                        <div>
-                            <a href="/staff/editCust/{{id}}" class="card-link mb-2" style="color: #8BAD97">
-                                <i class="fas fa-pencil-alt"></i>
-                                Edit
-                            </a>
+                    <!-- Page Heading -->
+                    {{!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Customer List</h6>
                         </div>
-                        <div>
-                            <a href="/staff/deleteaccount/{{id}}" class="card-link" style="color: darkred" data-toggle="confirmation"
-                                data-title="Confirm delete?">
-                                <i class="far fa-trash-alt"></i>
-                                Delete
-                            </a>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+
+                                        <tr>
+                                            <th>&nbsp;ID</th>
+                                            <th>&nbsp;Name</th>
+                                            <th>&nbsp;Username</th>
+                                            <th>&nbsp;Email</th>
+                                            <th>&nbsp;Address</th>
+                                            <th>&nbsp;Action</th>
+                                        </tr>
+                                    </thead>
+                                    {{#each users}}
+
+                                    <tr>
+                                        <td>&nbsp;{{id}}</td>
+                                        <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
+                                        <td>&nbsp;{{username}}</td>
+                                        <td>&nbsp;{{email}}</td>
+                                        <td>&nbsp;{{address}}</td>
+                                        <td>
+                                            <div>
+                                                <a href="/staff/editCust/{{id}}" class="card-link mb-2"
+                                                    style="color: #8BAD97">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                    Edit
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <a href="/staff/deleteaccount/{{id}}" class="card-link"
+                                                    style="color: darkred" data-toggle="confirmation"
+                                                    data-title="Confirm delete?">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    {{/each}}
+                                </table>
+                            </div>
                         </div>
-                    </td>
-                </tr>
+                    </div>
 
-            </table>
-            {{/each}}
-        </div>
+                </div>
 
-        {{else}}
-        <h3>No Customer</h3>
-        {{/if}}
+            </div>
+
+            {{else}}
+            <h3>No Customer</h3>
+            {{/if}}
     </body>
     <script>
         $('[data-toggle=confirmation]').confirmation({
