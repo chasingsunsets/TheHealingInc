@@ -1,30 +1,149 @@
-<table class="table">
-    <thead style="background-color: black; color: white;">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Health Focus</th>
-            <th scope="col">Suggested Products</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>
-                {{quizzes.area}}
-            </td>
-            <td>
+<h1 class="header">Suggested Products</h1>
+
+<br>
+
+<div class="card-deck">
+    <div class="card ser-col">
+        <div class="card-body">
+            {{#comparison quizzes.tcm "yes"}}
+            <h6 class="text-muted">As you are educated about traditional chinese medicine and need no assistance, we have no services to recommend to you.</h6>
+            {{/comparison}}
+            
+            {{#comparison quizzes.tcm "sometimes"}}
+            <h6 class="text-muted">On top of these products, we also recommend you these services:</h6>
+            <br>
+            <h1 class="card-title title" id="area">
+                {{#comparison quizzes.tcm "sometimes"}}
+                Consultation
+                {{/comparison}}
+            </h1>
+            {{/comparison}}
+            
+            {{#comparison quizzes.tcm "never"}}
+            <h6 class="text-muted">On top of these products, we also recommend you these services:</h6>
+            <br>
+            <h1 class="card-title title" id="area">
+                {{#comparison quizzes.tcm "never"}}
+                Consultation
+                {{/comparison}}
+            </h1>
+            {{/comparison}}
+        </div>
+        {{#comparison quizzes.tcm "never"}}
+        <div class="card-footer">
+            Why is that?:
+            <br>
+            <small class="text-muted">
+                You have stated in the quiz that you are not convinced about traditional chinese medicine yet.
+            </small>
+        </div>
+        {{/comparison}}
+
+        {{#comparison quizzes.tcm "sometimes"}}
+        <div class="card-footer">
+            Why is that?:
+            <br>
+            <small class="text-muted">
+                You have stated in the quiz that you want to learn more about traditional chinese medicine yet.
+            </small>
+        </div>
+        {{/comparison}}
+    </div>
+</div>
+
+<br>
+
+<div class="card-deck">
+    <div class="card ser-col">
+        <div class="card-body">
+            <h6 class="text-muted">Health Focus: {{quizzes.area}}</h6>
+            <br><br><br>
+            <h1 class="card-title title" id="area">
                 {{#comparison quizzes.area "immunity"}}
-                immunity med
+                Immunity Med
                 {{/comparison}}
                 
                 {{#comparison quizzes.area "stress"}}
-                stress med
+                Stress Med
                 {{/comparison}}
                 
                 {{#comparison quizzes.area "hair"}}
-                hair med
+                Hair Med
                 {{/comparison}}
-            </td>
-        </tr>
-    </tbody>
-</table>
+            </h1>
+            <br><br><br>
+        </div>
+        <div class="card-footer">
+            Benefits:
+            <br>
+            <small class="text-muted">
+                {{#comparison quizzes.area "immunity"}}
+                Omega-3 fatty acids (EPA and DHA) present in our Veg Omega, which have been studied extensively for their effect on the
+                brain, are promising for cognitive health. They also have been extensively researched for their beneficial effects on
+                the heart.
+                {{/comparison}}
+                
+                {{#comparison quizzes.area "stress"}}
+                Omega-3 fatty acids (EPA and DHA) present in our Veg Omega, which have been studied extensively for their effect on the
+                brain, are promising for cognitive health. They also have been extensively researched for their beneficial effects on
+                the heart.
+                {{/comparison}}
+                
+                {{#comparison quizzes.area "hair"}}
+                Omega-3 fatty acids (EPA and DHA) present in our Veg Omega, which have been studied extensively for their effect on the
+                brain, are promising for cognitive health. They also have been extensively researched for their beneficial effects on
+                the heart.
+                {{/comparison}}
+            </small>
+        </div>
+        <div class="card-footer">
+            Allergens:
+            <br>
+            <small class="text-muted">
+                {{#comparison quizzes.area "immunity"}}
+                Contains residual traces of Sulfites and Soy.
+                {{/comparison}}
+        
+                {{#comparison quizzes.area "stress"}}
+                Contains residual traces of Sulfites and Soy.
+                {{/comparison}}
+        
+                {{#comparison quizzes.area "hair"}}
+                Contains residual traces of Sulfites and Soy.
+                {{/comparison}}
+            </small>
+        </div>
+        <div class="card-footer">
+            <button>Add To Cart</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .header {
+        font-family: 'Libre Baskerville';
+        font-style: italic;
+        font-size: 35px;
+        text-align: center;
+    }
+
+    #area {
+        color: #8BAD97;
+    }
+
+    button {
+        font-size: 15px;
+        color: rgb(0, 0, 0);
+        background-color: #8BAD97;
+        border: 5px;
+        border-radius: 45px;
+        padding: 15px;
+        cursor: pointer;
+        text-align: center;
+        float: right;
+    }
+
+    button:hover {
+        background-color: #bdd4c5;;
+    }
+</style>

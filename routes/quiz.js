@@ -37,10 +37,10 @@ router.post('/addQuiz', ensureAuthenticated, (req, res) => {
     let age = req.body.age;
     let tcm = req.body.tcm;
     let supplements = req.body.supplements;
-    let area = req.body.area;
+    let area = req.body.area === undefined ? '' : req.body.area.toString();
     let diet = req.body.diet;
     let medication = req.body.medication;
-    let allergy = req.body.allergy;
+    let allergy = req.body.allergy === undefined ? '' : req.body.allergy.toString();
     let smoke = req.body.smoke;
     let userId = req.user.id;
     Quiz.create(
@@ -69,10 +69,10 @@ router.post('/editQuiz/:id', ensureAuthenticated, (req, res) => {
     let age = req.body.age;
     let tcm = req.body.tcm;
     let supplements = req.body.supplements;
-    let area = req.body.area;
+    let area = req.body.area === undefined ? '' : req.body.area.toString();
     let diet = req.body.diet;
     let medication = req.body.medication;
-    let allergy = req.body.allergy;
+    let allergy = req.body.allergy === undefined ? '' : req.body.allergy.toString();
     let smoke = req.body.smoke;
     let userId = req.user.id;
     Quiz.update(
