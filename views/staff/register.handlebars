@@ -15,12 +15,11 @@
                     </div>
                     <div class="form-group left spacing1">
                         <label for="firstname">First Name</label>
-                        <input type="text" class="form-control" name="firstname" onblur="initialiseText()"
-                            value="{{firstname}}" required>
+                        <input type="text" class="form-control" name="firstname" value="{{firstname}}" id="firstname" onblur="initialiseFirstname()" required>
                     </div>
                     <div class="form-group left spacing2">
                         <label for="lastname">Last Name</label>
-                        <input type="text" class="form-control" name="lastname" value="{{lastname}}" required>
+                        <input type="text" class="form-control" name="lastname" value="{{lastname}}" id="lastname" onblur="initialiseLastname()"required>
                     </div>
 
                     <div class="form-group clear left spacing1">

@@ -183,17 +183,41 @@ nextButton.addEventListener('click', loadNextQuestion);
 previousButton.addEventListener('click', loadPreviousQuestion);
 result.addEventListener('click', restartQuiz);
 
-function initialiseTitle() {
-    let title = $('#title').val();
+function initialiseFirstname() {
+    let firstname = $('#firstname').val();
     let titleArr = [];
     let initTitle = '';
-    if (title) {
-        titleArr = title.trim().split(' ');
+    if (firstname) {
+        titleArr = firstname.trim().split(' ');
         for (let i = 0; i < titleArr.length; i++) {
-            initTitle += titleArr[i].charAt(0).toUpperCase() + ti -
-                tleArr[i].slice(1)
-                + (i == titleArr.length - 1 ? '' : ' ');
+            initTitle += titleArr[i].charAt(0).toUpperCase() + titleArr[i].slice(1) + (i == titleArr.length - 1 ? '' : ' ');
         }
-        $('#title').val(initTitle);
+        $('#firstname').val(initTitle);
+    }
+}
+
+function initialiseLastname() {
+    let lastname = $('#lastname').val();
+    let titleArr = [];
+    let initTitle = '';
+    if (lastname) {
+        titleArr = lastname.trim().split(' ');
+        for (let i = 0; i < titleArr.length; i++) {
+            initTitle += titleArr[i].charAt(0).toUpperCase() + titleArr[i].slice(1) + (i == titleArr.length - 1 ? '' : ' ');
+        }
+        $('#lastname').val(initTitle);
+    }
+}
+
+function initialiseAddress() {
+    let address = $('#address').val();
+    let titleArr = [];
+    let initTitle = '';
+    if (address) {
+        titleArr = address.trim().split(' ');
+        for (let i = 0; i < titleArr.length; i++) {
+            initTitle += titleArr[i].charAt(0).toUpperCase() + titleArr[i].slice(1) + (i == titleArr.length - 1 ? '' : ' ');
+        }
+        $('#address').val(initTitle);
     }
 }
