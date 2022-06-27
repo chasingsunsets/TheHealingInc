@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 const Order = require('../models/Order');
-const catalogue_router = require('./manage_catalogue')
+const catalogue_router = require('./manage_catalogue');
+const Booking = require('../models/Booking');
+
 router.get('/', (req, res) => {
 	const title = 'Video Jotter';
 	// renders views/index.handlebars, passing title as an object
@@ -15,7 +17,9 @@ router.get('/quiz', (req, res) => {
 	res.render('./quiz/createQuiz');
 });
 
-
+router.get('/booking', (req, res) => {
+	res.render('./booking/addBooking');
+});
 
 
 

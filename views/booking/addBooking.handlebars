@@ -1,0 +1,102 @@
+<div class="container">
+	<div class="card card-body">
+		<h3>Add Product</h3>
+		<form action="" method="post">
+			<div class="form-group">
+				<div class="row mb-2">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
+						<label class="font-italic" for="name">Name</label>
+						<input class="form-control" id="name" name="name" onblur="initialiseName()" required />
+					</div>
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6">
+						<label class="font-italic">Date of release</label>
+						<input id="datepicker" width="200" name="dateRelease" readonly />
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row mb-2">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
+                        <label class="font-italic" for="stock">Stock</label>
+                        <input class="form-control" type="number" id="stock" name="stock" required/>
+					</div>
+					<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+						<label class="font-italic">Pack Size</label>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="25" value="25" name="size">
+							<label class="form-check-label" for="25">25</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="50" value="50" name="size">
+							<label class="form-check-label" for="50">50</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="75" value="75" name="size">
+							<label class="form-check-label" for="75">75</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="100" value="100" name="size">
+							<label class="form-check-label" for="100">100</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6">
+						<label class="font-italic" for="price">Price</label>
+						<input class="form-control" type="text" id="price" name="price" required/>
+					</div>
+					<div class="col-12 col-sm-12 col-md-6 col-lg-6">
+						<label class="font-italic">Category</label>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="heart"
+								value="heart">
+							<label class="form-check-label" for="heart">Heart</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="brain"
+								value="brain">
+							<label class="form-check-label" for="brain">Brain</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="gut" value="gut">
+							<label class="form-check-label" for="gut">Gut</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="eyes" value="eyes">
+							<label class="form-check-label" for="eyes">Eyes</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="immunity" value="immunity">
+							<label class="form-check-label" for="immunity">Immunity</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="joints" value="joints">
+							<label class="form-check-label" for="joints">Joints</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="category" id="skin" value="skin">
+							<label class="form-check-label" for="skin">Skin</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<button id="btnSubmit" type="submit" class="btn btn-primary">Add
+			</button>
+		</form>
+	</div>
+</div>
+
+<script>
+	$('#datepicker').datepicker({
+		format: 'dd/mm/yyyy',
+		uiLibrary: 'bootstrap4',
+		value: moment().format('DD/MM/YYYY'),
+	});
+</script>
