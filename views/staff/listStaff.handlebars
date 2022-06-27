@@ -3,45 +3,70 @@
     <body>
         <div>{{!-- <div style="background-color: #F1EDE5;"> --}}
                 {{#if staffs}}
-                <h4 class="container">Staff List</h4>
-                <table class="container staffbg">
-                    <tr>
-                        <th>&nbsp;ID</th>
-                        <th>&nbsp;Staff Number</th>
-                        <th>&nbsp;Name</th>
-                        <th>&nbsp;Username</th>
-                        <th>&nbsp;Email</th>
-                        <th>&nbsp;Action</th>
-                    </tr>
-                </table>
-                {{#each staffs}}
+                <div class="container-fluid">
 
-                <table class="container">
-                    <tr>
-                        <td>&nbsp;{{id}}</td>
-                        <td>&nbsp;{{staffno}}</td>
-                        <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
-                        <td>&nbsp;{{username}}</td>
-                        <td>&nbsp;{{email}}</td>
-                        <td>
-                            <div>
-                                <a href="/staff/editStaff/{{id}}" class="card-link mb-2" style="color: #8BAD97">
-                                    <i class="fas fa-pencil-alt"></i>
-                                    Edit
-                                </a>
-                            </div>
-                            <div>
-                                <a href="/staff/deletestaff/{{id}}" class="card-link" style="color: darkred"
-                                    data-toggle="confirmation" data-title="Confirm delete?">
-                                    <i class="far fa-trash-alt"></i>
-                                    Delete
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
+                    <!-- Page Heading -->
+                    {{!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                        For more information about DataTables, please visit the <a target="_blank"
+                            href="https://datatables.net">official DataTables documentation</a>.</p> --}}
 
-                </table>
-                {{/each}}
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3" style="background-color:#8BAD97;">
+                            <h6 class="m-0 font-weight-bold" style="color:white;">Staff List</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead style="background-color: #F1EDE5;">
+
+                                        <tr>
+                                            <th>&nbsp;ID</th>
+                                            <th>&nbsp;Staff Number</th>
+                                            <th>&nbsp;Name</th>
+                                            <th>&nbsp;Username</th>
+                                            <th>&nbsp;Email</th>
+                                            <th>&nbsp;Action</th>
+                                        </tr>
+                                    </thead>
+                                    {{#each staffs}}
+
+
+                                    <tr>
+                                        <td>&nbsp;{{id}}</td>
+                                        <td>&nbsp;{{staffno}}</td>
+                                        <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
+                                        <td>&nbsp;{{username}}</td>
+                                        <td>&nbsp;{{email}}</td>
+                                        <td>
+                                            <div>
+                                                <a href="/staff/editStaff/{{id}}" class="card-link mb-2"
+                                                    style="color: #8BAD97">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                    Edit
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <a href="/staff/deletestaff/{{id}}" class="card-link"
+                                                    style="color: darkred" data-toggle="confirmation"
+                                                    data-title="Confirm delete?">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    {{/each}}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             {{else}}
