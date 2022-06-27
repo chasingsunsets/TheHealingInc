@@ -6,38 +6,18 @@ const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
-// const { where } = require('sequelize/types');
 
-
-router.get('/cart', (req, res) => {
-	res.render('../views/cart/cart.handlebars');
-});
-
-router.post('/addorder', ensureAuthenticated, (req, res) => {
-	let custno = req.user.custno;
-	let product = req.body.product;
-	let amount = req.body.amount;
-	let price = req.body.price;
-
-	Order.create(
-		{ custno, product, amount, price }
-	)
-		.then((order) => {
-			console.log(order.toJSON());
-			res.redirect('../views/product/catalogue.handlebars');
-		})
-		.catch(err => console.log(err));
-});
-
-router.get('/listOrder', ensureAuthenticated, (req, res) => {
-	Order.findall({
-		where: { custno: req.user.custno },
-		order: [['database', 'DESC']],
+router.get('/cart', ensureAuthenticated, (req, res) => {
+	Order.findAll({
+		where: { custID: req.user.id },
+		order: [['createdat', 'DESC']],
 		raw: true
 	})
-		.then((orders) => {
+		.then((order) => {
+			console.log(order.custID);
+			console.log(order);
 			// pass object to cart.handlebars
-			res.render('../views/cart/cart.handlebars', { orders });
+			res.render('../views/cart/cart.handlebars', { order });
 		})
 		.catch(err => console.log(err));
 });
