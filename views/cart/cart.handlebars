@@ -1,4 +1,32 @@
-
+<head>
+    <script>
+        window.onload = function () {
+            var sum = 0;
+            //get price of each product
+            var obj = document.getElementsByClassName("price");
+            var arr = new Array();
+            for (var i = 0; i < obj.length; i++) {
+                arr[i] = obj[i].innerHTML;
+            }
+            console.log(arr);
+            //get sum of aall products
+            function getSumForEach(arr) {
+                arr.forEach(function (item) {
+                    f_item = parseFloat(item)
+                    sum += f_item;
+                });
+                return sum;
+            }
+            sum = getSumForEach(arr);
+            console.log(sum);
+            var shipping = 12;
+            var GST = parseFloat(sum) * 0.07
+            var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping;
+            document.getElementById("totalprice").innerHTML = "SG $" + afterGST;
+            document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
+        }
+    </script>
+</head>
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content padding-y">
     <div class="row">
@@ -13,62 +41,71 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="col-sm-6" style="float:left;">
-                    <button class="btn btn-secondary"><span class="fa-solid fa-circle-arrow-left"></span> BACK </button>
+                    <a class="btn btn-secondary" href="/catalogue">
+                        <span class="fa-solid fa-circle-arrow-left"></span> BACK </a>
                 </div>
                 <div class="col-sm-6" style="float:right;">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="float:right; ;">
                             <i class="fa-solid fa-arrow-up-wide-short"></i>
-                            <span class="caret"></span></button>
+                            <span class="caret"></span>
                         <ul class="dropdown-menu">
                             <li><a href="#">Comprehensive</a></li>
                             <li><a href="#">Price Ascending Order</a></li>
                             <li><a href="#">Price Descending Order</a></li>
-                        </ul>
+                        </ul></button>
                     </div>
                 </div>
                 <br><br>
                 <hr size="12px" width="100%">
                 <br><br>
-                {{#if orders}}
+                {{#if order}}
                 <div class="container">
-                    {{#each order}}
                     <div class="row">
                         <div class="col-sm-2 col-md-2 col-lg-2">
                             <p class="font-italic">No.</p>
-                            <p class="text-muted">
-                                {{orderno}}
+                            {{#each order}}
+                            <p class="text-muted" class="orderno">
+                                {{id}}
                             </p>
+                            {{/each}}
                         </div>
                         <div class="col-sm-2 col-md-2 col-lg-2">
                             <p class="font-italic">Name</p>
+                            {{#each order}}
                             <p class="text-muted">
                                 {{product}}
                             </p>
+                            {{/each}}
                         </div>
                         <div class="col-sm-2 col-md-2 col-lg-2">
                             <p class="font-italic">Amount</p>
+                            {{#each order}}
                             <p class="text-muted">
                                 {{amount}}
                             </p>
+                            {{/each}}
                         </div>
                         <div class="col-sm-2 col-md-2 col-lg-2">
                             <p class="font-italic">Price</p>
+                            {{#each order}}
                             <p class="text-muted">
-                                SG ${{price}}
+                                SG $ <span class="price text-muted">{{price}}</span>
                             </p>
+                            {{/each}}
                         </div>
                         <div class="col-sm-2 col-md-2 col-lg-2">
                             <p class="font-italic">Action</p>
+                            {{#each order}}
                             <p>
                                 <a href="../cart/editorder.handlebars/{{id}}" class="card-link mb-2">
                                     <i class="fas fa-pencil-alt"></i>
                                     Edit
                                 </a>
                             </p>
+                            {{/each}}
                         </div>
                     </div>
-                    {{/each}}
                 </div>
                 {{else}}
                 <div class="row">
@@ -99,10 +136,12 @@
             <div class="col-sm-6">
                 <h5><b>Summary</b></h5>
                 <hr size="12px" width="100%">
+                {{#each order}}
                 <div class="row">
                     <p class="col-sm-3" style="float: left;">{{product}}</p>
-                    <p class="col-sm-3" style="float: right;" id="totalprice">SG $100.00</p>
+                    <p class="col-sm-3" style="float: right;">SG ${{price}}</p>
                 </div>
+                {{/each}}
                 {{!-- <div class="row">
                     <p class="col-sm-3" style="float: left;">Product #2</p>
                     <p class="col-sm-3" style="float: right;">SG $80.00</p>
@@ -119,7 +158,7 @@
                 <hr size="12px" width="100%">
                 <div class="row">
                     <h5 class="col-sm-3" style="float: left;"><b>GST</b></h5>
-                    <p class="col-sm-3" style="float: right;">SG $16.78</p>
+                    <p class="col-sm-3" style="float: right;" id="gst"></p>
                 </div>
                 <hr size="12px" width="100%">
                 <label for="email"><b>Promotion: </b></label>
@@ -134,9 +173,9 @@
                 <hr size="12px" width="100%">
                 <br>
                 <div class="row">
-                    <h4 class="col-sm-3" style="float: left;"><b>Total Cost: </b></h4>
-                    <p class="col-sm-3" style="float: right;">
-                    <h5>SG $269.78</h5>
+                    <h4 class="col-sm-9" style="float: left;"><b>Total Cost: </b></h4>
+                    <p class="col-sm-3" style="float: right;" id="totalprice">
+                    <h5></h5>
                     </p>
                 </div>
                 <br>
@@ -145,7 +184,7 @@
                         <h4>Check Out</h4>
                     </button>
                     <div class="text-center">
-                        <button type="button" class="btn"><u>Add More?</u></button>
+                        <a type="button" class="btn" href="/catalogue"><u>Add More?</u></a>
                     </div>
                 </div>
 

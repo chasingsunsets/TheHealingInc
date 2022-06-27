@@ -135,8 +135,32 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     let phoneno = req.body.phoneno;
     let address = req.body.address;
     let email = req.body.email;
-    
     let password = req.body.password;
+    let password2 = req.body.password2
+
+    let isValid = true;
+    if (password.length < 6) {
+        flashMessage(res, 'error', 'Password must be at least 6 characters');
+        isValid = false;
+    }
+    if (password != password2) {
+        flashMessage(res, 'error', 'Passwords do not match');
+        isValid = false;
+    }
+    if (phoneno.length != 8) {
+        flashMessage(res, 'error', 'Phone number must be 8 digits');
+        isValid = false;
+    }
+
+    if (!isValid) {
+        User.findByPk(req.params.id)
+        .then((user) => {
+            res.render('user/editprofile', { user });
+        })
+        .catch(err => console.log(err));
+        return;
+    }
+
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
 
