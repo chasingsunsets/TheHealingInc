@@ -1,4 +1,13 @@
 {{!-- <div class="container besidenav" style="padding-left:70px; width:max-content;"> --}}
+<head>
+    <script language="javascript">
+    function delcfm() {
+        if (!confirm("确认要删除？")) {
+            window.event.returnValue = false;
+        }
+    }
+</script>
+</head>
 
     <body>
         <div>{{!-- <div style="background-color: #F1EDE5;"> --}}
@@ -49,7 +58,7 @@
                                             <div>
                                                 <a href="/staff/deleteaccount/{{id}}" class="card-link"
                                                     style="color: darkred" data-toggle="confirmation"
-                                                    data-title="Confirm delete?">
+                                                    data-title="Confirm delete?" onclick="delcfm();">
                                                     <i class="far fa-trash-alt"></i>
                                                     Delete
                                                 </a>
