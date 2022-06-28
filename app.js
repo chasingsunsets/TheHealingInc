@@ -107,7 +107,6 @@ const cartRoute = require('./routes/cart');
 const productRoute = require('./routes/product');
 const bookingRoute = require('./routes/booking');
 
-
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
 app.use('/user', userRoute);
