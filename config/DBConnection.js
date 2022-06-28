@@ -4,6 +4,7 @@ const Quiz = require('../models/Quiz');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const OrderItem = require('../models/Orderitem');
+const Booking = require('../models/Booking');
 
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
@@ -21,6 +22,7 @@ const setUpDB = (drop) => {
             Order.hasMany(Product);
             OrderItem.belongsTo(Order);
             Order.hasMany(OrderItem);
+            User.hasMany(Booking);
             mySQLDB.sync({
                 force: drop
             });

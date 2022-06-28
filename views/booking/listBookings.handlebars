@@ -1,0 +1,64 @@
+<div class="container">
+	{{#if bookings}}
+	<div class="card card-body">
+		<h3 class="text-primary">Bookings</h3>
+		{{#each bookings}}
+		<div class="card border-primary mb-2 w-100 mx-auto">
+			<div class="card-header">
+				<h5 class="card-title">{{name}}</h5>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<p class="font-italic">Date</p>
+						<p class="text-info">
+							{{dateRelease}}
+						</p>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-3">
+						<p class="font-italic">Email</p>
+						<p class="text-info">
+							{{email}}
+						</p>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">Contact No.</p>
+						<p class="text-info">
+							{{contactno}}
+						</p>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-2">
+						<p class="font-italic">Service Type</p>
+						<p class="text-info">
+							{{service}}
+						</p>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-2">
+						<p>
+							<a href="/product/editProduct/{{id}}" class="card-link mb-2">
+								<i class="fas fa-pencil-alt"></i>
+								Edit
+							</a>
+						</p>
+						<p>
+							<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
+								<i class="far fa-trash-alt"></i>
+								Delete
+							</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+	{{else}}
+	<h3>No bookings created</h3>
+	{{/if}}
+</div>
+
+<script>
+	$('[data-toggle=confirmation]').confirmation({
+		rootSelector: '[data-toggle=confirmation]',
+	});
+</script>
