@@ -26,7 +26,7 @@ router.post('/addBooking', (req, res) => {
     let service = req.body.email;
 
     Booking.create(
-        { name, dateRelease, email, contactno, service}
+        { name, dateRelease, email, contactno, service }
     )
         .then((booking) => {
             console.log(booking.toJSON());
@@ -51,12 +51,13 @@ router.get('/editBooking/:id', (req, res) => {
 
 router.post('/editBooking/:id', (req, res) => {
     let name = req.body.name;
-    let stock = req.body.stock;
-    let size = req.body.size;
-    let price = req.body.price;
-    let category = req.body.category === undefined ? '' : req.body.category.toString();
+    let dateRelease = req.body.moment(req.body.dateRelease, 'DD/MM/YYYY');;
+    let email = req.body.email;
+    let contactno = req.body.contactno;
+    let service = req.body.email;
+
     Booking.update(
-        { name, stock, size, price, category },
+        { name, dateRelease, email, contactno, service },
         { where: { id: req.params.id } }
     )
         .then((result) => {
