@@ -49,11 +49,12 @@
                         <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="float:right; ;">
                             <i class="fa-solid fa-arrow-up-wide-short"></i>
                             <span class="caret"></span>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Comprehensive</a></li>
-                            <li><a href="#">Price Ascending Order</a></li>
-                            <li><a href="#">Price Descending Order</a></li>
-                        </ul></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Comprehensive</a></li>
+                                <li><a href="#">Price Ascending Order</a></li>
+                                <li><a href="#">Price Descending Order</a></li>
+                            </ul>
+                        </button>
                     </div>
                 </div>
                 <br><br>
@@ -62,15 +63,7 @@
                 {{#if order}}
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-2 col-md-2 col-lg-2">
-                            <p class="font-italic">No.</p>
-                            {{#each order}}
-                            <p class="text-muted" class="orderno">
-                                {{id}}
-                            </p>
-                            {{/each}}
-                        </div>
-                        <div class="col-sm-2 col-md-2 col-lg-2">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
                             <p class="font-italic">Name</p>
                             {{#each order}}
                             <p class="text-muted">
@@ -78,11 +71,13 @@
                             </p>
                             {{/each}}
                         </div>
-                        <div class="col-sm-2 col-md-2 col-lg-2">
-                            <p class="font-italic">Amount</p>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <p class="font-italic" style="text-align: center;">Amount</p>
                             {{#each order}}
-                            <p class="text-muted">
+                            <p class="text-muted" style="text-align: center;">
+                                <button class="btn" @click="editcart('minus',amount)"> - </button>
                                 {{amount}}
+                                <button class="btn" @click="editcart('plus',amount)"> + </button>
                             </p>
                             {{/each}}
                         </div>
