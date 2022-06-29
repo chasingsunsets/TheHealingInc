@@ -22,34 +22,44 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 		.catch(err => console.log(err));
 });
 
+
+router.post('/cart', ensureAuthenticated, async (req, res) => {
+	const item_id = await Order.findByPk(req.body.item_id);
+	if (req.body.minus == "minus") {
+		const amount = parseInt(req.body.amount) - 1
+		if (parseInt(req.body.amount) < 1){
+			let result = await Order.destroy({ where: { id: item_id.id } });
+			res.redirect('/cart/cart')
+		}
+		await item_id.update({
+			product: req.body.product,
+			amount: amount,
+			price: req.body.price
+		})
+	} 
+	else if (req.body.plus == "plus") {
+		const amount = parseInt(req.body.amount) + 1
+		await item_id.update({
+			product: req.body.product,
+			amount: amount,
+			price: req.body.price
+		})
+	}
+	return res.redirect('/cart/cart');
+
+});
+
 router.get('/editOrder/:id', ensureAuthenticated, (req, res) => {
-	Video.findByPk(req.params.id)
+	Order.findByPk(req.params.id)
 		.then((order) => {
 			res.render('../views/cart/editorder.handlebars', { order });
 		})
 		.catch(err => console.log(err));
 });
 
-// router.post('/editOrder/:id', ensureAuthenticated, (req, res) => {
-// 	let custno = req.user.custno;
-// 	let product = req.body.product;
-// 	let amount = req.body.amount;
-// 	let price = req.body.price;
 
-// 	Order.update(
-// 		{custno, product, amount, price},
-// 		{where: {id: req.params.id}}
-// 	)
-// 		.then((result) =>{
-// 			console.log('order' + '(' + result[0]+ ')' + 'updated');
-// 			res.redirect('../views/cart/cart.handlebars', { orders });
-// 		})
 
-// });
 
-router.post('editcart',(req, res, next) => {
-	console.log('order' + '(' + req.params.id + ')' + 'updated');
-})
 
 
 
