@@ -24,26 +24,35 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 
 
 router.post('/cart', ensureAuthenticated, async (req, res) => {
-	const item_id = await Order.findByPk(req.body.item_id);
+	let item_id = await Order.findByPk(req.body.item_id);
 	if (req.body.minus == "minus") {
-		const amount = parseInt(req.body.amount) - 1
-		if (parseInt(req.body.amount) < 1){
-			let result = await Order.destroy({ where: { id: item_id.id } });
-			res.redirect('/cart/cart')
+		const amount = parseInt(req.body.amount)
+		if (amount <= 1) {
+			flashMessage(res, 'success', 'Product has deleted for you');
+			await Order.destroy({ where: { id: item_id.id } });
 		}
-		await item_id.update({
-			product: req.body.product,
-			amount: amount,
-			price: req.body.price
-		})
-	} 
+		else {
+			const new_amount = amount - 1;
+			const price = parseFloat(req.body.totalprice) - parseFloat(req.body.price);
+			await item_id.update({
+				product: req.body.product,
+				amount: new_amount,
+				totalprice: price
+			})
+		}
+	}
 	else if (req.body.plus == "plus") {
 		const amount = parseInt(req.body.amount) + 1
+		const price = parseFloat(req.body.totalprice) + parseFloat(req.body.price);
 		await item_id.update({
 			product: req.body.product,
 			amount: amount,
-			price: req.body.price
+			totalprice: price
 		})
+	}
+	else if (req.body.deleteitem == "deleteitem") {
+		flashMessage(res, 'success', 'Product successfully deleted');
+		await Order.destroy({ where: { id: item_id.id } });
 	}
 	return res.redirect('/cart/cart');
 
