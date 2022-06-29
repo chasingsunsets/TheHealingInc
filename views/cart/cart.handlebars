@@ -75,9 +75,25 @@
                             <p class="font-italic" style="text-align: center;">Amount</p>
                             {{#each order}}
                             <p class="text-muted" style="text-align: center;">
-                                <button class="btn" @click="editcart('minus',amount)"> - </button>
-                                {{amount}}
-                                <button class="btn" @click="editcart('plus',amount)"> + </button>
+                            <form action="" method="POST">
+
+                                <button id="btnSubmit" type="submit" class="btn">-</button>
+                                <input type="hidden" name="minus" value="minus">
+                                <input type="hidden" name="item_id" value="{{id}}">
+                                <input type="hidden" name="amount" value="{{amount}}">
+
+
+                            </form>
+                            {{amount}}
+                            <form action="" method="POST">
+
+                                <button id="btnSubmit" type="submit" class="btn">+</button>
+                                <input type="hidden" name="plus" value="plus">
+                                <input type="hidden" name="item_id" value="{{id}}">
+                                <input type="hidden" name="amount" value="{{amount}}">
+
+
+                            </form>
                             </p>
                             {{/each}}
                         </div>
@@ -93,7 +109,7 @@
                             <p class="font-italic">Action</p>
                             {{#each order}}
                             <p>
-                                <a href="../cart/editorder.handlebars/{{id}}" class="card-link mb-2">
+                                <a href="/views/cart/editorder.handlebars/{{id}}" class="card-link mb-2">
                                     <i class="fas fa-pencil-alt"></i>
                                     Edit
                                 </a>
