@@ -30,24 +30,26 @@ router.get('/editOrder/:id', ensureAuthenticated, (req, res) => {
 		.catch(err => console.log(err));
 });
 
-router.post('/editOrder/:id', ensureAuthenticated, (req, res) => {
-	let custno = req.user.custno;
-	let product = req.body.product;
-	let amount = req.body.amount;
-	let price = req.body.price;
+// router.post('/editOrder/:id', ensureAuthenticated, (req, res) => {
+// 	let custno = req.user.custno;
+// 	let product = req.body.product;
+// 	let amount = req.body.amount;
+// 	let price = req.body.price;
 
-	Order.update(
-		{custno, product, amount, price},
-		{where: {id: req.params.id}}
-	)
-		.then((result) =>{
-			console.log('order' + '(' + result[0]+ ')' + 'updated');
-			res.redirect('../views/cart/cart.handlebars', { orders });
-		})
+// 	Order.update(
+// 		{custno, product, amount, price},
+// 		{where: {id: req.params.id}}
+// 	)
+// 		.then((result) =>{
+// 			console.log('order' + '(' + result[0]+ ')' + 'updated');
+// 			res.redirect('../views/cart/cart.handlebars', { orders });
+// 		})
 
-});
+// });
 
-
+router.post('editcart',(req, res, next) => {
+	console.log('order' + '(' + req.params.id + ')' + 'updated');
+})
 
 
 
