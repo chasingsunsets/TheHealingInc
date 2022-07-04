@@ -58,14 +58,6 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 
 });
 
-router.get('/editOrder/:id', ensureAuthenticated, (req, res) => {
-	Order.findByPk(req.params.id)
-		.then((order) => {
-			res.render('../views/cart/editorder.handlebars', { order });
-		})
-		.catch(err => console.log(err));
-});
-
 
 
 
