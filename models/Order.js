@@ -7,6 +7,7 @@ const Order = db.define('order',
         product: { type: Sequelize.STRING },
         amount: { type: Sequelize.INTEGER },
         price: { type: Sequelize.FLOAT },
+        totalprice: { type: Sequelize.FLOAT }
     });
 
 module.exports = Order;

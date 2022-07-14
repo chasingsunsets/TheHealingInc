@@ -22,34 +22,45 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 		.catch(err => console.log(err));
 });
 
-router.get('/editOrder/:id', ensureAuthenticated, (req, res) => {
-	Video.findByPk(req.params.id)
-		.then((order) => {
-			res.render('../views/cart/editorder.handlebars', { order });
+
+router.post('/cart', ensureAuthenticated, async (req, res) => {
+	let item_id = await Order.findByPk(req.body.item_id);
+	if (req.body.minus == "minus") {
+		const amount = parseInt(req.body.amount)
+		if (amount <= 1) {
+			flashMessage(res, 'success', 'Product has deleted for you');
+			await Order.destroy({ where: { id: item_id.id } });
+		}
+		else {
+			const new_amount = amount - 1;
+			const price = parseFloat(req.body.totalprice) - parseFloat(req.body.price);
+			await item_id.update({
+				product: req.body.product,
+				amount: new_amount,
+				totalprice: price
+			})
+		}
+	}
+	else if (req.body.plus == "plus") {
+		const amount = parseInt(req.body.amount) + 1
+		const price = parseFloat(req.body.totalprice) + parseFloat(req.body.price);
+		await item_id.update({
+			product: req.body.product,
+			amount: amount,
+			totalprice: price
 		})
-		.catch(err => console.log(err));
+	}
+	else if (req.body.deleteitem == "deleteitem") {
+		flashMessage(res, 'success', 'Product successfully deleted');
+		await Order.destroy({ where: { id: item_id.id } });
+	}
+	return res.redirect('/cart/cart');
+
 });
 
-// router.post('/editOrder/:id', ensureAuthenticated, (req, res) => {
-// 	let custno = req.user.custno;
-// 	let product = req.body.product;
-// 	let amount = req.body.amount;
-// 	let price = req.body.price;
 
-// 	Order.update(
-// 		{custno, product, amount, price},
-// 		{where: {id: req.params.id}}
-// 	)
-// 		.then((result) =>{
-// 			console.log('order' + '(' + result[0]+ ')' + 'updated');
-// 			res.redirect('../views/cart/cart.handlebars', { orders });
-// 		})
 
-// });
 
-router.post('editcart',(req, res, next) => {
-	console.log('order' + '(' + req.params.id + ')' + 'updated');
-})
 
 
 
