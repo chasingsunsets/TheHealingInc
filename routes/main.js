@@ -19,13 +19,9 @@ router.get('/booking', (req, res) => {
 	res.render('./booking/addBooking');
 });
 
-router.get('/addNewsletter', (req, res) => {
-	res.render('newsletter/add')
-});
-
-router.post('/addNewsletter', (req, res) => {
-	const firstName = req.body.firstName;
-	const lastName = req.body.lastName;
+router.post('/', (req, res) => {
+	const fname = req.body.fname;
+	const lname = req.body.lname;
 	const email = req.body.email;
 	const list_id = '2f9a5c7972';
 
@@ -34,8 +30,8 @@ router.post('/addNewsletter', (req, res) => {
 			email_address: email,
 			status: 'subscribed',
 			merge_fields: {
-				FNAME: firstName,
-				LNAME: lastName
+				FNAME: fname,
+				LNAME: lname
 			}
 		}]
 	}
