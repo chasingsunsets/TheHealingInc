@@ -6,9 +6,7 @@ const catalogue_router = require('./manage_catalogue');
 const Booking = require('../models/Booking');
 
 router.get('/', (req, res) => {
-	const title = 'Video Jotter';
-	// renders views/index.handlebars, passing title as an object
-	res.render('landing', { title: title })
+	res.render('landing')
 });
 
 router.use("/catalogue",catalogue_router);
@@ -21,8 +19,57 @@ router.get('/booking', (req, res) => {
 	res.render('./booking/addBooking');
 });
 
+router.get('/addNewsletter', (req, res) => {
+	res.render('newsletter/add')
+});
 
+router.post('/addNewsletter', (req, res) => {
+	const firstName = req.body.firstName;
+	const lastName = req.body.lastName;
+	const email = req.body.email;
+	const list_id = '2f9a5c7972';
 
+	var data = {
+		members: [{
+			email_address: email,
+			status: 'subscribed',
+			merge_fields: {
+				FNAME: firstName,
+				LNAME: lastName
+			}
+		}]
+	}
+
+	var jsonData = JSON.stringify(data);
+
+	const api = '2a2ac40f8d8901552d1b94f528449a74-us13';
+
+	const request = require('request')
+
+	const options = {
+
+		url: `https://us13.api.mailchimp.com/3.0/lists/${list_id}`,
+		method: 'POST',
+		headers: {
+			'Authorization': `romeo1 ${api}`
+		},
+		body: jsonData
+	};
+
+	request(options, function (error, response, body) {
+		if (error) {
+			console.log("error");
+		} else {
+			if (response.statusCode === 200) {
+				console.log("Sent")
+				res.render('landing')
+			} else {
+				console.log("cant go in");
+			}
+		}
+	})
+
+});
 
 // router.post('/flash', (req, res) => {
 // 	const message = 'This is an important message';
