@@ -6,7 +6,11 @@
 				<label class="font-italic" for="name">Name</label>
 				<input class="form-control" id="name" name="name" onblur="initialiseName()" required />
 			</div>
-
+			<div class="custom-file mb-2">
+				<input type="file" class="custom-file-input" id="posterUpload" name="posterUpload" accept="image/png,image/jpeg,image/jpg,image/gif">
+				<label class="custom-file-label" for="customFile">Choose File</label>
+			</div>
+			<div class="text-danger small mb-2" id="posterErr" style="display:none"></div>			
 			{{!-- <div class = form-group>
 				<label class="font-italic" for="image">Product image</label>
 				<p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;" required></p>
