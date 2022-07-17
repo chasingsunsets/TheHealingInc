@@ -189,7 +189,7 @@ router.post('/', async (req, res) => {
 	}
 	await addContact(req.body.firstName, req.body.lastName, req.body.email, confNum);
 	await sgMail.send(msg);
-	res.render('newsletter/message', { message: 'Thank you for signing up for our newsletter! Please complete the process by confirming the subscription in your email inbox.' });
+	res.render('newsletter/message', { message: 'Thank you for signing up for our newsletter! Please complete the process by confirming the subscription in your email inbox.', card_title: "Just One Step Away!", button: "Return", link: "/" });
 });
 
 router.get('/confirm', async (req, res) => {
@@ -203,10 +203,10 @@ router.get('/confirm', async (req, res) => {
 		} else {
 			throw 'Confirmation number does not match';
 		}
-		res.render('message', { message: 'You are now subscribed to our newsletter. We can\'t wait for you to hear from us!' });
+		res.render('newsletter/message', { message: 'You are now subscribed to our newsletter. We can\'t wait for you to hear from us!', card_title: "Confirmation Successful", button: "Home", link: "/" });
 	} catch (error) {
 		console.error(error);
-		res.render('message', { message: 'Subscription was unsuccessful. Please <a href="/signup">try again.</a>' });
+		res.render('newsletter/message', { message: 'Subscription was unsuccessful. Please try again.', card_title: "Confirmation Unsuccessful", button: "Try Again", link: "/" });
 	}
 });
 
