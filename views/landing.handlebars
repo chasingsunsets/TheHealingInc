@@ -132,11 +132,11 @@
 				<form class="form-row" method="post">
 					<div class="row">
 						<div class="col">
-							<input class="form-control border-0" placeholder="Your First Name" type="text" name="fname"
+							<input class="form-control border-0" placeholder="Your First Name" type="text" name="firstName"
 								required>
 						</div>
 						<div class="col">
-							<input class="form-control border-0" placeholder="Your Last Name" type="text" name="lname" required>
+							<input class="form-control border-0" placeholder="Your Last Name" type="text" name="lastName" required>
 						</div>
 					</div>
 					<br><br><br>
@@ -146,10 +146,12 @@
 								pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
 						</div> <!-- col.// -->
 					</div>
-					<div class="col-md-4 col-5" style="display: flex; align-items: center; justify-content: center;">
-						<button type="submit" class="btn btn-block btn-subscribe"> <i class="fa fa-envelope"></i>
-							Subscribe </button>
-					</div> <!-- col.// -->
+					<div class="row">
+						<div class="col">
+							<button type="submit" class="btn btn-block btn-subscribe"> <i class="fa fa-envelope"></i>
+								Subscribe </button>
+						</div> <!-- col.// -->
+					</div>
 				</form>
 				<small class="form-text">We’ll never share your email address with a third-party. </small>
 			</div> <!-- col-md-6.// -->
