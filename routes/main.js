@@ -120,7 +120,8 @@ router.post('/', async (req, res) => {
 				<!-- start copy -->
 				<tr>
 					<td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-					<p style="margin: 0;">Dear ${fname}, <br><br>Thank you for subscribing to our newsletter. Tap the button below to confirm your email address for our newsletter subscription service. If you didn't create an account with <a href="localhost:5000">The Healing Inc</a>, you can safely delete this email.</p>
+					<p style="margin: 0;">Dear ${fname}, <br><br>Thank you for subscribing to our newsletter. Tap the button below to confirm your email address for our newsletter subscription service. 
+					If you didn't request for this, you can safely delete this email.</p>
 					</td>
 				</tr>
 				<!-- end copy -->
