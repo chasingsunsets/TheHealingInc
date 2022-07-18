@@ -36,7 +36,7 @@ manage_catalogue.post('/', async (req, res) => {
 	// 	res.redirect('/catalogue');
 	// }
 	// else {
-	Order.create(
+	Order.CartItem.create(
 		{ custID, product, amount, price, totalprice }
 	)
 		.then((order) => {
