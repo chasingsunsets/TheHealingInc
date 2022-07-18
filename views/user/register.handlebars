@@ -1,52 +1,57 @@
-<div class="row" id="accountpg">
-	<div class="col-md-6 mx-auto">
-		<div class="card card-body" style="border-radius: 60px ; top: 20px">
-			<img class="logo" src="/img/logo.png">
-			<h3 class="text-center">ACCOUNT REGISTER</h3>
-			<form action="" method="post">
-				<div>
-					<div class="form-group left spacing1">
-						<label for="firstname">First Name</label>
-						<input type="text" class="form-control" name="firstname" id="firstname" onblur="initialiseFirstname()" value="{{firstname}}" required >
+<div class="container">
+	<div class="row" id="accountpg">
+		<div class="col-md-6 mx-auto">
+			<div class="card card-body" style="border-radius: 60px ; top: 20px">
+				<img class="logo" src="/img/logo.png">
+				<h3 class="text-center">ACCOUNT REGISTER</h3>
+				<form action="" method="post">
+					<div>
+						<div class="form-group left spacing1">
+							<label for="firstname">First Name</label>
+							<input type="text" class="form-control" name="firstname" id="firstname"
+								onblur="initialiseFirstname()" value="{{firstname}}" required>
+						</div>
+						<div class="form-group left spacing2">
+							<label for="lastname">Last Name</label>
+							<input type="text" class="form-control" name="lastname" id="lastname"
+								onblur="initialiseLastname()" value="{{lastname}}" required>
+						</div>
+						<div class="form-group clear left spacing1">
+							<label for="username">Username</label>
+							<input type="text" class="form-control" name="username" value="{{username}}" required>
+						</div>
+						<div class="form-group left spacing2">
+							<label for="phoneno">Phone Number</label>
+							<input type="tel" class="form-control" name="phoneno" value="{{phoneno}}" required>
+						</div>
+						<div class="form-group clear left spacing1">
+							<label for="address">Address</label>
+							<input type="text" class="form-control" name="address" id="address" onblur="initialiseAddress()"
+								value="{{address}}" required>
+						</div>
+						<div class="form-group left spacing2">
+							<label for="email">Email</label>
+							<input type="email" name="email" class="form-control" value="{{email}}" required>
+						</div>
+						<div class="form-group clear left spacing1">
+							<label for="password">Password</label>
+							<input type="password" name="password" class="form-control" value="" required>
+						</div>
+						<div class="form-group left spacing2">
+							<label for="password2">Confirm Password</label>
+							<input type="password" name="password2" class="form-control" value="" required>
+						</div>
 					</div>
-					<div class="form-group left spacing2">
-						<label for="lastname">Last Name</label>
-						<input type="text" class="form-control" name="lastname" id="lastname" onblur="initialiseLastname()" value="{{lastname}}" required>
+	
+					<div class="centered clear">
+						<h6 style="font-weight: normal ">Have an account? <a href="/user/login"
+								style="color: #8BAD97"><u>Login</u></a></h6>
+	
+						<button type="submit" class="accountbtn">REGISTER</button>
 					</div>
-					<div class="form-group clear left spacing1">
-						<label for="username">Username</label>
-						<input type="text" class="form-control" name="username" value="{{username}}" required>
-					</div>
-					<div class="form-group left spacing2">
-						<label for="phoneno">Phone Number</label>
-						<input type="tel" class="form-control" name="phoneno" value="{{phoneno}}" required>
-					</div>
-					<div class="form-group clear left spacing1">
-						<label for="address">Address</label>
-						<input type="text" class="form-control" name="address" id="address" onblur="initialiseAddress()" value="{{address}}" required>
-					</div>
-					<div class="form-group left spacing2">
-						<label for="email">Email</label>
-						<input type="email" name="email" class="form-control" value="{{email}}" required>
-					</div>
-					<div class="form-group clear left spacing1">
-						<label for="password">Password</label>
-						<input type="password" name="password" class="form-control" value="" required>
-					</div>
-					<div class="form-group left spacing2">
-						<label for="password2">Confirm Password</label>
-						<input type="password" name="password2" class="form-control" value="" required>
-					</div>
-				</div>
-
-				<div class="centered clear">
-					<h6 style="font-weight: normal ">Have an account? <a href="/user/login"
-							style="color: #8BAD97"><u>Login</u></a></h6>
-
-					<button type="submit" class="accountbtn">REGISTER</button>
-				</div>
-
-			</form>
+	
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

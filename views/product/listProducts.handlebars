@@ -9,44 +9,54 @@
 			</div>
 			<div class="card-body">
 				<div class="row">
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Stock</p>
-						<p class="text-info">
-							{{stock}}
-						</p>
+					<div class="col-lg-2">
+						<a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
+							<img src="{{posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
+								onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+						</a>
 					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Size</p>
-						<p class="text-info">
-							{{size}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">Price</p>
-						<p class="text-info">
-							${{price}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">Category</p>
-						<p class="text-info">
-							{{replaceCommas category}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p>
-							<a href="/product/editProduct/{{id}}" class="card-link mb-2">
-								<i class="fas fa-pencil-alt"></i>
-								Edit
-							</a>
-						</p>
-						<p>
-							<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
-								<i class="far fa-trash-alt"></i>
-								Delete
-							</a>
-						</p>
-					</div>
+					<div class="col-lg-8">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-3">
+								<p class="font-italic">Stock</p>
+								<p class="text-info">
+									{{stock}}
+								</p>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-3">
+								<p class="font-italic">Size</p>
+								<p class="text-info">
+									{{size}}
+								</p>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-3">
+								<p class="font-italic">Price</p>
+								<p class="text-info">
+									${{price}}
+								</p>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-3">
+								<p class="font-italic">Category</p>
+								<p class="text-info">
+									{{replaceCommas category}}
+								</p>
+							</div>
+							<div class="col-lg-2">
+								<p>
+									<a href="/product/editProduct/{{id}}" class="card-link mb-2">
+										<i class="fas fa-pencil-alt"></i>
+										Edit
+									</a>
+								</p>
+								<p>
+									<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
+										<i class="far fa-trash-alt"></i>
+										Delete
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>						
 				</div>
 			</div>
 		</div>

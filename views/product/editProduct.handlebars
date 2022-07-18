@@ -6,6 +6,7 @@
 				<label class="font-italic" for="name">Name</label>
 				<input class="form-control" id="name" name="name" value="{{product.name}}"
                     onblur="initialiseName()" required />
+
 			</div>
 
 			<div class="form-group">
@@ -38,6 +39,18 @@
                             <label class="form-check-label" for="100">100</label>
                         </div>
                     </div>
+					<div class="col-lg-3">
+						<div class="custom-file mb-2">
+							<input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
+								accept="image/png,image/jpeg,image/jpg,image/gif">
+							<label class="custom-file-label" for="customFile">Choose File</label>
+						</div>
+						<div class="text-danger small mb-2" id="posterErr" style="display:none"></div>
+						<img id="poster" src="{{video.posterURL}}" alt="Poster" class="border img-thumbnail img-fluid"
+							onerror="this.src='/img/no-image.jpg'">
+						{{!—- Hidden field to submit URL of poster to the server --}}
+						<input id="posterURL" type="hidden" name="posterURL" value="{{video.posterURL}}">
+					</div>				
 				</div>
 			</div>
 
