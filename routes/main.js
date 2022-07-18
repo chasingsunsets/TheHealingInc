@@ -211,14 +211,14 @@ router.get('/confirm', async (req, res) => {
 });
 
 router.get('/upload', (req, res) => {
-	res.render('form', uploadPage);
+	res.render('newsletter/form', uploadPage);
 });
 
 router.post('/upload', async (req, res) => {
 	const listID = await getListID('Newsletter Subscribers');
 	const htmlNewsletter = req.files.newsletter.data.toString();
 	await sendNewsletterToList(req, htmlNewsletter, listID)
-	res.render('message', { message: 'Newsletter has been sent to all subscribers.' });
+	res.render('newsletter/message', { message: 'Newsletter has been sent to all subscribers.' });
 });
 
 router.get('/delete', async (req, res) => {
