@@ -6,9 +6,7 @@ const Staff = require('../models/Staff');
 const User = require('../models/User');
 
 const bcrypt = require('bcryptjs');
-
 const passport = require('passport');
-
 const ensureAuthenticatedStaff = require('../helpers/auth');
 
 router.get('/login', (req, res) => {
@@ -286,26 +284,5 @@ router.get('/deletestaff/:id', async function (req, res) {
 router.get('/dashboard', (req, res) => {
     res.render('./staff/dashboard', { layout: 'staffMain' });
 });
-
-
-
-
-
-
-
-// router.post('/flash', (req, res) => {
-// 	const message = 'This is an important message';
-// 	const error = 'This is an error message';
-// 	const error2 = 'This is the second error message';
-// 	// req.flash('message', message);
-// 	// req.flash('error', error);
-// 	// req.flash('error', error2);
-// 	flashMessage(res, 'success', message);
-// 	flashMessage(res, 'info', message);
-// 	flashMessage(res, 'error', error);
-// 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
-// 	res.redirect('/');
-// });
-
 
 module.exports = router;
