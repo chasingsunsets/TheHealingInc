@@ -8,16 +8,16 @@ const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
 
 router.get('/cart', ensureAuthenticated, (req, res) => {
-	Order.findAll({
+	Order.CartItem.findAll({
 		where: { custID: req.user.id },
 		order: [['createdat', 'DESC']],
 		raw: true
 	})
-		.then((order) => {
-			console.log(order.custID);
-			console.log(order);
+		.then((cartItem) => {
+			console.log(cartItem.custID);
+			console.log(cartItem);
 			// pass object to cart.handlebars
-			res.render('../views/cart/cart.handlebars', { order });
+			res.render('../views/cart/cart.handlebars', { cartItem });
 		})
 		.catch(err => console.log(err));
 });

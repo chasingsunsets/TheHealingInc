@@ -71,7 +71,8 @@ var options = {
 // To store session information. By default it is stored as a cookie on browser
 app.use(session({
 	key: 'vidjot_session',
-	secret: 'tojdiv',
+	// secret: 'tojdiv',
+	secret: process.env.APP_SECRET,
 	store: new MySQLStore(options),
 	resave: false,
 	saveUninitialized: false,
@@ -80,8 +81,10 @@ app.use(session({
 // Bring in database connection
 const DBConnection = require('./config/DBConnection');
 // Connects to MySQL database
-DBConnection.setUpDB(false); // To set up database with new tables
-(true)
+// DBConnection.setUpDB(false); // To set up database with new tables
+// (true)
+
+DBConnection.setUpDB(process.env.DB_RESET == 1); // To set up database with new tables (true)
 
 const flash = require('connect-flash');
 app.use(flash());
@@ -128,7 +131,8 @@ app.use('/booking', bookingRoute);
 * Creates a port for express server since we don't want our app to clash with well known
 * ports such as 80 or 8080.
 * */
-const port = 5000;
+// const port = 5000;
+const port = process.env.PORT;
 
 // Starts the server and listen to port
 app.listen(port, () => {

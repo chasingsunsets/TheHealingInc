@@ -15,10 +15,15 @@ function localStrategy(passport) {
                     isMatch = bcrypt.compareSync(password, user.password);
                     if (!isMatch) {
                         return done(null, false, {
-                            message: 'Password incorrect' });
-}
-return done(null, user);
-                    })
+                            message: 'Password incorrect'
+                        });
+                    }
+                    // Email Verified
+                    if (!user.verified) {
+                        return done(null, false, { message: 'Email not verified' });
+                    }
+                    return done(null, user);
+                })
         }));
     // Serializes (stores) user id into session upon successful
     // authentication
@@ -40,11 +45,11 @@ return done(null, user);
             });
     });
 
-    
+
 }
 
 function localStrategy2(passport) {
-    passport.use( "local.two",
+    passport.use("local.two",
         new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
             Staff.findOne({ where: { username: username } })
                 .then(staff => {
@@ -55,10 +60,11 @@ function localStrategy2(passport) {
                     isMatch = bcrypt.compareSync(password, staff.password);
                     if (!isMatch) {
                         return done(null, false, {
-                            message: 'Password incorrect' });
-}
-return done(null, staff);
-                    })
+                            message: 'Password incorrect'
+                        });
+                    }
+                    return done(null, staff);
+                })
         }));
     // Serializes (stores) user id into session upon successful
     // authentication
