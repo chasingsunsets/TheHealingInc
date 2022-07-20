@@ -1,0 +1,12 @@
+const Sequelize = require('sequelize');
+const db = require('../config/DBConfig');
+// Create voucher table in MySQL Database
+const Voucher = db.define('voucher',
+    {
+        vname: { type: Sequelize.STRING },
+        discount: { type: Sequelize.INTEGER },
+        minspend: { type: Sequelize.INTEGER },
+        code: { type: Sequelize.STRING },
+        valid: { type: Sequelize.DATE }
+    });
+module.exports = Voucher;
