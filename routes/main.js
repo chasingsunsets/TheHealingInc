@@ -71,12 +71,12 @@ router.get('/booking', (req, res) => {
 
 // Newsletter Subscription
 router.get('/', (req, res) => {
-	res.render('newsletter/form', signUpPage);
+	res.render('newsletter/addSubscriber');
 });
 
 router.post('/', async (req, res) => {
 	const confNum = randNum();
-	console.log(confNum);
+	console.log("confNum",confNum);
 	const params = new URLSearchParams({
 		conf_num: confNum,
 		email: req.body.email,
@@ -198,6 +198,7 @@ router.get('/confirm', async (req, res) => {
 		const contact = await getContactByEmail(req.query.email);
 		if (contact == null) throw `Contact not found.`;
 		console.log("custom_fields", contact.custom_fields.conf_num)
+		console.log("query", req.query.conf_num)
 		if (contact.custom_fields.conf_num == req.query.conf_num) {
 			const listID = await getListID('Newsletter Subscribers');
 			await addContactToList(req.query.email, listID);
@@ -212,7 +213,7 @@ router.get('/confirm', async (req, res) => {
 });
 
 router.get('/upload', (req, res) => {
-	res.render('newsletter/form', uploadPage);
+	res.render('newsletter/addNewsletter', { layout: 'staffMain' });
 });
 
 router.post('/upload', async (req, res) => {
