@@ -26,6 +26,7 @@ router.get('/addProduct', (req, res) => {
 
 router.post('/addProduct', (req, res) => {
     let name = req.body.name;
+    let posterURL = req.body.posterURL;
     let stock = req.body.stock;
     let size = req.body.size;
     let price = req.body.price;
@@ -33,7 +34,7 @@ router.post('/addProduct', (req, res) => {
     let category = req.body.category === undefined ? '' : req.body.category.toString();
 
     Product.create(
-        { name, stock, size, price, category}
+        { name, posterURL, stock, size, price, category}
     )
         .then((product) => {
             console.log(product.toJSON());
@@ -58,12 +59,13 @@ router.get('/editProduct/:id', (req, res) => {
 
 router.post('/editProduct/:id', (req, res) => {
     let name = req.body.name;
+    let posterURL = req.body.posterURL;
     let stock = req.body.stock;
     let size = req.body.size;
     let price = req.body.price;
     let category = req.body.category === undefined ? '' : req.body.category.toString();
     Product.update(
-        { name, stock, size, price, category },
+        { name, posterURL, stock, size, price, category },
         { where: { id: req.params.id } }
     )
         .then((result) => {
