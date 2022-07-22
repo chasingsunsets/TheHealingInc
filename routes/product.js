@@ -20,9 +20,20 @@ router.get('/listProducts', (req, res) => {
         .catch(err => console.log(err));
 });
 
+router.get('/productCatalogue', (req, res) => {
+    Product.findAll({
+        where:  req.params.id,
+    })
+        .then((products) => {
+            res.render('product/catalogue', { products, layout: 'staffMain' });
+        })
+        .catch(err => console.log(err));
+});
+
 router.get('/addProduct', (req, res) => {
     res.render('product/addProduct', { layout: 'staffMain' });
 });
+
 
 router.post('/addProduct', (req, res) => {
     let name = req.body.name;
@@ -92,12 +103,11 @@ router.get('/deleteProduct/:id', async function (req, res) {
     }
 });
 
-router.post('/upload', ensureAuthenticated, (req, res) => {
+router.post('/upload', (req, res) => {
     // Creates user id directory for upload if not exist
-    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
-        fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
+    if (!fs.existsSync('./public/uploads/' )) {
+        fs.mkdirSync('./public/uploads/' , { recursive: true });
     }
-
     upload(req, res, (err) => {
         if (err) {
             // e.g. File too large
@@ -107,7 +117,8 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
             res.json({});
         }
         else {
-            res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
+            console.log(req.file.filename);
+            res.json({ file: `/uploads/${req.file.filename}` });
         }
     });
 });

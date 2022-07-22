@@ -25,7 +25,7 @@ const app = express();
 // newsletter
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 sgClient.setApiKey(process.env.SENDGRID_API_KEY);
-app.use(expressFileUpload());
+// app.use(expressFileUpload());
 
 app.engine('handlebars', engine({
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
