@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const flashMessage = require('../helpers/messenger');
-const Order = require('../models/Order');
 const catalogue_router = require('./manage_catalogue');
 const Booking = require('../models/Booking');
+
+// newsletter email verification:
 const sgMail = require('@sendgrid/mail');
 const sgClient = require('@sendgrid/client');
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 router.get('/', (req, res) => {
 	res.render('landing')
@@ -21,62 +24,14 @@ router.get('/booking', (req, res) => {
 	res.render('./booking/addBooking');
 });
 
-// router.post('/', (req, res) => {
-// 	const fname = req.body.fname;
-// 	const lname = req.body.lname;
-// 	const email = req.body.email;
-// 	const list_id = '2f9a5c7972';
-
-// 	var data = {
-// 		members: [{
-// 			email_address: email,
-// 			status: 'subscribed',
-// 			merge_fields: {
-// 				FNAME: fname,
-// 				LNAME: lname
-// 			}
-// 		}]
-// 	}
-
-// 	var jsonData = JSON.stringify(data);
-
-// 	const api = '2a2ac40f8d8901552d1b94f528449a74-us13';
-
-// 	const request = require('request')
-
-// 	const options = {
-
-// 		url: `https://us13.api.mailchimp.com/3.0/lists/${list_id}`,
-// 		method: 'POST',
-// 		headers: {
-// 			'Authorization': `romeo1 ${api}`
-// 		},
-// 		body: jsonData
-// 	};
-
-// 	request(options, function (error, response, body) {
-// 		if (error) {
-// 			console.log("error");
-// 		} else {
-// 			if (response.statusCode === 200) {
-// 				console.log("Sent")
-// 				res.render('landing')
-// 			} else {
-// 				console.log("cant go in");
-// 			}
-// 		}
-// 	})
-
-// });
-
 // Newsletter Subscription
 router.get('/', (req, res) => {
-	res.render('newsletter/form', signUpPage);
+	res.render('newsletter/addSubscriber');
 });
 
 router.post('/', async (req, res) => {
 	const confNum = randNum();
-	console.log(confNum);
+	console.log("confNum",confNum);
 	const params = new URLSearchParams({
 		conf_num: confNum,
 		email: req.body.email,
@@ -198,6 +153,7 @@ router.get('/confirm', async (req, res) => {
 		const contact = await getContactByEmail(req.query.email);
 		if (contact == null) throw `Contact not found.`;
 		console.log("custom_fields", contact.custom_fields.conf_num)
+		console.log("query", req.query.conf_num)
 		if (contact.custom_fields.conf_num == req.query.conf_num) {
 			const listID = await getListID('Newsletter Subscribers');
 			await addContactToList(req.query.email, listID);
@@ -212,7 +168,7 @@ router.get('/confirm', async (req, res) => {
 });
 
 router.get('/upload', (req, res) => {
-	res.render('newsletter/form', uploadPage);
+	res.render('newsletter/addNewsletter', { layout: 'staffMain' });
 });
 
 router.post('/upload', async (req, res) => {
@@ -348,20 +304,5 @@ async function deleteContactFromList(listID, contact) {
 	}
 	await sgClient.request(request);
 }
-
-// router.post('/flash', (req, res) => {
-// 	const message = 'This is an important message';
-// 	const error = 'This is an error message';
-// 	const error2 = 'This is the second error message';
-// 	// req.flash('message', message);
-// 	// req.flash('error', error);
-// 	// req.flash('error', error2);
-// 	flashMessage(res, 'success', message);
-// 	flashMessage(res, 'info', message);
-// 	flashMessage(res, 'error', error);
-// 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
-// 	res.redirect('/');
-// });
-
 
 module.exports = router;

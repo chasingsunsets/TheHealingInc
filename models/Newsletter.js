@@ -1,15 +1,18 @@
 const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
-// Create users table in MySQL Database
-const User = db.define('user',
+
+// Create subscribers table in MySQL Database
+const Subscriber = db.define('subscriber',
     {
         firstname: { type: Sequelize.STRING },
         lastname: { type: Sequelize.STRING },
-        username: { type: Sequelize.STRING },
-        phoneno: { type: Sequelize.INTEGER },
-        address: { type: Sequelize.STRING },
         email: { type: Sequelize.STRING },
         verified: { type: Sequelize.BOOLEAN },
-        password: { type: Sequelize.STRING },
     });
-module.exports = User;
+
+const Newsletter = db.define('newsletter',
+    {
+        name: { type: Sequelize.STRING },
+    });
+
+module.exports = Subscriber, Newsletter;
