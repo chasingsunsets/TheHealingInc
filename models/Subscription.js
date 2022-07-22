@@ -10,9 +10,4 @@ const Subscriber = db.define('subscriber',
         verified: { type: Sequelize.BOOLEAN },
     });
 
-const Newsletter = db.define('newsletter',
-    {
-        name: { type: Sequelize.STRING },
-    });
-
-module.exports = Subscriber, Newsletter;
+module.exports = Subscriber;
