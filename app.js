@@ -128,6 +128,7 @@ app.use('/quiz', quizRoute);
 app.use('/cart', cartRoute);
 app.use('/product', productRoute);
 app.use('/booking', bookingRoute);
+app.use('/voucher', voucherRoute);
 app.use('/subscription', subscriptionRoute);
 
 /*

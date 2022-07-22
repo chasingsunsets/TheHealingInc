@@ -27,7 +27,7 @@ function sendEmail(toEmail, url) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
-        from: `Healing Inc <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        from: `The Healing Inc. <${process.env.SENDGRID_SENDER_EMAIL}>`,
         subject: 'Verify Healing Inc Account',
         html: `Thank you registering with the Healing Inc.<br><br> Please
     <a href=\"${url}"><strong>verify</strong></a> your account.`
