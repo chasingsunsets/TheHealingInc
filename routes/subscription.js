@@ -2,11 +2,73 @@ const express = require('express');
 const router = express.Router();
 const Subscription = require('../models/Subscription');
 const flashMessage = require('../helpers/messenger');
+const Newsletter = require('../models/Newsletter');
+const upload = require('../helpers/imageUpload');
 
 // Required for verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
+
+// // Add Newsletter
+// router.get('/retrieveNewsletter', (req, res) => {
+//     res.render('newsletter/retrieveNewsletter', { layout: 'staffMain' });
+// });
+
+router.get('/retrieveNewsletter', (req, res) => {
+    Newsletter.findAll({
+        raw: true
+    })
+        .then((newsletters) => {
+            res.render('newsletter/retrieveNewsletter', {
+                newsletters, layout: 'staffMain', newsletterName: newsletters.newsletterName, 
+                purpose: newsletters.purpose, createdBy: newsletters.createdBy, status: newsletters.status, fileUpload: newsletters.fileUpload});
+        })
+        .catch(err => console.log(err));
+});
+
+router.get('/addNewsletter', (req, res) => {
+    res.render('newsletter/addNewsletter', { layout: 'staffMain' });
+});
+
+router.post('/addNewsletter', (req, res) => {
+    let newsletterName = req.body.newsletterName;
+    let purpose = req.body.purpose;
+    let createdBy = req.body.createdBy;
+    let status = req.body.status;
+    let fileUpload = req.body.fileUpload;
+    Newsletter.create(
+        {
+            newsletterName, purpose, createdBy, status, fileUpload
+        }
+    )
+        .then((newsletter) => {
+            console.log(newsletter.toJSON());
+            res.redirect('/subscription/retrieveNewsletter');
+        })
+        .catch(err => console.log(err))
+});
+
+router.post('/upload', (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+        fs.mkdirSync('./public/uploads/' + req.user.id, {
+            recursive:
+                true
+        });
+    }
+    upload(req, res, (err) => {
+        if (err) {
+            // e.g. File too large
+            res.json({ file: '/img/no-image.jpg', err: err });
+        }
+        else {
+            res.json({
+                file: `/uploads/${req.user.id}/${req.file.filename}`
+            });
+        }
+    });
+});
 
 // Newsletter Subscription
 router.get('/addSub', (req, res) => {
