@@ -1,23 +1,32 @@
 {{!-- <div class="container besidenav" style="padding-left:70px; width:max-content;"> --}}
 
 	<div>
-
-		<h4 class="card-title" style="padding-left:20px;">PROFILE</h4>
-
-		<div style="font-size:20px;  float: right;">
+				<div style="font-size:20px;  float: right;">
 			<div>
 				<a href="/user/editprofile/{{id}}" class="card-link mb-2">
 					<i class="fas fa-pencil-alt"></i>
-					Edit
+					Edit Information
 				</a>
 			</div>
+			<hr>
 			<div>
-				<a href="/user/deleteaccount/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
+				<a href="/user/changepw/{{id}}" class="card-link mb-2">
+					<i class="fa-solid fa-lock"></i>
+					Change Password
+				</a>
+			</div>
+			<hr>
+			<div>
+				<a href="/user/deleteaccount/{{id}}" class="card-link" style="color:darkred" data-toggle="confirmation" data-title="Confirm delete?">
 					<i class="far fa-trash-alt"></i>
-					Delete
+					Delete Account
 				</a>
 			</div>
 		</div>
+
+		<h4 class="card-title" style="padding-left:20px;">PROFILE</h4>
+
+
 		<div class="card-body" id="mytxt">
 
 
@@ -25,34 +34,32 @@
 				First Name : <a> &emsp;&emsp;&emsp;{{firstname}} </a>
 
 			</div>
-
+<hr>
 			<div>
 				Last Name : <a>&emsp;&emsp;&emsp;{{lastname}} </a>
 
 			</div>
-
+<hr>
 			<div>
 				Username : <a>&emsp;&emsp;&emsp;{{username}} </a>
 
 			</div>
-
+<hr>
 			<div>
 				Phone Number : <a>&emsp;&emsp;&emsp;{{phoneno}} </a>
 
 			</div>
-
+<hr>
 			<div>
 				Address : <a>&emsp;&emsp;&emsp;{{address}} </a>
 
 			</div>
-
+<hr>
 			<div>
 				Email : <a>&emsp;&emsp;&emsp;{{email}} </a>
 
 			</div>
-
-
-
+<hr>
 		</div>
 	</div>
 
