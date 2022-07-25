@@ -2,85 +2,23 @@ const express = require('express');
 const router = express.Router();
 const Subscription = require('../models/Subscription');
 const flashMessage = require('../helpers/messenger');
-const Newsletter = require('../models/Newsletter');
-const upload = require('../helpers/imageUpload');
 
 // Required for verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
 
-// // Add Newsletter
-// router.get('/retrieveNewsletter', (req, res) => {
-//     res.render('newsletter/retrieveNewsletter', { layout: 'staffMain' });
-// });
-
-router.get('/retrieveNewsletter', (req, res) => {
-    Newsletter.findAll({
-        raw: true
-    })
-        .then((newsletters) => {
-            res.render('newsletter/retrieveNewsletter', {
-                newsletters, layout: 'staffMain', newsletterName: newsletters.newsletterName, 
-                purpose: newsletters.purpose, createdBy: newsletters.createdBy, status: newsletters.status, fileUpload: newsletters.fileUpload});
-        })
-        .catch(err => console.log(err));
-});
-
-router.get('/retrieveSub', (req, res) => {
+router.get('/listSubscriptions', (req, res) => {
     Subscription.findAll({
         raw: true
     })
         .then((subscriptions) => {
-            res.render('subscription/retrieveSubscription', {
+            res.render('subscription/listSubscriptions', {
                 subscriptions, layout: 'staffMain', firstName: subscriptions.firstName,
                 lastName: subscriptions.lastName, email: subscriptions.email, verified: subscriptions.verified
             });
         })
         .catch(err => console.log(err));
-});
-
-router.get('/addNewsletter', (req, res) => {
-    res.render('newsletter/addNewsletter', { layout: 'staffMain' });
-});
-
-router.post('/addNewsletter', (req, res) => {
-    let newsletterName = req.body.newsletterName;
-    let purpose = req.body.purpose;
-    let createdBy = req.body.createdBy;
-    let status = req.body.status;
-    let fileUpload = req.body.fileUpload;
-    Newsletter.create(
-        {
-            newsletterName, purpose, createdBy, status, fileUpload
-        }
-    )
-        .then((newsletter) => {
-            console.log(newsletter.toJSON());
-            res.redirect('/subscription/retrieveNewsletter');
-        })
-        .catch(err => console.log(err))
-});
-
-router.post('/upload', (req, res) => {
-    // Creates user id directory for upload if not exist
-    // if (!fs.existsSync('./public/uploads/' + req.user.id)) {
-    //     fs.mkdirSync('./public/uploads/' + req.user.id, {
-    //         recursive:
-    //             true
-    //     });
-    // }
-    upload(req, res, (err) => {
-        if (err) {
-            // e.g. File too large
-            res.json({ file: '/img/no-image.jpg', err: err });
-        }
-        else {
-            res.json({
-                file: `/uploads/${req.file.filename}`
-            });
-        }
-    });
 });
 
 // Newsletter Subscription
@@ -326,33 +264,6 @@ router.get('/deleteSub/:id', async function (req, res) {
         console.log(result + ' subscription deleted');
         flashMessage(res, 'success', 'Subscription successfully deleted');
         res.redirect('/subscription/retrieveSub');
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
-
-router.get('/deleteNewsletter/:id', async function (req, res) {
-    try {
-        let newsletter = await Newsletter.findByPk(req.params.id);
-        console.log(req.params.id)
-        if (!newsletter) {
-            flashMessage(res, 'error', 'Newsletter not found');
-            res.redirect('/');
-            return;
-        }
-
-        // this is to check if the staff in logged in:
-        // if (req.subscription.id != req.params.id) {
-        //     flashMessage(res, 'error', 'Unauthorised access');
-        //     res.redirect('/');
-        //     return;
-        // }
-
-        let result = await Newsletter.destroy({ where: { id: newsletter.id } });
-        console.log(result + ' newsletter deleted');
-        flashMessage(res, 'success', 'newsletter successfully deleted');
-        res.redirect('/subscription/retrieveNewsletter');
     }
     catch (err) {
         console.log(err);
