@@ -89,6 +89,7 @@
                                                                     <th>Created By</th>
                                                                     <th>Last Update</th>
                                                                     <th>Status</th>
+                                                                    <th>Delete</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -100,6 +101,11 @@
                                                                     <td>{{createdBy}}</td>
                                                                     <td>{{updatedAt}}</td>
                                                                     <td>{{status}}</td>
+                                                                    <td>
+                                                                        <h6 class="delete"><a href="/subscription/deleteNewsletter/{{id}}" data-toggle="confirmation" data-title="Confirm delete?">
+                                                                                Delete
+                                                                            </a></h6>
+                                                                    </td>
                                                                 </tr>
                                                                 {{/each}}
                                                             </tbody>

@@ -6,6 +6,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Verified</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,11 @@
             <td>{{lastName}}</td>
             <td>{{email}}</td>
             <td>{{verified}}</td>
+            <td>
+                <h6 class="delete"><a href="/subscription/deleteSub/{{id}}" data-toggle="confirmation" data-title="Confirm delete?">
+                        Delete
+                    </a></h6>
+            </td>
         </tr>
         {{/each}}
     </tbody>

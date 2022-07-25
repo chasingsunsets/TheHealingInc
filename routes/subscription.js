@@ -64,12 +64,12 @@ router.post('/addNewsletter', (req, res) => {
 
 router.post('/upload', (req, res) => {
     // Creates user id directory for upload if not exist
-    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
-        fs.mkdirSync('./public/uploads/' + req.user.id, {
-            recursive:
-                true
-        });
-    }
+    // if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+    //     fs.mkdirSync('./public/uploads/' + req.user.id, {
+    //         recursive:
+    //             true
+    //     });
+    // }
     upload(req, res, (err) => {
         if (err) {
             // e.g. File too large
@@ -77,7 +77,7 @@ router.post('/upload', (req, res) => {
         }
         else {
             res.json({
-                file: `/uploads/${req.user.id}/${req.file.filename}`
+                file: `/uploads/${req.file.filename}`
             });
         }
     });
@@ -88,7 +88,7 @@ router.get('/addSub', (req, res) => {
     res.render('newsletter/add');
 });
 
-function sendEmail(toEmail, url, firstName) {
+function sendEmail(toEmail, url, urlDelete, firstName) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
@@ -189,6 +189,11 @@ function sendEmail(toEmail, url, firstName) {
 					<p style="margin: 0;">You received this email because we received a request for newsletter subscription for your account. If you didn't request for newsletter subscription you can safely delete this email.</p>
 					</td>
 				</tr>
+                <tr>
+					<td align="center" bgcolor="#f1ede5" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
+					<p style="margin: 0;"><a href="${urlDelete}" target="_blank">Unsubscribe Here</a></p>
+					</td>
+				</tr>
 				<!-- end permission -->
 				</table>
 			</td>
@@ -278,7 +283,8 @@ router.post('/addSub', async function (req, res) {
             // Send email
             let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/subscription/verify/${subscription.id}/${token}`;
-            sendEmail(subscription.email, url, firstName)
+            let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscription.id}`;
+            sendEmail(subscription.email, url, urlDelete, firstName)
                 .then(response => {
                     console.log(response);
                     // flashMessage(res, 'success', subscription.email + ' signed up successfully');
@@ -302,22 +308,51 @@ router.post('/addSub', async function (req, res) {
 router.get('/deleteSub/:id', async function (req, res) {
     try {
         let subscription = await Subscription.findByPk(req.params.id);
+        console.log(req.params.id)
         if (!subscription) {
             flashMessage(res, 'error', 'Subscription not found');
             res.redirect('/');
             return;
         }
 
-        if (req.subscription.id != req.params.id) {
-            flashMessage(res, 'error', 'Unauthorised access');
-            res.redirect('/');
-            return;
-        }
+        // this is to check if the staff in logged in:
+        // if (req.subscription.id != req.params.id) {
+        //     flashMessage(res, 'error', 'Unauthorised access');
+        //     res.redirect('/');
+        //     return;
+        // }
 
         let result = await Subscription.destroy({ where: { id: subscription.id } });
         console.log(result + ' subscription deleted');
         flashMessage(res, 'success', 'Subscription successfully deleted');
-        res.redirect('/');
+        res.redirect('/subscription/retrieveSub');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/deleteNewsletter/:id', async function (req, res) {
+    try {
+        let newsletter = await Newsletter.findByPk(req.params.id);
+        console.log(req.params.id)
+        if (!newsletter) {
+            flashMessage(res, 'error', 'Newsletter not found');
+            res.redirect('/');
+            return;
+        }
+
+        // this is to check if the staff in logged in:
+        // if (req.subscription.id != req.params.id) {
+        //     flashMessage(res, 'error', 'Unauthorised access');
+        //     res.redirect('/');
+        //     return;
+        // }
+
+        let result = await Newsletter.destroy({ where: { id: newsletter.id } });
+        console.log(result + ' newsletter deleted');
+        flashMessage(res, 'success', 'newsletter successfully deleted');
+        res.redirect('/subscription/retrieveNewsletter');
     }
     catch (err) {
         console.log(err);
