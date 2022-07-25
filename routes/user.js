@@ -417,3 +417,15 @@ module.exports = router;
 //     })
 //     .catch(err => console.log(err));
 //     });
+
+
+
+
+
+
+
+
+
+router.get('/order', (req, res) => {
+    res.render('user/order',{layout: 'account'})
+});

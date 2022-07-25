@@ -132,6 +132,7 @@ app.use('/booking', bookingRoute);
 app.use('/voucher', voucherRoute);
 app.use('/subscription', subscriptionRoute);
 app.use('/payment', paymentRoute);
+
 /*
 * Creates a port for express server since we don't want our app to clash with well known
 * */

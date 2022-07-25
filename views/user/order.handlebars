@@ -1,0 +1,86 @@
+{{!-- <div class="container besidenav" style="padding-left:70px; width:max-content;"> --}}
+
+	<div>
+				<div style="font-size:20px;  float: right;">
+			<div>
+				<a href="/user/editprofile/{{id}}" class="card-link mb-2">
+					<i class="fas fa-pencil-alt"></i>
+					Edit Information
+				</a>
+			</div>
+			<hr>
+			<div>
+				<a href="/user/changepw/{{id}}" class="card-link mb-2">
+					<i class="fa-solid fa-lock"></i>
+					Change Password
+				</a>
+			</div>
+			<hr>
+			<div>
+				<a href="/user/deleteaccount/{{id}}" class="card-link" style="color:darkred" data-toggle="confirmation" data-title="Confirm delete?">
+					<i class="far fa-trash-alt"></i>
+					Delete Account
+				</a>
+			</div>
+		</div>
+
+		<h4 class="card-title" style="padding-left:20px;">PROFILE</h4>
+
+
+		<div class="card-body" id="mytxt">
+
+
+			<div>
+				First Name : <a> &emsp;&emsp;&emsp;{{firstname}} </a>
+
+			</div>
+<hr>
+			<div>
+				Last Name : <a>&emsp;&emsp;&emsp;{{lastname}} </a>
+
+			</div>
+<hr>
+			<div>
+				Username : <a>&emsp;&emsp;&emsp;{{username}} </a>
+
+			</div>
+<hr>
+			<div>
+				Phone Number : <a>&emsp;&emsp;&emsp;{{phoneno}} </a>
+
+			</div>
+<hr>
+			<div>
+				Address : <a>&emsp;&emsp;&emsp;{{address}} </a>
+
+			</div>
+<hr>
+			<div>
+				Email : <a>&emsp;&emsp;&emsp;{{email}} </a>
+
+			</div>
+<hr>
+		</div>
+	</div>
+
+	{{!-- <div class="accordion" id="storyAccordion">
+		<div class="card-header" id="headingOne">
+			<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne{{id}}"
+				aria-expanded="false" aria-controls="collapseOne{{id}}" style="text-decoration: none;">
+				Story <i class="fas fa-chevron-down"></i>
+			</button>
+		</div>
+		<div id="collapseOne{{id}}" class="collapse" aria-labelledby="headingOne" data-parent="#storyAccordion">
+			<div class="card-body">
+				{{story}}
+			</div>
+		</div>
+	</div> --}}
+	{{!--
+</div> --}}
+
+<script>
+	$('[data-toggle=confirmation]').confirmation({
+		rootSelector: '[data-toggle=confirmation]',
+	});
+</script>
