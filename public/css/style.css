@@ -234,7 +234,6 @@ p {
   /* to make use of less space */
 }
 
-
 /* to capitalise text at nav */
 .navbar .navbar-nav>li>a {
   text-transform: uppercase;
@@ -295,6 +294,11 @@ p {
 
 .spacing2o {
   margin-left: 15%
+}
+
+.cenform {
+  margin-left: 40%;
+  margin-right: 40%;
 }
 
 .accnav {

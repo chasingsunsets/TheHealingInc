@@ -6,6 +6,10 @@ const Product = require('../models/Product');
 
 const ensureAuthenticated = require('../helpers/auth');
 
+// Required for file upload 
+const fs = require('fs');
+const upload = require('../helpers/imageUpload');
+
 router.get('/listProducts', (req, res) => {
     Product.findAll({
         where:  req.params.id,
@@ -84,6 +88,26 @@ router.get('/deleteProduct/:id', async function (req, res) {
     catch (err) {
         console.log(err);
     }
+});
+
+router.post('/upload', ensureAuthenticated, (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+        fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
+    }
+
+    upload(req, res, (err) => {
+        if (err) {
+            // e.g. File too large
+            res.json({ err: err });
+        }
+        else if (req.file == undefined) {
+            res.json({});
+        }
+        else {
+            res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
+        }
+    });
 });
 
 module.exports = router;

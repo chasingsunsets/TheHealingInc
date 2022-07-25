@@ -1,0 +1,39 @@
+<div class="row">
+     <a href="/voucher/listVoucher" style="color: grey ;float:left; padding-left:40px; font-size:large" ><u> <i class="fa-solid fa-chevron-left"></i>Back</u></a>
+    <div class="col-md-6 mx-auto">
+        <div class="card card-body" style="border-radius: 60px ; top: 20px; right:40px;">
+            <img class="logo2 cen2" src="/img/whitelogo.png">
+            <h3 class="text-center" style="padding-top: 15px;">ADD VOUCHER</h3>
+            <form action="" method="post">
+                <div>
+                    <div class="form-group left spacing1">
+                        <label for="vname">Voucher Name</label>
+                        <input type="text" class="form-control" name="vname" value="{{vname}}" required>
+                    </div>
+                    <div class="form-group left spacing2">
+                        <label for="discount">Discount</label>
+                        <input type="text" class="form-control" name="discount" value="{{discount}}" required>
+                    </div>
+                    <div class="form-group left spacing1">
+                        <label for="minspend">Minimum Spend</label>
+                        <input type="text" class="form-control" name="minspend" value="{{minspend}}" id="firstname" onblur="initialiseFirstname()" required>
+                    </div>
+                    <div class="form-group left spacing2">
+                        <label for="code">Code</label>
+                        <input type="text" class="form-control" name="code" value="{{code}}" id="lastname" onblur="initialiseLastname()"required>
+                    </div>
+
+                    <div class="form-group clear left spacing1">
+                        <label for="valid">Valid Till</label>
+                        <input type="date" name="valid" class="form-control" value="{{valid}}" required>
+                    </div>
+
+
+                <div class=" left spacing2" style="padding-top:25px; padding-left:45px">
+                    <button type="submit" class="staffbtn" >ADD VOUCHER</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

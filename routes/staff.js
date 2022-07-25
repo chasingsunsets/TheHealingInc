@@ -6,17 +6,48 @@ const Staff = require('../models/Staff');
 const User = require('../models/User');
 
 const bcrypt = require('bcryptjs');
-
 const passport = require('passport');
-
-const ensureAuthenticatedStaff = require('../helpers/auth');
+const ensureAuthenticatedStaff = require('../helpers/auth2');
 
 router.get('/login', (req, res) => {
-    res.render('./staff/login', { layout: 'stafflogin' });
+    try {
+    Staff.findOne({ where: { staffno: 000000 } })
+        .then(staff => {
+
+            if (!staff) {
+                // Create main staff
+                var salt = bcrypt.genSaltSync(10);
+                var hash = bcrypt.hashSync("mainstaff101", salt);
+                // Use hashed password
+                Staff.create({ staffno: 000000, username: "staff", firstname: "John", lastname: "Tan", email: "thehealinginctester@gmail.com", password: hash });
+                console.log(' staff acc created');
+                res.render('./staff/login', { layout: 'stafflogin' });
+                return;
+            }
+            res.render('./staff/login', { layout: 'stafflogin' });
+            
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local.two', {
+        // Success redirect URL
+        successRedirect: '/staff/dashboard',
+        // Failure redirect URL
+        failureRedirect: '/staff/login',
+        /* Setting the failureFlash option to true instructs Passport to flash
+        an error message using the message given by the strategy's verify callback.
+        When a failure occur passport passes the message object as error */
+        failureFlash: true
+    })(req, res, next);
 });
 
 router.get('/register', (req, res) => {
-    res.render('./staff/register', { layout: 'staffMain' });
+    res.render('./staff/register', { layout: 'staffMain', username: req.username, id: req.id});
 });
 
 router.post('/register', async function (req, res) {
@@ -102,20 +133,7 @@ router.post('/register', async function (req, res) {
 
 });
 
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local.two', {
-        // Success redirect URL
-        successRedirect: '/staff/dashboard',
-        // Failure redirect URL
-        failureRedirect: '/staff/login',
-        /* Setting the failureFlash option to true instructs Passport to flash
-        an error message using the message given by the strategy's verify callback.
-        When a failure occur passport passes the message object as error */
-        failureFlash: true
-    })(req, res, next);
-});
-
-router.get('/listCust',  (req, res) => {
+router.get('/listCust', (req, res) => {
     User.findAll({
         // where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
@@ -129,7 +147,7 @@ router.get('/listCust',  (req, res) => {
     // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
-router.get('/listStaff',  (req, res) => {
+router.get('/listStaff', (req, res) => {
     Staff.findAll({
         // where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
@@ -171,7 +189,7 @@ router.post('/editCust/:id', (req, res) => {
     let phoneno = req.body.phoneno;
     let address = req.body.address;
     let email = req.body.email;
-    
+
     let password = req.body.password;
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
@@ -241,7 +259,7 @@ router.post('/editStaff/:id', (req, res) => {
     let lastname = req.body.lastname;
     let username = req.body.username;
     let email = req.body.email;
-    
+
     let password = req.body.password;
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
@@ -286,26 +304,5 @@ router.get('/deletestaff/:id', async function (req, res) {
 router.get('/dashboard', (req, res) => {
     res.render('./staff/dashboard', { layout: 'staffMain' });
 });
-
-
-
-
-
-
-
-// router.post('/flash', (req, res) => {
-// 	const message = 'This is an important message';
-// 	const error = 'This is an error message';
-// 	const error2 = 'This is the second error message';
-// 	// req.flash('message', message);
-// 	// req.flash('error', error);
-// 	// req.flash('error', error2);
-// 	flashMessage(res, 'success', message);
-// 	flashMessage(res, 'info', message);
-// 	flashMessage(res, 'error', error);
-// 	flashMessage(res, 'error', error2, 'fas fa-sign-in-alt', true);
-// 	res.redirect('/');
-// });
-
 
 module.exports = router;
