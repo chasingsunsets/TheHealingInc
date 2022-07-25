@@ -51,7 +51,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Enables session to be stored using browser's Cookie ID
-app.use(cookieParser('your secret option here'));
+app.use(cookieParser());
 
 // Library to use MySQL to store session objects
 const MySQLStore = require('express-mysql-session');
@@ -81,7 +81,7 @@ app.use(session({
 // Bring in database connection
 const DBConnection = require('./config/DBConnection');
 // Connects to MySQL database
-DBConnection.setUpDB(false); // To set up database with new tables
+// DBConnection.setUpDB(false); // To set up database with new tables
 // (true)
 
 DBConnection.setUpDB(process.env.DB_RESET == 1); // To set up database with new tables (true)
@@ -118,8 +118,6 @@ const cartRoute = require('./routes/cart');
 const productRoute = require('./routes/product');
 const bookingRoute = require('./routes/booking');
 const voucherRoute = require('./routes/voucher');
-const paymentRoute = require('./routes/payment');
-const subscriptionRoute = require('./routes/subscription');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
@@ -130,19 +128,14 @@ app.use('/cart', cartRoute);
 app.use('/product', productRoute);
 app.use('/booking', bookingRoute);
 app.use('/voucher', voucherRoute);
-app.use('/subscription', subscriptionRoute);
-app.use('/payment', paymentRoute);
 /*
 * Creates a port for express server since we don't want our app to clash with well known
+* ports such as 80 or 8080.
 * */
-
 // const port = 5000;
-// const port = process.env.PORT;
-
-
 const port = process.env.PORT;
 
 // Starts the server and listen to port
-app.listen(port, ()=> {
+app.listen(port, () => {
 	console.log(`Server started on port ${port}`);
 });

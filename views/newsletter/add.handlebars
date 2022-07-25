@@ -10,33 +10,19 @@
 
         <div class="row justify-content-md-center">
             <div class="col-lg-5 col-md-6">
-                <form method="post">
-                    <div class="row form">
-                        <div class="col">
-                            <input class="form-control border-0" placeholder="Your First Name" type="firstName"
-                                name="firstName" required>
-                        </div> <!-- col.// -->
-                        <br><br>
-                        <div class="col">
-                            <input class="form-control border-0" placeholder="Your Last Name" type="lastName"
-                                name="lastName" required>
-                        </div> <!-- col.// -->
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col">
-                            <input class="form-control border-0" placeholder="Your Email" type="email" name="email"
-                                required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                        </div> <!-- col.// -->
-                    </div>
-                    <small class="form-text">We’ll never share your email address with a third-party. </small>
-                    <br>
-                    <div>
+                <form class="form-row" method="post">
+                    <div class="col-md-8 col-7">
+                        <input class="form-control border-0" placeholder="Your Email" type="email" name="email" required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                    </div> <!-- col.// -->
+                    <div class="col-md-4 col-5">
                         <button type="submit" class="btn btn-block btn-subscribe"> <i class="fa fa-envelope"></i>
                             Subscribe </button>
                     </div> <!-- col.// -->
                 </form>
+                <small class="form-text">We’ll never share your email address with a third-party. </small>
             </div> <!-- col-md-6.// -->
         </div>
+        
     </div>
 </section>
