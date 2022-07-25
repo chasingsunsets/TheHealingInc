@@ -248,8 +248,10 @@ router.post('/addSub', async function (req, res) {
 
         if (subscription) {
             // If subscription email is found, that means email has already been registered
-            // flashMessage(res, 'error', email + ' already registered');
-            res.render('newsletter/message', { message: 'Subscription was unsuccessful. Please try again using a different email.', card_title: "Subscription Unsucessful", button: "Try Again", link: "/" });
+            flashMessage(res, 'error', email + ' already');
+            res.render('newsletter/add', {
+                firstName, lastName, email
+            });
         }
 
         else {
@@ -267,7 +269,6 @@ router.post('/addSub', async function (req, res) {
                 })
                 .catch(err => {
                     console.log(err);
-                    res.render('newsletter/message', { message: 'Subscription was unsuccessful. Please try again.', card_title: "Confirmation Unsuccessful", button: "Try Again", link: "/" });
                     flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
                     res.redirect('/');
                 });
