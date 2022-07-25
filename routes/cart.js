@@ -69,6 +69,7 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 				Order.Order.findOne({
 					where: { userId },
 					order: [['createdAt', 'DESC']],
+					raw: true
 				})
 					.then((order) => {
 						let orderId = order.id
