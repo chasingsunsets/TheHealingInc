@@ -6,16 +6,15 @@ const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
-const { response } = require('express');
 
 router.get('/cart', ensureAuthenticated, (req, res) => {
-	console.log('user id: ', req.user.id)
 	Order.CartItem.findAll({
-		where: { userId: req.user.id },
+		where: { custID: req.user.id },
 		order: [['createdat', 'DESC']],
-		// raw: true
+		raw: true
 	})
 		.then((cartItem) => {
+			console.log(cartItem.custID);
 			console.log(cartItem);
 			// pass object to cart.handlebars
 			res.render('../views/cart/cart.handlebars', { cartItem });
@@ -25,13 +24,12 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 
 
 router.post('/cart', ensureAuthenticated, async (req, res) => {
-	let item_id = await Order.CartItem.findByPk(req.body.item_id);
+	let item_id = await Order.findByPk(req.body.item_id);
 	if (req.body.minus == "minus") {
 		const amount = parseInt(req.body.amount)
 		if (amount <= 1) {
 			flashMessage(res, 'success', 'Product has deleted for you');
-			await Order.CartItem.destroy({ where: { id: item_id.id } });
-			res.redirect('/cart/cart');
+			await Order.destroy({ where: { id: item_id.id } });
 		}
 		else {
 			const new_amount = amount - 1;
@@ -41,7 +39,6 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 				amount: new_amount,
 				totalprice: price
 			})
-			res.redirect('/cart/cart');
 		}
 	}
 	else if (req.body.plus == "plus") {
@@ -52,59 +49,13 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 			amount: amount,
 			totalprice: price
 		})
-		res.redirect('/cart/cart');
 	}
 	else if (req.body.deleteitem == "deleteitem") {
 		flashMessage(res, 'success', 'Product successfully deleted');
-		await Order.CartItem.destroy({ where: { id: item_id.id } });
-		res.redirect('/cart/cart');
+		await Order.destroy({ where: { id: item_id.id } });
 	}
-	else if (req.body.checkout == 'checkout') {
+	return res.redirect('/cart/cart');
 
-		// create a new order
-		let userId = req.user.id;
-		let totalamount = req.body.totalamount
-		Order.Order.create({ totalamount, userId })
-			.then(() => {
-				Order.Order.findOne({
-					where: { userId },
-					order: [['createdAt', 'DESC']],
-				})
-					.then((order) => {
-						let orderId = order.id
-						//move cart items to orderIttem table
-						Order.CartItem.findAll({
-							where: { userId },
-							order: [['createdat', 'DESC']],
-							//raw: true
-						})
-							.then((cartItem) => {
-								console.log("cartItem");
-								cartItem.forEach(element => {
-									let userId = element.userId;
-									let amount = element.amount;
-									let price = element.totalprice;
-									let product = element.product;
-
-									Order.OrderItem.create(
-										{ userId, amount, price, product, orderId }
-									)
-									.then(() => {
-										Order.CartItem.destroy({ where: { userId: req.user.id} });
-									})
-								});
-								res.redirect('/payment/payment');
-							})
-					})
-
-
-			}
-
-
-
-
-			)
-	}
 });
 
 

@@ -1,90 +1,79 @@
-<body id="page-top">
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+<body>
+    <div>{{!-- <div style="background-color: #F1EDE5;"> --}}
+            {{#if users}}
+            <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="display-4">Add Newsletter</h1>
-                    <form method="POST" action="/subscription/addNewsletter">
-                        <div class="form-group">
-                            <label for="newsletterName">Newsletter Name</label>
-                            <input class="form-control" type="text" id="newsletterName" name="newsletterName" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="purpose">Purpose</label>
-                            <input class="form-control" type="text" id="purpose" name="purpose" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="createdBy">Created By</label>
-                            <input class="form-control" type="text" id="createdBy" name="createdBy" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <input class="form-control" type="text" id="status" name="status" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="status">File Upload</label>
-                            <div class="custom-file mb-2">
-                                <input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
-                                    accept="image/png,image/jpeg,image/jpg,image/gif">
-                                <label class="custom-file-label" for="customFile">Choose File</label>
-                            </div>
-                        </div>
-                        <div class="text-danger small mb-2" id="posterErr" style="display:none"></div>
-                        <img id="poster" src="/img/no-image.jpg" alt="Poster" class="border img-thumbnail img-fluid">
-                        {{!—- Hidden field to submit URL of poster to the server --}}
-                        <input id="posterURL" type="hidden" name="posterURL">
-                        {{!-- <div class="form-group">
-                            <label for="lastUpdate">Last Update</label>
-                            <input class="form-control" type="text" id="lastUpdate" name="lastUpdate" required />
-                        </div> --}}
-                        {{!-- <div class="form-group">
-                            {{ render_field(form.create_by, class="form-control", readOnly=True, value = session.get('loggedIn')) }}
-                        </div> --}}
-                    
-                        <input type="submit" value="Submit" class="btn btn-primary" />
-                    </form>
+                <!-- Page Heading -->
+                {{!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                    For more information about DataTables, please visit the <a target="_blank"
+                        href="https://datatables.net">official DataTables documentation</a>.</p> --}}
 
-                    
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3" style="background-color:#8BAD97;">
+                        <h5 class="m-0 font-weight-bold" style="color:white;">Customer List</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead style="background-color: #F1EDE5;">
+
+                                    <tr>
+                                        <th>&nbsp;ID</th>
+                                        <th>&nbsp;Name</th>
+                                        <th>&nbsp;Username</th>
+                                        <th>&nbsp;Email</th>
+                                        <th>&nbsp;Address</th>
+                                        <th>&nbsp;Action</th>
+                                    </tr>
+                                </thead>
+                                {{#each users}}
+
+                                <tr>
+                                    <td>&nbsp;{{id}}</td>
+                                    <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
+                                    <td>&nbsp;{{username}}</td>
+                                    <td>&nbsp;{{email}}</td>
+                                    <td>&nbsp;{{address}}</td>
+                                    <td>
+                                        <div>
+                                            <a href="/staff/editCust/{{id}}" class="card-link mb-2"
+                                                style="color: #8BAD97">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                Edit
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="/staff/deleteaccount/{{id}}" class="card-link"
+                                                style="color: darkred" data-toggle="confirmation"
+                                                data-title="Confirm delete?">
+                                                <i class="far fa-trash-alt"></i>
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
 
 
+                                {{/each}}
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
 
         </div>
-        <!-- End of Content Wrapper -->
 
+        {{else}}
+        <h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Customer</h6>
     </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-
+    {{/if}}
 </body>
+
+<script>
+    $('[data-toggle=confirmation]').confirmation({
+        rootSelector: '[data-toggle=confirmation]',
+    });
+</script>
