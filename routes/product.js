@@ -11,20 +11,17 @@ const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 
 router.get('/listProducts', (req, res) => {
-    Product.findAll({
-        where:  req.params.id,
-    })
+    Product.findAll()
         .then((products) => {
             res.render('product/listProducts', { products, layout: 'staffMain' });
         })
         .catch(err => console.log(err));
 });
 
-router.get('/productCatalogue', (req, res) => {
-    Product.findAll({
-        where:  req.params.id,
-    })
+router.get('/catalogue', (req, res) => {
+    Product.findAll()
         .then((products) => {
+            console.log(products)
             res.render('product/catalogue', { products });
         })
         .catch(err => console.log(err));

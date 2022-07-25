@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 const flashMessage = require('../helpers/messenger');
 const Booking = require('../models/Booking');
 const ensureAuthenticated = require('../helpers/auth');
@@ -7,6 +8,8 @@ const ensureAuthenticated = require('../helpers/auth');
 router.get('/listBookings', (req, res) => {
     Booking.findAll({
         where:  req.params.id,
+        order: [['dateRelease', 'DESC']],
+        raw: true
     })
         .then((bookings) => {
             res.render('booking/listBookings', { bookings, layout: 'staffMain' });
@@ -20,17 +23,17 @@ router.get('/addBooking', (req, res) => {
 
 router.post('/addBooking', (req, res) => {
     let name = req.body.name;
-    let dateRelease = req.body.moment(req.body.dateRelease, 'DD/MM/YYYY');;
+    let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
     let email = req.body.email;
     let contactno = req.body.contactno;
-    let service = req.body.email;
+    let service = req.body.service;
 
     Booking.create(
         { name, dateRelease, email, contactno, service }
     )
         .then((booking) => {
             console.log(booking.toJSON());
-            res.redirect('/booking/listBookings');
+            res.redirect('/');
         })
         .catch(err => console.log(err))
 });
@@ -51,10 +54,10 @@ router.get('/editBooking/:id', (req, res) => {
 
 router.post('/editBooking/:id', (req, res) => {
     let name = req.body.name;
-    let dateRelease = req.body.moment(req.body.dateRelease, 'DD/MM/YYYY');;
+    let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
     let email = req.body.email;
     let contactno = req.body.contactno;
-    let service = req.body.email;
+    let service = req.body.service;
 
     Booking.update(
         { name, dateRelease, email, contactno, service },
