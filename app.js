@@ -142,5 +142,6 @@ app.use('/subscription', subscriptionRoute);
 const port = process.env.PORT;
 
 // Starts the server and listen to port
+app.listen(port, ()=> {
 	console.log(`Server started on port ${port}`);
-// });
+});
