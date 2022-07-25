@@ -36,7 +36,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccount" aria-expanded="true"
                     aria-controls="collapseAccount">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fa-solid fa-users-gear"></i>
                     <span>Account</span>
                 </a>
                 <div id="collapseAccount" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -60,7 +60,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct"
                     aria-expanded="true" aria-controls="collapseProduct">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fa-solid fa-dolly"></i>
                     <span>Product</span>
                 </a>
                 <div id="collapseProduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -74,7 +74,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="/booking/listBookings">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fa-solid fa-receipt"></i>
                     <span>Booking</span>
                 </a>
             </li>
@@ -91,7 +91,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrder" aria-expanded="true"
                     aria-controls="collapseOrder">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fa-solid fa-box-open"></i>
                     <span>Order</span>
                 </a>
                 <div id="collapseOrder" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </li>
-                        <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="/voucher/listVoucher">
                     <i class="fa-solid fa-ticket"></i>
                     <span>Voucher</span></a>
@@ -116,25 +116,36 @@
                 NEWSLETTER MANAGEMENT
             </div>
 
-            <!-- Nav Item - Charts -->
+            <!-- Subscription Dropdown -->
             <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Peformance</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubscription" aria-expanded="true"
+                    aria-controls="collapseSubscription">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Subscription</span>
+                </a>
+                <div id="collapseSubscription" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Function:</h6>
+                        <a class="collapse-item" href="/subscription/retrieveSub">Peformance</a>
+                    </div>
+                </div>
             </li>
 
+            <!-- Newsletter Dropdown -->
             <li class="nav-item">
-                <a class="nav-link" href="/subscription/retrieveSub">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Subscribers</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNewsletter" aria-expanded="true"
+                    aria-controls="collapseNewsletter">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Newsletter</span>
+                </a>
+                <div id="collapseNewsletter" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Function:</h6>
+                        <a class="collapse-item" href="/">Create Newsletters</a>
+                        <a class="collapse-item" href="/subscription/retrieveNewsletter">View Newsletters</a>
+                    </div>
+                </div>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/subscription/retrieveNewsletter">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Create Newsletter</span></a>
-            </li>
-
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
