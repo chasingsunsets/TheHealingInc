@@ -8,7 +8,7 @@ const Booking = require('../models/Booking');
 const sgMail = require('@sendgrid/mail');
 const sgClient = require('@sendgrid/client');
 require('dotenv').config();
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 router.get('/', (req, res) => {
 	res.render('landing')

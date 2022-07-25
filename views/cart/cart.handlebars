@@ -22,8 +22,9 @@
             var shipping = 12;
             var GST = parseFloat(sum) * 0.07
             var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping;
-            document.getElementById("totalprice").innerHTML = "SG $" + afterGST;
+            document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
             document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
+            document.getElementById("totalamount").value = afterGST;
         }
     </script>
 </head>
@@ -61,8 +62,8 @@
                         <p class="font-italic col-sm-3 col-md-3 col-lg-3">Action</p>
                     </div>
                 </div>
-                {{#if order}}
-                {{#each order}}
+                {{#if cartItem}}
+                {{#each cartItem}}
                 <div class="container" style="text-align: center;">
                     <div class="row">
                         <p class="text-muted col-sm-3 col-md-3 col-lg-3">{{product}}</p>
@@ -115,7 +116,7 @@
             <div class="col-sm-6">
                 <h5><b>Summary</b></h5>
                 <hr size="12px" width="100%">
-                {{#each order}}
+                {{#each cartItem}}
                 <div class="row">
                     <p class="col-sm-3" style="float: left;">{{product}}</p>
                     <p class="col-sm-3" style="float: right;" id="item_price">SG ${{totalprice}}</p>
@@ -145,15 +146,19 @@
                 <br>
                 <div class="row">
                     <h4 class="col-sm-9" style="float: left;"><b>Total Cost: </b></h4>
-                    <p class="col-sm-3" style="float: right;" id="totalprice">
+                    <p class="col-sm-3" style="float: right;" id="afterGST">
                     <h5></h5>
                     </p>
                 </div>
                 <br>
                 <div>
-                    <button type="submit" class="btn btn-success btn-block">
+                    <form action="" method="POST">
+                    <button type="submit" class="btn btn-success btn-block" id="checkout">
                         <h4>Check Out</h4>
                     </button>
+                    <input type="hidden" name="checkout" value="checkout">
+                    <input type="hidden" id="totalamount" name="totalamount" value="">
+                    </form>
                     <div class="text-center">
                         <a type="button" class="btn" href="/catalogue"><u>Add More?</u></a>
                     </div>
