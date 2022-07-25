@@ -20,12 +20,23 @@ router.get('/listProducts', (req, res) => {
         .catch(err => console.log(err));
 });
 
+router.get('/productCatalogue', (req, res) => {
+    Product.findAll({
+        where:  req.params.id,
+    })
+        .then((products) => {
+            res.render('product/catalogue', { products });
+        })
+        .catch(err => console.log(err));
+});
+
 router.get('/addProduct', (req, res) => {
     res.render('product/addProduct', { layout: 'staffMain' });
 });
 
 router.post('/addProduct', (req, res) => {
     let name = req.body.name;
+    let posterURL = req.body.posterURL;
     let stock = req.body.stock;
     let size = req.body.size;
     let price = req.body.price;
@@ -33,7 +44,7 @@ router.post('/addProduct', (req, res) => {
     let category = req.body.category === undefined ? '' : req.body.category.toString();
 
     Product.create(
-        { name, stock, size, price, category}
+        { name, posterURL, stock, size, price, category}
     )
         .then((product) => {
             console.log(product.toJSON());
@@ -58,12 +69,13 @@ router.get('/editProduct/:id', (req, res) => {
 
 router.post('/editProduct/:id', (req, res) => {
     let name = req.body.name;
+    let posterURL = req.body.posterURL;
     let stock = req.body.stock;
     let size = req.body.size;
     let price = req.body.price;
     let category = req.body.category === undefined ? '' : req.body.category.toString();
     Product.update(
-        { name, stock, size, price, category },
+        { name, posterURL, stock, size, price, category },
         { where: { id: req.params.id } }
     )
         .then((result) => {
@@ -90,12 +102,11 @@ router.get('/deleteProduct/:id', async function (req, res) {
     }
 });
 
-router.post('/upload', ensureAuthenticated, (req, res) => {
+router.post('/upload', (req, res) => {
     // Creates user id directory for upload if not exist
-    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
-        fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
+    if (!fs.existsSync('./public/uploads/' )) {
+        fs.mkdirSync('./public/uploads/' , { recursive: true });
     }
-
     upload(req, res, (err) => {
         if (err) {
             // e.g. File too large
@@ -105,7 +116,8 @@ router.post('/upload', ensureAuthenticated, (req, res) => {
             res.json({});
         }
         else {
-            res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
+            console.log(req.file.filename);
+            res.json({ file: `/uploads/${req.file.filename}` });
         }
     });
 });
