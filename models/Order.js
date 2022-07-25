@@ -1,27 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 // Create Order table in MySQL Database
-
-
-const OrderItem = db.define('orderItem',
+const Order = db.define('order',
     {
+        custID: { type: Sequelize.INTEGER},
         product: { type: Sequelize.STRING },
         amount: { type: Sequelize.INTEGER },
         price: { type: Sequelize.FLOAT },
+        totalprice: { type: Sequelize.FLOAT }
     });
 
-const Order = db.define('order',
-    {
-        totalamount: { type: Sequelize.DECIMAL },
-    });
-
-const CartItem = db.define('cartItem',
-    {
-        product: { type: Sequelize.STRING },
-        amount: { type: Sequelize.INTEGER },
-        price: { type: Sequelize.DECIMAL },
-        totalprice: { type: Sequelize.DECIMAL },
-    });
-
-
-module.exports = { Order, OrderItem, CartItem };
+module.exports = Order;
