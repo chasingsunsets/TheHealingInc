@@ -46,11 +46,11 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', ensureAuthenticatedStaff, (req, res) => {
     res.render('./staff/register', { layout: 'staffMain', username: req.username, id: req.id});
 });
 
-router.post('/register', async function (req, res) {
+router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
 
     let { staffno, username, firstname, lastname, email, password, password2 } = req.body;
     let isValid = true;
@@ -133,7 +133,7 @@ router.post('/register', async function (req, res) {
 
 });
 
-router.get('/listCust', (req, res) => {
+router.get('/listCust', ensureAuthenticatedStaff, (req, res) => {
     User.findAll({
         // where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
@@ -147,7 +147,7 @@ router.get('/listCust', (req, res) => {
     // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
-router.get('/listStaff', (req, res) => {
+router.get('/listStaff',ensureAuthenticatedStaff, (req, res) => {
     Staff.findAll({
         // where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
@@ -161,7 +161,7 @@ router.get('/listStaff', (req, res) => {
     // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
-router.get('/editCust/:id', (req, res) => {
+router.get('/editCust/:id',ensureAuthenticatedStaff, (req, res) => {
     User.findByPk(req.params.id)
         .then((user) => {
 
@@ -182,7 +182,7 @@ router.get('/editCust/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editCust/:id', (req, res) => {
+router.post('/editCust/:id',ensureAuthenticatedStaff, (req, res) => {
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     let username = req.body.username;
@@ -205,7 +205,7 @@ router.post('/editCust/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/deleteaccount/:id', async function (req, res) {
+router.get('/deleteaccount/:id', ensureAuthenticatedStaff, async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
         if (!user) {
@@ -232,7 +232,7 @@ router.get('/deleteaccount/:id', async function (req, res) {
 });
 
 
-router.get('/editStaff/:id', (req, res) => {
+router.get('/editStaff/:id', ensureAuthenticatedStaff, (req, res) => {
     Staff.findByPk(req.params.id)
         .then((staff) => {
 
@@ -253,7 +253,7 @@ router.get('/editStaff/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editStaff/:id', (req, res) => {
+router.post('/editStaff/:id',ensureAuthenticatedStaff, (req, res) => {
     let staffno = req.body.staffno;
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
@@ -275,7 +275,7 @@ router.post('/editStaff/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/deletestaff/:id', async function (req, res) {
+router.get('/deletestaff/:id',ensureAuthenticatedStaff, async function (req, res) {
     try {
         let staff = await Staff.findByPk(req.params.id);
         if (!staff) {
@@ -301,7 +301,7 @@ router.get('/deletestaff/:id', async function (req, res) {
     }
 });
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', ensureAuthenticatedStaff, (req, res) => {
     res.render('./staff/dashboard', { layout: 'staffMain' });
 });
 
