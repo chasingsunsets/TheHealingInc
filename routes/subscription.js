@@ -248,7 +248,7 @@ router.post('/addSub', async function (req, res) {
 
         if (subscription) {
             // If subscription email is found, that means email has already been registered
-            flashMessage(res, 'error', email + ' already registered');
+            flashMessage(res, 'error', email + ' already');
             res.render('newsletter/add', {
                 firstName, lastName, email
             });
