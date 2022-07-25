@@ -66,6 +66,7 @@ function localStrategy2(passport) {
                     return done(null, staff);
                 })
         }));
+        
     // Serializes (stores) user id into session upon successful
     // authentication
     passport.serializeUser((staff, done) => {

@@ -167,21 +167,21 @@ function loadPreviousQuestion() {
 }
 
 //Fuction to reset and restart the quiz;
-// function restartQuiz(e) {
-//     if (e.target.matches('button')) {
-//         //reset array index and score
-//         currentQuestion = 0;
-//         score = [];
-//         //Reload quiz to the start
-//         location.reload();
-//     }
+function restartQuiz(e) {
+    if (e.target.matches('button')) {
+        //reset array index and score
+        currentQuestion = 0;
+        score = [];
+        //Reload quiz to the start
+        location.reload();
+    }
 
-// }
+}
 
-// generateQuestions(currentQuestion);
-// nextButton.addEventListener('click', loadNextQuestion);
-// previousButton.addEventListener('click', loadPreviousQuestion);
-// result.addEventListener('click', restartQuiz);
+generateQuestions(currentQuestion);
+nextButton.addEventListener('click', loadNextQuestion);
+previousButton.addEventListener('click', loadPreviousQuestion);
+result.addEventListener('click', restartQuiz);
 
 function initialiseFirstname() {
     let firstname = $('#firstname').val();
@@ -233,7 +233,7 @@ $('#posterUpload').on('change', function () {
     let formdata = new FormData();
     let image = $("#posterUpload")[0].files[0];
     formdata.append('posterUpload', image);
-    fetch('/product/upload', {
+    fetch('/video/upload', {
         method: 'POST',
         body: formdata
     })

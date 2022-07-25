@@ -1,6 +1,8 @@
 <div class="row">
 	{{!-- <div class="col-md-6 mx-auto"> --}}
 		<div class="card card-body" style="background:#E8DCD0;">
+				     <a href="/user/profile" style="color: black ;float:left; padding-left:40px; font-size:large" ><u> <i class="fa-solid fa-chevron-left"></i>Back</u></a>
+
 			<img class="logo" src="/img/logo.png">
 			<h3 class="text-center">EDIT PROFILE</h3>
 			<form action="" method="post">
@@ -29,7 +31,7 @@
 						<label for="email">Email</label>
 						<input type="email" name="email" class="form-control" value="{{user.email}}" required>
 					</div>
-					<div class="form-group clear left spacing1o">
+					{{!-- <div class="form-group clear left spacing1o">
 						<label for="password">Password</label>
 						<input type="password" name="password" class="form-control" value="" required>
 					</div>
@@ -37,7 +39,7 @@
 						<label for="password2">Confirm Password</label>
 						<input type="password" name="password2" class="form-control" value="" required>
 					</div>
-				</div>
+				</div> --}}
 
 				<div class="centered clear">
 					{{!-- <h6 style="font-weight: normal ">Have an account? <a href="/user/login"
