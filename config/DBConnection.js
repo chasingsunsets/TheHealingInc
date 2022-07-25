@@ -4,6 +4,8 @@ const Quiz = require('../models/Quiz');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const Booking = require('../models/Booking');
+const Subscription = require('../models/Subscription');
+const Newsletter = require('../models/Newsletter');
 
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
@@ -14,6 +16,8 @@ const setUpDB = (drop) => {
             Defines the relationship where a user has many videos.
             The primary key from user will be a foreign key in video.
             */
+            Subscription;
+            Newsletter;
             User.hasMany(Quiz);
             Quiz.belongsTo(User);
 

@@ -25,7 +25,7 @@ const app = express();
 // newsletter
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 sgClient.setApiKey(process.env.SENDGRID_API_KEY);
-app.use(expressFileUpload());
+// app.use(expressFileUpload());
 
 app.engine('handlebars', engine({
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
@@ -119,6 +119,7 @@ const productRoute = require('./routes/product');
 const bookingRoute = require('./routes/booking');
 const voucherRoute = require('./routes/voucher');
 const paymentRoute = require('./routes/payment');
+const subscriptionRoute = require('./routes/subscription');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
@@ -129,15 +130,17 @@ app.use('/cart', cartRoute);
 app.use('/product', productRoute);
 app.use('/booking', bookingRoute);
 app.use('/voucher', voucherRoute);
-app.use('/payment', paymentRoute);
+app.use('/subscription', subscriptionRoute);
 /*
 * Creates a port for express server since we don't want our app to clash with well known
-* ports such as 80 or 8080.
 * */
-const port = 5000;
+
+// const port = 5000;
 // const port = process.env.PORT;
 
+
+const port = process.env.PORT;
+
 // Starts the server and listen to port
-app.listen(port, () => {
 	console.log(`Server started on port ${port}`);
-});
+// });
