@@ -9,7 +9,9 @@ router.get('/', (req, res) => {
 	res.render('landing')
 });
 
-router.use("/catalogue",catalogue_router);
+router.get('/catalogue', (req, res) => {
+	res.render('./product/catalogue');
+});
 
 router.get('/quiz', (req, res) => {
 	res.render('./quiz/createQuiz');
