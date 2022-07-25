@@ -27,6 +27,19 @@ router.get('/retrieveNewsletter', (req, res) => {
         .catch(err => console.log(err));
 });
 
+router.get('/retrieveSub', (req, res) => {
+    Subscription.findAll({
+        raw: true
+    })
+        .then((subscriptions) => {
+            res.render('subscription/retrieveSubscription', {
+                subscriptions, layout: 'staffMain', firstName: subscriptions.firstName,
+                lastName: subscriptions.lastName, email: subscriptions.email, verified: subscriptions.verified
+            });
+        })
+        .catch(err => console.log(err));
+});
+
 router.get('/addNewsletter', (req, res) => {
     res.render('newsletter/addNewsletter', { layout: 'staffMain' });
 });
@@ -201,29 +214,31 @@ router.get('/verify/:subscriptionId/:token', async function (req, res) {
         // Check if subscription is found
         let subscription = await Subscription.findByPk(id);
         if (!subscription) {
-            flashMessage(res, 'error', 'Subscription not found');
-            res.redirect('/');
+            // flashMessage(res, 'error', 'Subscription not found');
+            // res.redirect('/');
+            res.render('newsletter/message', { message: 'No subscription found. Please try again.', card_title: "Verfication Unsucessful", button: "Home", link: "/" });
             return;
         }
         // Check if subscription has been verified
         if (subscription.verified) {
-            flashMessage(res, 'info', 'Subscription already verified');
-            res.redirect('/');
+            res.render('newsletter/message', { message: 'Your email have been verified. Look out for exciting newsletters coming your way!', card_title: "Verfication Sucessful", button: "Start Shopping", link: "/" });
             return;
         }
         // Verify JWT token sent via URL
         let authData = jwt.verify(token, process.env.APP_SECRET);
         if (authData != subscription.email) {
-            flashMessage(res, 'error', 'Unauthorised Access');
-            res.redirect('/');
+            // flashMessage(res, 'error', 'Unauthorised Access');
+            // res.redirect('/');
+            res.render('newsletter/message', { message: 'There is an error. Please try again.', card_title: "Verfication Unsucessful", button: "Home", link: "/" });
             return;
         }
         let result = await Subscription.update(
             { verified: 1 },
             { where: { id: subscription.id } });
         console.log(result[0] + ' subscription updated');
-        flashMessage(res, 'success', subscription.email + ' verified. Please login');
-        res.redirect('/');
+        // flashMessage(res, 'success', subscription.email + ' verified. Please login');
+        // res.redirect('/');
+        res.render('newsletter/message', { message: 'Your email have been verified. Look out for exciting newsletters coming your way!', card_title: "Verfication Sucessful", button: "Start Shopping", link: "/" });
     }
     catch (err) {
         console.log(err);
@@ -248,10 +263,12 @@ router.post('/addSub', async function (req, res) {
 
         if (subscription) {
             // If subscription email is found, that means email has already been registered
-            flashMessage(res, 'error', email + ' already registered');
-            res.render('newsletter/add', {
-                firstName, lastName, email
-            });
+            // flashMessage(res, 'error', email + ' already registered');
+            // res.render('newsletter/add', {
+            //     firstName, lastName, email
+            // });
+            // flashMessage(res, 'error', email + ' already registered');
+            res.render('newsletter/message', { message: 'Email have been used. Please try again using a different email.', card_title: "Subscription Unsucessful", button: "Try Again", link: "/subscription/addSub" });
         }
 
         else {
@@ -264,17 +281,16 @@ router.post('/addSub', async function (req, res) {
             sendEmail(subscription.email, url, firstName)
                 .then(response => {
                     console.log(response);
-                    flashMessage(res, 'success', subscription.email + ' signed up successfully');
-                    res.redirect('/');
+                    // flashMessage(res, 'success', subscription.email + ' signed up successfully');
+                    // res.redirect('/');
+                    res.render('newsletter/message', { message: 'You have subscribed successfully to The Healing Inc. newsletter. Please verify via your email.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
                 })
                 .catch(err => {
                     console.log(err);
-                    flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
-                    res.redirect('/');
+                    res.render('newsletter/message', { message: 'Error when sending email to ' + subscription.email , card_title: "Subscription Unsucessful", button: "Try Again", link: "/subscription/addSub" });
+                    // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
+                    // res.redirect('/');
                 });
-
-
-
         }
     }
     catch (err) {

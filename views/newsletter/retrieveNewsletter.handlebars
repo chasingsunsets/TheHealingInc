@@ -76,7 +76,6 @@
                                         <!-- Newsletter Draft -->
                                         <div class="tab-pane fade show active" id="nav-draft" role="tabpanel" aria-labelledby="nav-draft-tab">
                                             <br>
-                                            {{#each newsletters}}
                                             <!-- DataTales Example -->
                                             <div class="card shadow mb-4">
                                                 <div class="card-body">
@@ -93,6 +92,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                {{#each newsletters}}
                                                                 <tr>
                                                                     <td>{{id}}</td>
                                                                     <td>{{newsletterName}}</td>
@@ -101,12 +101,12 @@
                                                                     <td>{{updatedAt}}</td>
                                                                     <td>{{status}}</td>
                                                                 </tr>
+                                                                {{/each}}
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{/each}}
                                         </div>
                     
                                         <!--Ready to Send-->
