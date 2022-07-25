@@ -273,7 +273,7 @@ router.post('/addSub', async function (req, res) {
             //     firstName, lastName, email
             // });
             // flashMessage(res, 'error', email + ' already registered');
-            res.render('newsletter/message', { message: 'Email have been used. Please try again using a different email.', card_title: "Subscription Unsucessful", button: "Try Again", link: "/subscription/addSub" });
+            res.render('newsletter/message', { message: 'Email have been used. Please try again using a different email.', card_title: "Subscription Unsucessful", button: "Try Again", link: "/" });
         }
 
         else {

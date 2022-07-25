@@ -117,48 +117,6 @@
 	</section>
 </div>
 
-<section class="section-subscribe padding-y-lg">
-	<div class="container">
-
-		<h3 class="text-center">
-			Get 20% off your first order now!
-		</h3>
-
-		<p class="pb-2 text-center text-black">Delivering the latest product trends and industry news straight to your
-			inbox</p>
-
-		<div class="row justify-content-md-center">
-			<div class="col-lg-5 col-md-6">
-                {{!-- sends to to subscription route and then 'addSub' --}}
-				<form method="post" action="/subscription/addSub">
-					<div class="row form">
-						<div class="col">
-							<input class="form-control border-0" placeholder="Your First Name" type="firstName" name="firstName" required>
-						</div> <!-- col.// -->
-						<br><br>
-						<div class="col">
-							<input class="form-control border-0" placeholder="Your Last Name" type="lastName" name="lastName" required>
-						</div> <!-- col.// -->
-					</div>
-					<br>
-					<div class="row">
-						<div class="col">
-							<input class="form-control border-0" placeholder="Your Email" type="email" name="email" required
-								pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-						</div> <!-- col.// -->
-					</div>
-					<small class="form-text">We’ll never share your email address with a third-party. </small>
-					<br>
-					<div>
-						<button type="submit" class="btn btn-block btn-subscribe"> <i class="fa fa-envelope"></i>
-							Subscribe </button>
-					</div> <!-- col.// -->
-				</form>
-			</div> <!-- col-md-6.// -->
-		</div>
-	</div>
-</section>
-
 {{!-- pop-up --}}
 <div id="news-signup">
 	<div class="wrapper">
