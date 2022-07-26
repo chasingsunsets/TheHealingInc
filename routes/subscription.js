@@ -263,7 +263,7 @@ router.get('/deleteSub/:id', async function (req, res) {
         let result = await Subscription.destroy({ where: { id: subscription.id } });
         console.log(result + ' subscription deleted');
         flashMessage(res, 'success', 'Subscription successfully deleted');
-        res.redirect('/subscription/retrieveSub');
+        res.redirect('/');
     }
     catch (err) {
         console.log(err);

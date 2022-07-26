@@ -55,13 +55,13 @@
                                 <table class="table table-borderless table-hover" style="border-style: none;">
                                     <thead>
                                         <tr class="font-weight-bold">
-                                            <th>Newsletter Id</th>
-                                            <th>Newsletter Name</th>
+                                            <th>Id</th>
+                                            <th>Name</th>
                                             <th>Category</th>
-                                            <th>Created By</th>
                                             <th>Status</th>
-                                            <th>Updated At</th>
-                                            <th colspan="3">Operations</th>
+                                            {{!-- <th>Created By/ Modified By</th>
+                                            <th>Date</th> --}}
+                                            <th colspan="4">Operations</th>
                                         </tr>
                                     </thead>
                                     <br>
@@ -70,10 +70,12 @@
                                         <tr style="border: solid; border-width: 1px 0;">
                                             <td>{{id}}</td>
                                             <td>{{newsletterName}}</td>
-                                            <td>{{purpose}}</td>
-                                            <td>{{createdBy}}</td>
-                                            <td>{{status}}</td>
-                                            <td>{{updatedAt}}</td>
+                                            <td>{{category}}</td>
+                                            <td>
+                                                <p class="badge badge-success">{{status}}</p>
+                                            </td>
+                                            {{!-- <td>{{createdBy}}</td>
+                                            <td>{{updatedAt}}</td> --}}
                                             {{!-- {% if product.get_status() == 'Low Stock' or product.get_status() == 'Out of Stock' %}
                                             <td>
                                                 <p class="badge badge-danger">xcx</p>
@@ -129,8 +131,7 @@
                                                 </form>
                                             </td>
                     
-                                            <td class='col-1'>
-                    
+                                            <td>
                                                 <button type="button" title="View" class="btn btn-info" data-bs-toggle="modal"
                                                     data-bs-target="#weModal_">
                                                     <i class="far fa-eye"></i>
@@ -142,22 +143,21 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="">Product
-                                                                    Details</h5>
+                                                                <h5 class="modal-title" id="">Newsletter Detail</h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                     aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <div class="card border-info mb-3">
-                                                                    <img src=""
-                                                                        class="card-img-top" alt="ProductImage">
-                                                                    <div class="card-body" style="color: black;">
-                                                                        <h5 class="card-title" style-color="black"></h5>
-                                                                        <p class="card-text"></p>
-                                                                    </div>
+                                                                <div class="card border mb-3">
+                                                                    <a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox"></a>
+                                                                        <img src="{{posterURL}}" class="card-img-top" alt="Picture" onerror="this.src='/img/no-image.jpg'">
+                                                                    </a>
+
                                                                     <ul class="list-group list-group-flush">
-                                                                        <li class="list-group-item">Category: </li>
-                                                                        <li class="list-group-item">Price: </li>
+                                                                        <li class="list-group-item">Id: {{id}}</li>
+                                                                        <li class="list-group-item">Newsletter Name: {{newsletterName}}</li>
+                                                                        <li class="list-group-item">Category: {{category}}</li>
+                                                                        <li class="list-group-item">Status: <p class="badge badge-success">{{status}}</p></li>
                                                                         {{!-- {% if product.get_status() == 'Low Stock' or product.get_status() ==
                                                                         'Out of Stock' %}
                                                                         <li class="list-group-item float-right">Stock: {{
@@ -172,15 +172,46 @@
                                                                         {% endif %} --}}
                                                                     </ul>
                                                                     <div class="card-body">
-                                                                        Created on :
+                                                                        Created on: {{createdAt}}
                                                                         <br>
-                                                                        Created by :
+                                                                        Created by: {{createdBy}}
                                                                         <br>
-                                                                        Modified on :
-                                                                        <br>
-                                                                        Modified by :
+                                                                        <hr>
+                                                                        Modified on: {{updatedAt}}
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" title="Send" class="btn btn-warning " data-bs-toggle="modal"
+                                                    data-bs-target="#my_">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                </button>
+                                                
+                                                <!-- The Modal -->
+                                                <div class="modal" id="my_">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Send Confirmation</h4>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                            </div>
+                                                
+                                                            <!-- Modal body -->
+                                                            <div class="modal-body">
+                                                                Are you sure you want to send ?
+                                                            </div>
+                                                
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                                <a href="/newsletter/sendNewsletter/{{id}}" class="btn btn-danger">Send</a>
+                                                
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                             </div>
                                                         </div>
                                                     </div>
