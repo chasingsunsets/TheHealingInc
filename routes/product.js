@@ -119,4 +119,13 @@ router.post('/upload', (req, res) => {
     });
 });
 
+router.get('/itemDesc', (req, res) => {
+    Product.findAll()
+        .then((products) => {
+            res.render('product/itemDesc', {products});
+        })
+        .catch(err => console.log(err));
+});
+
+
 module.exports = router;
