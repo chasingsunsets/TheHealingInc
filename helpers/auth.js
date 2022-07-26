@@ -1,7 +1,18 @@
 const ensureAuthenticated = (req, res, next) => {
+    // if (req.isAuthenticated()) {
+    //     return next();
+    // }
+
+    // if (req.user.type=="customer" && req.isAuthenticated()) {
+    //     return next();
+    // }
+
     if (req.isAuthenticated()) {
-        return next();
+        if (req.user.type=="customer") {
+            return next();
+        }
     }
+    console.log("NOT AUTHENTICATED CUST");
     res.redirect('/user/login');
 };
 

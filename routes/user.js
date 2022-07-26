@@ -127,7 +127,7 @@ router.post('/register', async function (req, res) {
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
-            let user = await User.create({ firstname, lastname, username, phoneno, address, email, password: hash, verified: 0 });
+            let user = await User.create({ type:"customer",firstname, lastname, username, phoneno, address, email, password: hash, verified: 0 });
 
             // Send email
             let token = jwt.sign(email, process.env.APP_SECRET);
@@ -244,7 +244,7 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     User.update(
         // { firstname, lastname, username, phoneno, address, email, password: hash },
         { firstname, lastname, username, phoneno, address, email },
-        { where: { id: req.params.id } }
+        { where: { id: req.params.id, type:"customer" } }
     )
         .then((result) => {
             console.log(result[0] + ' profile updated');
@@ -284,7 +284,7 @@ router.post('/changepw/:id', ensureAuthenticated, (req, res) => {
 
     let isValid = true;
 
-    User.findOne({ where: { username: req.user.username } })
+    User.findOne({ where: { username: req.user.username, } })
         .then(user => {
             // Match password
             isMatch = bcrypt.compareSync(password, user.password);
