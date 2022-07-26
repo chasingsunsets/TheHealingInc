@@ -66,6 +66,7 @@
                                     </thead>
                                     <br>
                                     <tbody>
+                                        {{#if newsletters}}
                                         {{#each newsletters}}
                                         <tr style="border: solid; border-width: 1px 0;">
                                             <td>{{id}}</td>
@@ -219,6 +220,13 @@
                                             </td>
                                         </tr>
                                         {{/each}}
+                                        {{else}}
+                                        <div>
+                                            <td colspan="8" style="text-align:center;">
+                                                <h6 class="empty">You currently have no newsletters.</h6>
+                                            </td>
+                                        </div>
+                                        {{/if}}
                                     </tbody>
                                 </table>
                             </div>
@@ -250,7 +258,6 @@
     .wrapper{
         
         width: 100%;
-        height: 100%;
         padding: 25px 30px 30px 30px;
         border-radius: 5px;
         background: #fff;

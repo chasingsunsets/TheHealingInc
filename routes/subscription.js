@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Subscription = require('../models/Subscription');
 const flashMessage = require('../helpers/messenger');
+const User = require('../models/User');
 
 // Required for verification
 require('dotenv').config();
@@ -218,23 +219,49 @@ router.post('/addSub', async function (req, res) {
             // Create new subscription record
             let subscription = await Subscription.create({ firstName, lastName, email, verified: 0 });
 
-            // Send email
-            let token = jwt.sign(email, process.env.APP_SECRET);
-            let url = `${process.env.BASE_URL}:${process.env.PORT}/subscription/verify/${subscription.id}/${token}`;
-            let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscription.id}`;
-            sendEmail(subscription.email, url, urlDelete, firstName)
-                .then(response => {
-                    console.log(response);
-                    // flashMessage(res, 'success', subscription.email + ' signed up successfully');
-                    // res.redirect('/');
-                    res.render('newsletter/message', { message: 'You have subscribed successfully to The Healing Inc. newsletter. Please verify via your email.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
+            User.findAll({
+                raw: true
+            })
+                .then((users) => {
+                    // create a userList that takes in user email
+                    let userList = [];
+                    for (let i = 0; i < users.length; i++) {
+                        userList.push(users[i].email);
+                    }
+                    
+                    // compare if subscription email is already a user email ==> if yes: dont need to send verify message
+                    if (userList.includes(subscription.email) == true) {
+                        Subscription.update(
+                            { verified: 1 },
+                            { where: { id: subscription.id } });
+                        // console.log("Dont need send email");
+                        res.render('newsletter/message', { message: 'You have sucessfully subscribed to The Healing Inc. newsletter.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
+                    }
+
+                    else {
+                        // Send email
+                        let token = jwt.sign(email, process.env.APP_SECRET);
+                        let url = `${process.env.BASE_URL}:${process.env.PORT}/subscription/verify/${subscription.id}/${token}`;
+                        let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscription.id}`;
+                        sendEmail(subscription.email, url, urlDelete, firstName)
+                            .then(response => {
+                                console.log(response);
+                                // flashMessage(res, 'success', subscription.email + ' signed up successfully');
+                                // res.redirect('/');
+                                res.render('newsletter/message', { message: 'You have subscribed successfully to The Healing Inc. newsletter. Please verify via your email.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                res.render('newsletter/message', { message: 'Error when sending email to ' + subscription.email, card_title: "Subscription Unsucessful", button: "Try Again", link: "/" });
+                                // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
+                                // res.redirect('/');
+                            });
+                    }
                 })
-                .catch(err => {
-                    console.log(err);
-                    res.render('newsletter/message', { message: 'Error when sending email to ' + subscription.email , card_title: "Subscription Unsucessful", button: "Try Again", link: "/subscription/addSub" });
-                    // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
-                    // res.redirect('/');
-                });
+                .catch(err => console.log(err));
+
+
+            
         }
     }
     catch (err) {
