@@ -11,15 +11,15 @@ const ensureAuthenticatedStaff = require('../helpers/auth2');
 
 router.get('/login', (req, res) => {
     try {
-    Staff.findOne({ where: { staffno: 000000 } })
+    User.findOne({ where: { email: "thehealinginctester@gmail.com" } })
         .then(staff => {
 
             if (!staff) {
                 // Create main staff
                 var salt = bcrypt.genSaltSync(10);
-                var hash = bcrypt.hashSync("mainstaff101", salt);
+                var hash = bcrypt.hashSync("sssssss", salt);
                 // Use hashed password
-                Staff.create({ staffno: 000000, username: "staff", firstname: "John", lastname: "Tan", email: "thehealinginctester@gmail.com", password: hash });
+                User.create({ type:"staff", username: "staff", firstname: "John", lastname: "Tan", email: "thehealinginctester@gmail.com", password: hash });
                 console.log(' staff acc created');
                 res.render('./staff/login', { layout: 'stafflogin' });
                 return;
@@ -135,7 +135,7 @@ router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
 
 router.get('/listCust', ensureAuthenticatedStaff, (req, res) => {
     User.findAll({
-        // where: { userId: req.user.id },
+        where: { type: "customer" },
         // order: [['dateRelease', 'DESC']],
         raw: true
     })
@@ -148,20 +148,20 @@ router.get('/listCust', ensureAuthenticatedStaff, (req, res) => {
 });
 
 router.get('/listStaff',ensureAuthenticatedStaff, (req, res) => {
-    Staff.findAll({
-        // where: { userId: req.user.id },
+    User.findAll({
+        where: { type: "staff" },
         // order: [['dateRelease', 'DESC']],
         raw: true
     })
         .then((staffs) => {
             // pass object to listVideos.handlebar
-            res.render('staff/listStaff', { staffs, layout: 'staffMain', firstname: staffs.firstname, lastname: staffs.lastname, username: staffs.username, staffno: staffs.staffno, email: staffs.email, id: staffs.id });
+            res.render('staff/listStaff', { staffs, layout: 'staffMain', firstname: staffs.firstname, lastname: staffs.lastname, username: staffs.username, email: staffs.email, id: staffs.id });
         })
         .catch(err => console.log(err));
     // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
-router.get('/editCust/:id',ensureAuthenticatedStaff, (req, res) => {
+router.get('/editCust/:id', ensureAuthenticatedStaff, (req, res) => {
     User.findByPk(req.params.id)
         .then((user) => {
 

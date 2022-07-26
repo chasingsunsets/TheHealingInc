@@ -41,6 +41,18 @@ app.engine('handlebars', engine({
 }));
 app.set('view engine', 'handlebars');
 
+///
+// var expressHbs =  require('express-handlebars');
+// var hbs= expressHbs.create({});
+Handlebars.registerHelper('if_equal', function(a, b, opts) {
+    if (a == b) {
+        return opts.fn(this)
+    } else {
+        return opts.inverse(this)
+    }
+})
+///
+
 // Express middleware to parse HTTP body in order to read HTTP data
 app.use(express.urlencoded({
 	extended: false
@@ -67,6 +79,7 @@ var options = {
 	// How frequently expired sessions will be cleared; milliseconds:
 	checkExpirationInterval: 1800000 // 30 min
 };
+
 
 // To store session information. By default it is stored as a cookie on browser
 app.use(session({

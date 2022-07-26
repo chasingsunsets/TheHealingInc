@@ -22,4 +22,12 @@ const comparison = ('compareStrings', function(p, q, options) {
     return ( p == q ) ? options.fn(this) : options.inverse(this);
 });
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison};
+const if_equal = function(a, b, opts) {
+    if (a == b) {
+        return opts.fn(this)
+    } else {
+        return opts.inverse(this)
+    }
+};
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison, if_equal }

@@ -18,7 +18,8 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				{{#if user}}
+				{{!-- {{#if user}} --}}
+				{{#if_equal user.type "customer"}}
 				<li class="nav-item">
 					<a href="#" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i></a>
 				</li>
@@ -52,7 +53,8 @@
 				<li class="nav-item">
 					<a href="/user/register" class="nav-link">REGISTER</a>
 				</li>
-				{{/if}}
+				{{/if_equal}}
+				{{!-- {{/if}} --}}
 			</ul>
 		</div>
 	</div>
