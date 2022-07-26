@@ -5,10 +5,11 @@ const db = require('../config/DBConfig');
 const Newsletter = db.define('newsletter',
     {
         newsletterName: { type: Sequelize.STRING },
-        purpose: { type: Sequelize.STRING },
-        createdBy: { type: Sequelize.STRING },
-        status: { type: Sequelize.BOOLEAN },
+        category: { type: Sequelize.STRING },
+        htmlContent: { type: Sequelize.STRING },
         fileUpload: { type: Sequelize.STRING },
+        status: { type: Sequelize.STRING },
+        createdBy: { type: Sequelize.STRING }
     });
 
 module.exports = Newsletter;

@@ -1,3 +1,9 @@
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -11,47 +17,85 @@
                     <!-- Page Heading -->
                     <h1 class="display-4">Add Newsletter</h1>
                     <form method="POST" action="/newsletter/addNewsletter">
+
                         <div class="form-group">
                             <label for="newsletterName">Newsletter Name</label>
                             <input class="form-control" type="text" id="newsletterName" name="newsletterName" required />
                         </div>
+
                         <div class="form-group">
-                            <label for="purpose">Purpose</label>
-                            <input class="form-control" type="text" id="purpose" name="purpose" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="createdBy">Created By</label>
-                            <input class="form-control" type="text" id="createdBy" name="createdBy" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <input class="form-control" type="text" id="status" name="status" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="status">File Upload</label>
-                            <div class="custom-file mb-2">
-                                <input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
-                                    accept="image/png,image/jpeg,image/jpg,image/gif">
-                                <label class="custom-file-label" for="customFile">Choose File</label>
+                            <label for="category">Category</label>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="promotion" value="Promotion" name="category">
+                                <label class="form-check-label" for="promotion">Promotion</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="event" value="Event" name="category">
+                                <label class="form-check-label" for="event">Event</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="informational" value="Informational" name="category">
+                                <label class="form-check-label" for="informational">Informational</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="other" value="Others" name="category">
+                                <label class="form-check-label" for="other">Others</label>
                             </div>
                         </div>
-                        <div class="text-danger small mb-2" id="posterErr" style="display:none"></div>
-                        <img id="poster" src="/img/no-image.jpg" alt="Poster" class="border img-thumbnail img-fluid">
-                        {{!—- Hidden field to submit URL of poster to the server --}}
-                        <input id="posterURL" type="hidden" name="posterURL">
-                        {{!-- <div class="form-group">
-                            <label for="lastUpdate">Last Update</label>
-                            <input class="form-control" type="text" id="lastUpdate" name="lastUpdate" required />
-                        </div> --}}
-                        {{!-- <div class="form-group">
-                            {{ render_field(form.create_by, class="form-control", readOnly=True, value = session.get('loggedIn')) }}
-                        </div> --}}
-                    
+
+                        <div class="form-group">
+                            <label for="content">HTML Content</label>
+                            <input class="form-control" type="text" id="summernote" name="content" required />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 text-right">
+                                <button class="btn btn-sm btn-primary" id="btn-get-content">Get Content</button>
+                                <button class="btn btn-sm btn-primary" id="btn-get-text">Get Text</button>
+                                <button class="btn btn-sm btn-success" id="btn-set-content">Set Content</button>
+                                <button class="btn btn-sm btn-danger" id="btn-reset">Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">File Upload</label>
+                            <div class="col-lg-3">
+                                <div class="custom-file mb-2">
+                                    <input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
+                                        accept="image/png,image/jpeg,image/jpg,image/gif">
+                                    <label class="custom-file-label" for="customFile">Choose File</label>
+                                </div>
+                                <div class="text-danger small mb-2" id="posterErr" style="display:none"></div>
+                                <img id="poster" src="/img/no-image.jpg" alt="Poster" class="border img-thumbnail img-fluid">
+                                {{!—- Hidden field to submit URL of poster to the server --}}
+                                <input id="posterURL" type="hidden" name="posterURL">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="draft" value="Draft" name="status">
+                                <label class="form-check-label" for="draft">Draft</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="completed" value="Completed" name="status">
+                                <label class="form-check-label" for="completed">Completed</label>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="createdBy">Created By/ Modified By</label>
+                            <input class="form-control" type="text" id="createdBy" name="createdBy" required />
+                        </div>
+                                            
+                        
                         <input type="submit" value="Submit" class="btn btn-primary" />
                     </form>
-
-                    
-
 
                 </div>
                 <!-- /.container-fluid -->
@@ -86,5 +130,27 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+                $('#summernote').summernote(
+                   {
+                        placeholder: 'Hello stand alone ui',
+                        tabsize: 2,
+                        height: 120,
+                        toolbar: [
+                            ['style', ['style']],
+                            ['font', ['bold', 'underline', 'clear']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['table', ['table']],
+                            ['insert', ['link', 'picture', 'video']],
+                            ['view', ['fullscreen', 'codeview', 'help']]
+                        ]
+                    } 
+                );
+            });
+    </script>
 
 </body>
