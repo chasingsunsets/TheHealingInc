@@ -1,0 +1,145 @@
+<div class="container">
+    <div class="main-body">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" style="background-color: #8BAD97; border-radius:20px; ">
+            <ol class="breadcrumb" style="background-color: #8BAD97; ">
+                <li style="background-color: #8BAD97; color:white; font-size:25px; font-weight:bold;">User Profile</li>
+            </ol>
+        </nav>
+        <!-- /Breadcrumb -->
+
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="/img/avatar.jpg" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>{{firstname}}</h4>
+                                <p class="text-secondary mb-1">Staff Member</p>
+                                {{!-- <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+
+                        <div style="float:right;">
+                            <a href="/staff/editCust/{{id}}" class="card-link mb-2" style="color: #8BAD97">
+                                <i class="fas fa-pencil-alt"></i>
+                                Edit
+                            </a>
+                            {{!-- <a href="/staff/deleteaccount/{{id}}" class="card-link" style="color: darkred"
+                                data-toggle="confirmation" data-title="Confirm delete?">
+                                <i class="far fa-trash-alt"></i>
+                                Delete
+                            </a> --}}
+                            <href="/staff/dashboard" data-toggle="modal" data-target="#deletestaffprofile" class="card-link" style="color: darkred">
+                                <i class="far fa-trash-alt"></i>
+                                Delete
+                            </a>
+                            
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">ID</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{id}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Username</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{username}}
+                            </div>
+                        </div>
+                     <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{firstname}}&nbsp;{{lastname}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{email}}
+                            </div>
+                        </div>
+                        {{!-- <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Phone</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                (239) 816-9029
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Mobile</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                (320) 380-4539
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Address</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                Bay Area, San Francisco, CA
+                            </div>
+                        </div> --}}
+                        {{!-- <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn btn-info " target="__blank"
+                                    href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                            </div>
+                        </div> --}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+ <!-- Logout Modal-->
+    <div class="modal fade" id="deletestaffprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Delete" below if you are deleting your account.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/staff/deleteprofile/{{id}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>

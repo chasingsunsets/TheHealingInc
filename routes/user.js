@@ -127,7 +127,7 @@ router.post('/register', async function (req, res) {
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
-            let user = await User.create({ type:"customer",firstname, lastname, username, phoneno, address, email, password: hash, verified: 0 });
+            let user = await User.create({ type: "customer", firstname, lastname, username, phoneno, address, email, password: hash, verified: 0 });
 
             // Send email
             let token = jwt.sign(email, process.env.APP_SECRET);
@@ -205,25 +205,17 @@ router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
+router.post('/editprofile/:id', ensureAuthenticated, async function (req, res) {
+    let id = req.params.id;
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     let username = req.body.username;
     let phoneno = req.body.phoneno;
     let address = req.body.address;
     let email = req.body.email;
-    // let password = req.body.password;
-    // let password2 = req.body.password2
 
     let isValid = true;
-    // if (password.length < 6) {
-    //     flashMessage(res, 'error', 'Password must be at least 6 characters');
-    //     isValid = false;
-    // }
-    // if (password != password2) {
-    //     flashMessage(res, 'error', 'Passwords do not match');
-    //     isValid = false;
-    // }
+
     if (phoneno.length != 8) {
         flashMessage(res, 'error', 'Phone number must be 8 digits');
         isValid = false;
@@ -238,20 +230,111 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
         return;
     }
 
-    // var salt = bcrypt.genSaltSync(10);
-    // var hash = bcrypt.hashSync(password, salt);
+    try {
+        // If all is well, checks if user is already registered
+        let user = await User.findOne({ where: { email: email, type: "customer" } });
+        let usern = await User.findOne({ where: { username: username, type: "customer" } });
 
-    User.update(
-        // { firstname, lastname, username, phoneno, address, email, password: hash },
-        { firstname, lastname, username, phoneno, address, email },
-        { where: { id: req.params.id, type:"customer" } }
-    )
-        .then((result) => {
-            console.log(result[0] + ' profile updated');
-            flashMessage(res, 'success', ' Profile edited successfully');
-            res.redirect('/user/profile');
-        })
-        .catch(err => console.log(err));
+        if (user) {
+
+            if (user.id != req.params.id) {
+                // If user is found, that means email has already been registered
+                flashMessage(res, 'error', email + ' already registered');
+                // isValid = false;
+                // res.render('user/editprofile', { user });
+                User.findByPk(req.params.id)
+                    .then((user) => {
+                        res.render('user/editprofile', { user });
+                        return;
+                    })
+                    .catch(err => console.log(err));
+            }
+
+            else{
+            User.update(
+                // { firstname, lastname, username, phoneno, address, email, password: hash },
+                { firstname, lastname, username, phoneno, address, email },
+                { where: { id: req.params.id, type: "customer" } }
+            )
+                .then((result) => {
+                    console.log(result[0] + ' profile updated');
+                    flashMessage(res, 'success', ' Profile edited successfully');
+                    res.redirect('/user/profile');
+                })
+                .catch(err => console.log(err));
+            }
+        }
+
+        else if (usern) {
+            if (usern.id != req.params.id) {
+
+            // If user is found, that means username has already been registered
+            flashMessage(res, 'error', username + ' already registered');
+            // res.render('user/editprofile', { user });
+            // isValid = false;
+            User.findByPk(req.params.id)
+                .then((user) => {
+                    res.render('user/editprofile', { user });
+                })
+                .catch(err => console.log(err));
+            return;
+            }
+
+            else{
+                User.update(
+                    // { firstname, lastname, username, phoneno, address, email, password: hash },
+                    { firstname, lastname, username, phoneno, address, email },
+                    { where: { id: req.params.id, type: "customer" } }
+                )
+                    .then((result) => {
+                        console.log(result[0] + ' profile updated');
+                        flashMessage(res, 'success', ' Profile edited successfully');
+                        res.redirect('/user/profile');
+                    })
+                    .catch(err => console.log(err));
+                }
+        }
+        else {
+            // Create new user record
+            // var salt = bcrypt.genSaltSync(10);
+            // var hash = bcrypt.hashSync(password, salt);
+            // Use hashed password
+            // let user = await User.create({ type:"customer",firstname, lastname, username, phoneno, address, email, password: hash, verified: 0 });
+
+            // // Send email
+            // let token = jwt.sign(email, process.env.APP_SECRET);
+            // let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
+            // sendEmail(user.email, url)
+            //     .then(response => {
+            //         console.log(response);
+            //         flashMessage(res, 'success', user.email + ' registered successfully');
+            //         res.redirect('/user/login');
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //         flashMessage(res, 'error', 'Error when sending email to ' +
+            //             user.email);
+            //         res.redirect('/');
+            //     });
+            User.update(
+                // { firstname, lastname, username, phoneno, address, email, password: hash },
+                { firstname, lastname, username, phoneno, address, email },
+                { where: { id: req.params.id, type: "customer" } }
+            )
+                .then((result) => {
+                    console.log(result[0] + ' profile updated');
+                    flashMessage(res, 'success', ' Profile edited successfully');
+                    res.redirect('/user/profile');
+                })
+                .catch(err => console.log(err));
+
+
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
 });
 
 
@@ -296,7 +379,7 @@ router.post('/changepw/:id', ensureAuthenticated, (req, res) => {
                 // res.render('user/changepw', { user });   
                 isValid = false;
             }
-            
+
             if (password2.length < 6) {
                 flashMessage(res, 'error', 'Password must be at least 6 characters');
                 isValid = false;
@@ -305,7 +388,7 @@ router.post('/changepw/:id', ensureAuthenticated, (req, res) => {
                 flashMessage(res, 'error', 'New Passwords do not match');
                 isValid = false;
             }
-        
+
             if (!isValid) {
                 User.findByPk(req.params.id)
                     .then((user) => {
@@ -318,7 +401,7 @@ router.post('/changepw/:id', ensureAuthenticated, (req, res) => {
 
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password2, salt);
-        
+
             User.update(
                 // { firstname, lastname, username, phoneno, address, email, password: hash },
                 { password: hash },
