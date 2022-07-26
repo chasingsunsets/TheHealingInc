@@ -52,7 +52,7 @@ router.get('/register', ensureAuthenticatedStaff, (req, res) => {
 
 router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
 
-    let { staffno, username, firstname, lastname, email, password, password2 } = req.body;
+    let { username, firstname, lastname, email, password, password2 } = req.body;
     let isValid = true;
     if (password.length < 6) {
         flashMessage(res, 'error', 'Password must be at least 6 characters');
@@ -62,50 +62,26 @@ router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
         flashMessage(res, 'error', 'Passwords do not match');
         isValid = false;
     }
-    if (staffno.length != 6) {
-        flashMessage(res, 'error', 'Invalid Staff Number');
-        isValid = false;
-    }
-
-    // if (staffno.slice(-1)= 6) {
-    //     flashMessage(res, 'error', 'Staff Number must be 6 characters');
-    //     isValid = false;
-    // }
-
-    // if (Number.isInteger(staffno.substring(0, 4))!=true) {
-    //     flashMessage(res, 'error', 'Staff Number must be 6 characters');
-    //     isValid = false;
-    // }
 
     if (!isValid) {
         res.render('./staff/register', {
             layout: 'staffMain',
-            staffno, username, firstname, lastname, email
+            username, firstname, lastname, email
         });
         return;
     }
 
     try {
         // If all is well, checks if user is already registered
-        let staff = await Staff.findOne({ where: { staffno: staffno } });
         let staffe = await Staff.findOne({ where: { email: email } });
         let staffn = await Staff.findOne({ where: { username: username } });
 
-        if (staff) {
-            // If staff is found, that means staffno has already been registered
-            flashMessage(res, 'error', staffno + ' already registered');
-            res.render('./staff/register', {
-                layout: 'staffMain',
-                staffno, username, firstname, lastname, email
-            });
-        }
-
-        else if (staffe) {
+        if (staffe) {
             // If staff is found, that means email has already been registered
             flashMessage(res, 'error', email + ' already registered');
             res.render('./staff/register', {
                 layout: 'staffMain',
-                staffno, username, firstname, lastname, email
+                 username, firstname, lastname, email
             });
         }
 
@@ -114,7 +90,7 @@ router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
             flashMessage(res, 'error', username + ' already registered');
             res.render('./staff/register', {
                 layout: 'staffMain',
-                staffno, username, firstname, lastname, email
+                 username, firstname, lastname, email
             });
         }
         else {
@@ -122,15 +98,53 @@ router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
-            let staff = await Staff.create({ staffno, username, firstname, lastname, email, password: hash });
+            let staff = await User.create({ type:"staff", username, firstname, lastname, email, password: hash });
             flashMessage(res, 'success', username + ' registered successfully');
-            res.redirect('/staff/login');
+            res.redirect('/staff/dashboard');
         }
     }
     catch (err) {
         console.log(err);
     }
 
+});
+
+router.get('/logout', (req, res) => {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        res.redirect('/staff/login');
+    });
+});
+
+router.get('/profile', ensureAuthenticatedStaff, (req, res) => {
+
+    res.render('staff/profile', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, email: req.user.email, id: req.user.id });
+});
+
+
+router.get('/deleteprofile/:id', ensureAuthenticatedStaff, async function (req, res) {
+    try {
+        let user = await User.findByPk(req.params.id);
+        if (!user) {
+            flashMessage(res, 'error', 'User not found');
+            res.redirect('/staff/profile');
+            return;
+        }
+
+        if (req.user.id != req.params.id) {
+            flashMessage(res, 'error', 'Unauthorised access');
+            res.redirect('/staff/profile');
+            return;
+        }
+
+        let result = await User.destroy({ where: { id: user.id } });
+        console.log(result + ' account deleted');
+        flashMessage(res, 'success', 'Account successfully deleted');
+        res.redirect('/staff/login');
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
 router.get('/listCust', ensureAuthenticatedStaff, (req, res) => {
