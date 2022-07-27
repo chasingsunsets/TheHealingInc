@@ -64,8 +64,8 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 		// create a new order
 		let userId = req.user.id;
 		let totalamount = req.body.totalamount
-		let status = "unshipped";
-		let payment = 0;
+		let status = "Unshipped";
+		let payment = "Unpaid";
 		Order.Order.create({ totalamount, userId, status, payment })
 			.then(() => {
 				Order.Order.findOne({

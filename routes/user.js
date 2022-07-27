@@ -13,6 +13,12 @@ const ensureAuthenticated = require('../helpers/auth');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
+// const { Order } = require('../models/Order');
+
+const {Order,OrderItem} = require('../models/Order');
+
+const { response } = require('express');
+// const { where } = require('sequelize/types');
 
 
 router.get('/login', (req, res) => {
@@ -426,6 +432,33 @@ module.exports = router;
 
 
 
-router.get('/order', (req, res) => {
-    res.render('user/order',{layout: 'account'})
+router.get('/listOrder', async (req, res) => {
+    let userId = req.user.id
+    const order = await Order.findAll({
+        include: {model: OrderItem},
+        where: { userId },
+        order: [['createdat', 'DESC']],
+        raw: true
+    })
+    const orders = await Order.findAll({
+        where: { userId },
+        order: [['createdat', 'DESC']],
+        raw: true
+    })
+    
+    
+        console.log("Orders:",orders);
+        console.log("Sudden Order:",order);
+        res.render('user/listOrder',{layout: 'account', order, orders})
+    });
+
+router.get('/cancelOrder/:id', async (req, res) => {
+    let status = "Cancelled";
+    const order = await Order.findByPk(req.params.id);
+    Order.update(
+        {status: status},
+        {where: {id: order.id}},
+        )
+    
+    res.redirect('/user/listOrder');
 });

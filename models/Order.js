@@ -14,7 +14,7 @@ const Order = db.define('order',
     {
         totalamount: { type: Sequelize.DECIMAL },
         status: { type: Sequelize.STRING },
-        payment: { type: Sequelize.INTEGER },
+        payment: { type: Sequelize.STRING },
     });
 
 const CartItem = db.define('cartItem',
