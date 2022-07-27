@@ -6,7 +6,7 @@ const Staff = require('../models/Staff');
 function localStrategy(passport) {
     passport.use(
         new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
-            User.findOne({ where: { username: username } })
+            User.findOne({ where: { username: username, type:"customer" } })
                 .then(user => {
                     if (!user) {
                         return done(null, false, { message: 'No User Found' });

@@ -34,8 +34,9 @@ const setUpDB = (drop) => {
             Order.Order.hasMany(Order.OrderItem);
             Order.OrderItem.belongsTo(Order.Order);
             
-            // Voucher.belongsTo(User);
-            // User.hasMany(Voucher);
+            User.hasMany(Voucher);
+            Voucher.belongsTo(User);
+            
 
             mySQLDB.sync({
                 force: drop
