@@ -22,7 +22,6 @@ router.post('/addVoucher', (req, res) => {
     // let language = req.body.language.toString();
     // // Multi-value components return array of strings or undefined
     // let subtitles = req.body.subtitles === undefined ? '' : req.body.subtitles.toString();
-    // let classification = req.body.classification;
     // let userId = req.user.id;
     
     User.findAll({
@@ -30,9 +29,10 @@ router.post('/addVoucher', (req, res) => {
         // order: [['dateRelease', 'DESC']],
         raw: true
     })
-        .then((users) => {
+        .then((user) => {
+            
             Voucher.create(
-                { vname, discount, minspend, code, valid, used: 0, userID:users.id }
+                { vname, discount, minspend, code, valid, used: 0, userID:user.id}
             )
             flashMessage(res, 'success', vname + ' voucher added successfully');
             // pass object to listVideos.handlebar
