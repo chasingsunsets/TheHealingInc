@@ -64,7 +64,9 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 		// create a new order
 		let userId = req.user.id;
 		let totalamount = req.body.totalamount
-		Order.Order.create({ totalamount, userId })
+		let status = "unshipped";
+		let payment = 0;
+		Order.Order.create({ totalamount, userId, status, payment })
 			.then(() => {
 				Order.Order.findOne({
 					where: { userId },
@@ -94,7 +96,7 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 										Order.CartItem.destroy({ where: { userId: req.user.id} });
 									})
 								});
-								res.redirect('/payment/payment');
+								res.redirect('/payment/payment/' + orderId);
 							})
 					})
 
