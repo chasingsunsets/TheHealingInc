@@ -12,17 +12,17 @@ const upload = require('../helpers/imageUpload');
 
 router.get('/listProducts', (req, res) => {
     Product.findAll()
-        .then((products) => {
-            res.render('product/listProducts', { products, layout: 'staffMain' });
+        .then((product) => {
+            res.render('product/listProducts', { product, layout: 'staffMain' });
         })
         .catch(err => console.log(err));
 });
 
 router.get('/catalogue', (req, res) => {
     Product.findAll()
-        .then((products) => {
-            console.log(products)
-            res.render('product/catalogue', { products });
+        .then((product) => {
+            console.log(product)
+            res.render('product/catalogue', { product });
         })
         .catch(err => console.log(err));
 });
@@ -119,15 +119,15 @@ router.post('/upload', (req, res) => {
     });
 });
 
-router.get('/itemDesc/id', (req, res) => {
+router.get('/itemDesc/:id', (req, res) => {
     Product.findByPk(req.params.id)
-        .then((products) => {
-            if (!products) {
-                flashMessage(res, 'error', 'Video not found');
+        .then((product) => {
+            if (!product) {
+                flashMessage(res, 'error', 'Product not found');
                 res.redirect('/product/catalogue');
                 return;
             }
-            res.render('product/itemDesc', { products });
+            res.render('product/itemDesc', { product });
         })
         .catch(err => console.log(err));
 });
