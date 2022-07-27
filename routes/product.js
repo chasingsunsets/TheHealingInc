@@ -119,10 +119,15 @@ router.post('/upload', (req, res) => {
     });
 });
 
-router.get('/itemDesc', (req, res) => {
-    Product.findAll()
+router.get('/itemDesc/id', (req, res) => {
+    Product.findByPk(req.params.id)
         .then((products) => {
-            res.render('product/itemDesc', {products});
+            if (!products) {
+                flashMessage(res, 'error', 'Video not found');
+                res.redirect('/product/catalogue');
+                return;
+            }
+            res.render('product/itemDesc', { products });
         })
         .catch(err => console.log(err));
 });
