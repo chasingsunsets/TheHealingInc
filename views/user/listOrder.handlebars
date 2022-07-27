@@ -1,6 +1,7 @@
 <head>
     <script>
-        var btn = document.getElementById("btn");
+        document.getElementById("btn").className = "";
+
     
     </script>
 </head>
@@ -181,7 +182,7 @@
                                                                         {% endif %} --}}
                                                                     </ul>
                                                                     <div class="card-body">
-                                                                        Created on: {{createdAt}}
+                                                                        Created on: {{formatDate createdAt}}
                                                                         <br>
                                                                         Created by: {{createdBy}}
                                                                         <br>
@@ -231,7 +232,7 @@
                                         {{else}}
                                         <div>
                                             <td colspan="8" style="text-align:center;">
-                                                <h6 class="empty">You currently have no newsletters.</h6>
+                                                <h6 class="empty">You currently have no Order.</h6>
                                             </td>
                                         </div>
                                         {{/if}}
