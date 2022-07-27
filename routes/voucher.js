@@ -23,20 +23,20 @@ router.post('/addVoucher', (req, res) => {
     // let classification = req.body.classification;
     // let userId = req.user.id;
     
-    // User.findAll({
-    //     where: { userId: User.primarykey },
-    //     // order: [['dateRelease', 'DESC']],
-    //     raw: true
-    // })
-    //     .then((users) => {
-    //         Voucher.create(
-    //             { vname, discount, minspend, code, valid, used: 0, userId }
-    //         )
-    //         flashMessage(res, 'success', vname + ' voucher added successfully');
-    //         // pass object to listVideos.handlebar
-    //         res.render('voucher/listVoucher', { vouchers, layout: 'staffMain', vname: vouchers.vname, discount: vouchers.discount, minspend: vouchers.minspend, code: vouchers.code, valid: vouchers.valid });
-    //     })
-    //     .catch(err => console.log(err));
+    User.findAll({
+        where: { type:"customer" },
+        // order: [['dateRelease', 'DESC']],
+        raw: true
+    })
+        .then((users) => {
+            Voucher.create(
+                { vname, discount, minspend, code, valid, used: 0, userID:users.id }
+            )
+            flashMessage(res, 'success', vname + ' voucher added successfully');
+            // pass object to listVideos.handlebar
+            res.render('voucher/listVoucher', { layout: 'staffMain'});
+        })
+        .catch(err => console.log(err));
 
     // Voucher.create(
     //     { vname, discount,minspend,code,valid, used:0 }
