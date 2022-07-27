@@ -91,12 +91,12 @@
                     
                                                     <!-- Button to Open the Modal -->
                                                     <button type="button" title="Delete" class="btn btn-danger " data-bs-toggle="modal"
-                                                        data-bs-target="#modal_delete">
+                                                        data-bs-target="#myModal_{{id}}">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                     
                                                     <!-- The Modal -->
-                                                    <div class="modal" id="modal_delete">
+                                                    <div class="modal" id="myModal_{{id}}">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                     
@@ -109,7 +109,7 @@
                     
                                                                 <!-- Modal body -->
                                                                 <div class="modal-body">
-                                                                    Are you sure you want to delete {{newsletterName}}?
+                                                                    Are you sure you want to delete <span style="font-weight:bold;">{{newsletterName}}</span> ?
                                                                 </div>
                     
                                                                 <!-- Modal footer -->
@@ -134,12 +134,12 @@
                     
                                             <td>
                                                 <button type="button" title="View" class="btn btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#weModal_">
+                                                    data-bs-target="#weModal_{{id}}">
                                                     <i class="far fa-eye"></i>
                                                 </button>
                     
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="weModal_" tabindex="-1"
+                                                <div class="modal fade" id="weModal_{{id}}" tabindex="-1"
                                                     aria-labelledby="" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
@@ -188,12 +188,12 @@
                                             </td>
                                             <td>
                                                 <button type="button" title="Send" class="btn btn-warning " data-bs-toggle="modal"
-                                                    data-bs-target="#my_">
+                                                    data-bs-target="#mysend_{{id}}">
                                                     <i class="fas fa-paper-plane"></i>
                                                 </button>
                                                 
                                                 <!-- The Modal -->
-                                                <div class="modal" id="my_">
+                                                <div class="modal" id="mysend_{{id}}">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                 
@@ -205,7 +205,7 @@
                                                 
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
-                                                                Are you sure you want to send ?
+                                                                Are you sure you want to send <span style="font-weight:bold;">Newsletter Issue: {{newsletterName}}</span> to all subscribers ?
                                                             </div>
                                                 
                                                             <!-- Modal footer -->

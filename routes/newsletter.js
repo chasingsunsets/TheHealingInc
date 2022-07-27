@@ -133,10 +133,10 @@ router.get('/sendNewsletter/:id', async function (req, res) {
                 .then((subscriptions) => {
                     for (let i = 0; i < subscriptions.length; i++) {
                         let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscriptions[i].id}`;
-                        let content = newsletter.status;
+                        let htmlContent = newsletter.htmlContent;
                         let newsletterName = newsletter.newsletterName;
                         let toEmail = subscriptions[i].email
-                        sendEmail2(toEmail, newsletterName, content, urlDelete, "Lim")
+                        sendEmail2(toEmail, newsletterName, htmlContent, urlDelete)
                             .then(response => {
                                 console.log(response);
                                 // flashMessage(res, 'success', subscription.email + ' signed up successfully');
@@ -163,7 +163,7 @@ router.get('/sendNewsletter/:id', async function (req, res) {
     }
 });
 
-function sendEmail2(toEmail, newsletterName, content, urlDelete, firstName) {
+function sendEmail2(toEmail, newsletterName, htmlContent, urlDelete, firstName) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
@@ -203,7 +203,7 @@ function sendEmail2(toEmail, newsletterName, content, urlDelete, firstName) {
 				<!-- start copy -->
 				<tr>
 					<td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-					<p style="margin: 0;">Dear ${firstName}, <br><br></p>
+					<p style="margin: 0;">Dear ${htmlContent}, <br><br>${htmlContent}</p>
 					</td>
 				</tr>
 				<!-- end copy -->
