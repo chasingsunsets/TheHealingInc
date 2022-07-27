@@ -1,10 +1,17 @@
-<head>
+{{!-- <head>
     <script>
-        document.getElementById("btn").className = "";
-
-    
+        window.onload = function () {
+            if (document.getElementById("btn") == 'Cancelled') {
+                console.log("Cancelled");
+                document.getElementById("btn").className = "badge badge-danger";
+            }
+            else if (document.getElementById("btn") == "unshipped") {
+                console.log("unshipped");
+                document.getElementById("btn").className = "badge badge-alert";
+            }
+        }
     </script>
-</head>
+</head> --}}
 
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -22,12 +29,15 @@
                     <div class="row">
                         <div class="col-10 col-md-8 col-sm-2">
                             <form>
-                                <div class="d-none d-sm-inline-block form-inline navbar-search " style='padding-bottom: 20px;'>
+                                <div class="d-none d-sm-inline-block form-inline navbar-search "
+                                    style='padding-bottom: 20px;'>
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light bvoucher-0 small" placeholder="Newsletter ID..."
-                                            aria-label="Search" aria-describedby="basic-addon2" id='search-voucher'>
+                                        <input type="text" class="form-control bg-light bvoucher-0 small"
+                                            placeholder="Newsletter ID..." aria-label="Search"
+                                            aria-describedby="basic-addon2" id='search-voucher'>
                                         <div class="input-group-append">
-                                            <button class="btn voucher-search-button" type="button" style="background-color:#8BAD97; border: 0px;">
+                                            <button class="btn voucher-search-button" type="button"
+                                                style="background-color:#8BAD97; border: 0px;">
                                                 <i class="fas fa-search fa"></i>
                                             </button>
                                         </div>
@@ -36,31 +46,36 @@
                             </form>
                         </div>
                         <div class="col-2 col-md-4 col-sm-10 text-right">
-                            {{!-- <a href="/newsletter/addNewsletter" class="btn btn" style="background-color: #e0d1b5; color:white; font-weight: bold;">Create Newsletter</a> --}}
+                            {{!-- <a href="/newsletter/addNewsletter" class="btn btn"
+                                style="background-color: #e0d1b5; color:white; font-weight: bold;">Create Newsletter</a>
+                            --}}
                         </div>
                     </div>
                     <br>
-                    
+
                     <div class="wrapper">
-                    
+
                         <input type="radio" name="slider" checked id="draft">
                         <input type="radio" name="slider" id="scheduled">
                         <input type="radio" name="slider" id="past">
                         {{!-- <input type="radio" name="slider" id="help"> --}}
-                    
+
                         <nav>
                             <label for="draft" class="draft"><i class="fa-solid fa-pen-ruler"></i>Current Orders</label>
-                            <label for="scheduled" class="scheduled"><i class="fa-solid fa-calendar-check"></i>Completed Orders</label>
-                            <label for="past" class="past"><i class="fa-solid fa-clock-rotate-left"></i>Past Orders</label>
+                            <label for="scheduled" class="scheduled"><i class="fa-solid fa-calendar-check"></i>Completed
+                                Orders</label>
+                            <label for="past" class="past"><i class="fa-solid fa-clock-rotate-left"></i>Past
+                                Orders</label>
                             {{!-- <label for="help" class="help"><i class="fas fa-ring"></i>Accessories</label> --}}
-                    
+
                             <div class="slider"></div>
                         </nav>
 
                         <!-- Section: Draft -->
                         <section>
-                            <div class="content content-1" style="height: 400px;  overflow-y:scroll; overflow-x: hidden; border-style: none;">
-                                <table class="table table-borderless table-hover" style="border-style: none;">
+                            <div class="content content-1"
+                                style="height: 400px;  overflow-y:scroll; overflow-x: hidden; border-style: none;">
+                                <table class="table table-borderless table-hover" style="border-style: None;border-collapse: collapse">
                                     <thead>
                                         <tr class="font-weight-bold">
                                             <th>Id</th>
@@ -74,18 +89,19 @@
                                     </thead>
                                     <br>
                                     <tbody>
-                                        {{#if this.orders}}
-                                        {{#each this.orders}}
+                                        {{#if orders}}
+                                        {{#each orders}}
                                         <tr style="border: solid; border-width: 1px 0;">
                                             <td>{{this.id}}</td>
                                             <td>{{this.totalamount}}</td>
                                             <td>{{this.payment}}</td>
                                             <td>
-                                                <p class="badge badge-success">{{this.status}}</p>
+                                                <p class="" id="btn">{{this.status}}</p>
                                             </td>
                                             {{!-- <td>{{createdBy}}</td>
                                             <td>{{updatedAt}}</td> --}}
-                                            {{!-- {% if product.get_status() == 'Low Stock' or product.get_status() == 'Out of Stock' %}
+                                            {{!-- {% if product.get_status() == 'Low Stock' or product.get_status() ==
+                                            'Out of Stock' %}
                                             <td>
                                                 <p class="badge badge-danger">xcx</p>
                                             </td>
@@ -96,34 +112,35 @@
                                             {% endif %} --}}
                                             <td>
                                                 <form action="/user/cancelOrder/{{id}}">
-                    
+
                                                     <!-- Button to Open the Modal -->
-                                                    <button type="button" title="Cancel" class="btn btn-danger " data-bs-toggle="modal"
-                                                        data-bs-target="#modal_delete">
+                                                    <button type="button" title="Cancel" class="btn btn-danger "
+                                                        data-bs-toggle="modal" data-bs-target="#modal_delete">
                                                         <i class="fa-solid fa-xmark"></i>
                                                     </button>
-                    
+
                                                     <!-- The Modal -->
                                                     <div class="modal" id="modal_delete">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
-                    
+
                                                                 <!-- Modal Header -->
                                                                 <div class="modal-header">
                                                                     <h4 class="modal-title">Cancel Confirmation</h4>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"></button>
                                                                 </div>
-                    
+
                                                                 <!-- Modal body -->
                                                                 <div class="modal-body">
                                                                     Are you sure you want to Cancel Order #{{this.id}}?
                                                                 </div>
-                    
+
                                                                 <!-- Modal footer -->
                                                                 <div class="modal-footer">
-                                                                    <input type="submit" value="Yes" class="btn btn-danger">
-                    
+                                                                    <input type="submit" value="Yes"
+                                                                        class="btn btn-danger">
+
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">No</button>
                                                                 </div>
@@ -132,62 +149,70 @@
                                             {{!-- <td>
                                                 <form action="" method="POST">
                                                     <!-- Button to Open the Modal -->
-                                                    <button type="submit" title="Update" class="btn btn-primary bg-gradient-primary"
+                                                    <button type="submit" title="Update"
+                                                        class="btn btn-primary bg-gradient-primary"
                                                         data-bs-target="#myModal_">
                                                         <i class="fas fa-pen"></i>
                                                     </button>
-                    
+
                                                 </form>
                                             </td> --}}
-                    
+
                                             <td>
-                                                <button type="button" title="View" class="btn btn-info" data-bs-toggle="modal"
-                                                    data-bs-target="#weModal_">
+                                                <button type="button" title="View" class="btn btn-info"
+                                                    data-bs-toggle="modal" data-bs-target="#weModal_">
                                                     <i class="far fa-eye"></i>
                                                 </button>
-                    
+
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="weModal_" tabindex="-1"
-                                                    aria-labelledby="" aria-hidden="true">
+                                                <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby=""
+                                                    aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="">Order Detail</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                    aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"><i
+                                                                        class="fa-solid fa-xmark"></i></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                {{#if order}}
+                                                                {{!-- {{#equals this.id  1}} --}}
                                                                 {{#each order}}
                                                                 <div class="card border mb-3">
                                                                     <ul class="list-group list-group-flush">
-                                                                        <li class="list-group-item">Product Name: {{ 'orderItems.product'}}</li>
-                                                                        <li class="list-group-item">Unit Price: {{'orderItems.price'}}</li>
-                                                                        <li class="list-group-item">Quantity: {{'orderItems.amount'}}</li>
-                                                                {{/each}}
-                                                                {{else}}
-                                                                    <h5>no order...</h5>
-                                                                {{/if}}
-                                                                        {{!-- {% if product.get_status() == 'Low Stock' or product.get_status() ==
+                                                                        <li class="list-group-item">Product Name: {{
+                                                                            'orderItems.product'}}</li>
+                                                                        <li class="list-group-item">Unit Price:
+                                                                            {{'orderItems.price'}}</li>
+                                                                        <li class="list-group-item">Quantity:
+                                                                            {{'orderItems.amount'}}</li>
+                                                                        {{/each}}
+                                                                        {{!-- {{/equals}} --}}
+                                                                        {{!-- {% if product.get_status() == 'Low Stock'
+                                                                        or product.get_status() ==
                                                                         'Out of Stock' %}
-                                                                        <li class="list-group-item float-right">Stock: {{
-                                                                            product.get_product_stock() }} <p class="badge badge-danger">{{
+                                                                        <li class="list-group-item float-right">Stock:
+                                                                            {{
+                                                                            product.get_product_stock() }} <p
+                                                                                class="badge badge-danger">{{
                                                                                 product.get_status() }}</p>
                                                                         </li>
                                                                         {% else %}
-                                                                        <li class="list-group-item float-right">Stock: {{
-                                                                            product.get_product_stock() }} <p class="badge badge-success">{{
+                                                                        <li class="list-group-item float-right">Stock:
+                                                                            {{
+                                                                            product.get_product_stock() }} <p
+                                                                                class="badge badge-success">{{
                                                                                 product.get_status() }}</p>
                                                                         </li>
                                                                         {% endif %} --}}
                                                                     </ul>
                                                                     <div class="card-body">
-                                                                        Created on: {{formatDate createdAt}}
-                                                                        <br>
-                                                                        Created by: {{createdBy}}
+                                                                        Created on: {{formatDate createdAt
+                                                                        'DD/MM/YYYY'}}
                                                                         <br>
                                                                         <hr>
-                                                                        Modified on: {{updatedAt}}
+                                                                        Modified on: {{formatDate updatedAt
+                                                                        'DD/MM/YYYY'}}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -196,32 +221,35 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button type="button" title="Send" class="btn btn-warning " data-bs-toggle="modal"
-                                                    data-bs-target="#my_">
-                                                    <i class="fas fa-paper-plane"></i>
+                                                <button type="button" title="payment" class="btn btn-warning "
+                                                    data-bs-toggle="modal" data-bs-target="#my_">
+                                                    <i class="fa-solid fa-bag-shopping"></i>
                                                 </button>
-                                                
+
                                                 <!-- The Modal -->
                                                 <div class="modal" id="my_">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
-                                                
+
                                                             <!-- Modal Header -->
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title">Send Confirmation</h4>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                <h4 class="modal-title">Payment</h4>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"></button>
                                                             </div>
-                                                
+
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
-                                                                Are you sure you want to send ?
+                                                                Are you sure you continue to buy ?
                                                             </div>
-                                                
+
                                                             <!-- Modal footer -->
                                                             <div class="modal-footer">
-                                                                <a href="/newsletter/sendNewsletter/{{id}}" class="btn btn-danger">Send</a>
-                                                
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                <a href="/payment/payment/{{id}}"
+                                                                    class="btn btn-danger">Yes</a>
+
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">No</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -240,44 +268,47 @@
                                 </table>
                             </div>
                         </section>
-                        
+
+                    </div>
+                    <!-- /.container-fluid -->
+
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
 
             </div>
-            <!-- End of Main Content -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
 </body>
 
 <style>
-    ::selection{
-    background: #8BAD97(23, 98, 184, 0.3);
+    ::selection {
+        background: #8BAD97(23, 98, 184, 0.3);
     }
-    .wrapper{
-        
+
+    .wrapper {
+
         width: 100%;
         padding: 25px 30px 30px 30px;
         border-radius: 5px;
         background: #fff;
-    
+
     }
-    .wrapper header{
+
+    .wrapper header {
         font-size: 30px;
         font-weight: 600;
         padding-bottom: 20px;
     }
-    .wrapper nav{
+
+    .wrapper nav {
         position: relative;
         width: 100%;
         height: 50px;
@@ -285,7 +316,8 @@
         margin-bottom: 10px;
         align-items: center;
     }
-    .wrapper nav label{
+
+    .wrapper nav label {
         display: block;
         height: 100%;
         width: 100%;
@@ -298,24 +330,26 @@
         font-size: 17px;
         border-radius: 5px;
         margin: 0 5px;
-        
+
         transition: all 0.3s ease;
     }
-    .wrapper nav label:hover{
+
+    .wrapper nav label:hover {
         margin-bottom: 10px;
-        background:#e0d1b5;
+        background: #e0d1b5;
     }
-    #draft:checked ~ nav label.draft,
-    #scheduled:checked ~ nav label.scheduled,
-    #past:checked ~ nav label.past,
-    {{!-- #help:checked ~ nav label.help, --}}
-        #about:checked ~ nav label.about{
+
+    
+
+    #about:checked~nav label.about {
         color: #fff;
     }
-    nav label i{
+
+    nav label i {
         padding-right: 7px;
     }
-    nav .slider{
+
+    nav .slider {
         position: absolute;
         height: 100%;
         width: 33%;
@@ -325,45 +359,65 @@
         border-radius: 5px;
         background: #e0d1b5;
         transition: all 0.3s ease;
-    
+
     }
-    input[type="radio"]{
+
+    input[type="radio"] {
         display: none;
     }
-    #scheduled:checked ~ nav .slider{
+
+    #scheduled:checked~nav .slider {
         left: 33.33%;
     }
-    #past:checked ~ nav .slider{
+
+    #past:checked~nav .slider {
         left: 66.66%;
     }
-    {{!-- #help:checked ~ nav .slider{
-        left: 99%;
-    } --}}
-    #about:checked ~ nav .slider{
+
+        {
+            {
+             !-- #help:checked~nav .slider {
+                left: 99%;
+            }
+
+            --
+        }
+    }
+
+    #about:checked~nav .slider {
         left: 99.99%;
     }
-    section .content{
-        display: none;
+
+    section .content {
+        display: block;
         background: #fff;
+        border-collapse: collapse;
+        
     }
-    #draft:checked ~ section .content-1,
-    #scheduled:checked ~ section .content-2,
-    #past:checked ~ section .content-3,
-    {{!-- #help:checked ~ section .content-4, --}}
-    #about:checked ~ section .content-4{
+
+   
+
+    #about:checked~section .content-4 {
         display: block;
     }
-    section .content .title{
+
+    section .content .title {
         font-size: 21px;
         font-weight: 500;
         margin: 30px 0 10px 0;
     }
-    section .content p{
-    text-align: justify;
+
+    section .content p {
+        text-align: justify;
+    }
+
+    #darft:checked ~ section .content-1{
+        display: block;
     }
 </style>
 
-{{!-- <!-- Bootstrap core JavaScript-->
+{{!--
+<!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

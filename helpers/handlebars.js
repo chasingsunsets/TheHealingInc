@@ -21,4 +21,9 @@ const comparison = ('compareStrings', function(p, q, options) {
     return ( p == q ) ? options.fn(this) : options.inverse(this);
 });
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison};
+const equals = function (arg1, arg2, options) {
+    return arg1 == arg2 ? options.fn(this) : options.inverse(this);  
+}
+
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison,equals};

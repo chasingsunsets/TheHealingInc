@@ -211,7 +211,8 @@ router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
+router.post('/editprofile/:id', ensureAuthenticated, async function (req, res) {
+    let id = req.params.id;
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     let username = req.body.username;
