@@ -135,6 +135,8 @@ const paymentRoute = require('./routes/payment');
 const subscriptionRoute = require('./routes/subscription');
 const newsletterRoute = require('./routes/newsletter');
 
+
+
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
 app.use('/user', userRoute);
@@ -147,6 +149,7 @@ app.use('/voucher', voucherRoute);
 app.use('/subscription', subscriptionRoute);
 app.use('/payment', paymentRoute);
 app.use('/newsletter', newsletterRoute);
+
 /*
 * Creates a port for express server since we don't want our app to clash with well known
 * */
