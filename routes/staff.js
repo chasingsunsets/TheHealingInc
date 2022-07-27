@@ -122,6 +122,54 @@ router.get('/profile', ensureAuthenticatedStaff, (req, res) => {
 });
 
 
+////////////////////////////////////////////////////
+router.get('/editProfile/:id', ensureAuthenticatedStaff, (req, res) => {
+    User.findByPk(req.params.id)
+        .then((staff) => {
+
+            if (!staff) {
+                flashMessage(res, 'error', 'Invalid access');
+                res.redirect('/staff/profile');
+                return;
+            }
+
+            // if (req.user.id != req.params.id) {
+            //     flashMessage(res, 'error', 'Unauthorised access');
+            //     res.redirect('/staff/listCust');
+            //     return;
+            //     }
+
+            res.render('staff/editProfile', { staff, layout: 'staffMain' });
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/editProfile/:id',ensureAuthenticatedStaff, (req, res) => {
+    let staffno = req.body.staffno;
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let username = req.body.username;
+    let email = req.body.email;
+
+    let password = req.body.password;
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
+
+    User.update(
+        { staffno, firstname, lastname, username, email, password: hash },
+        { where: { id: req.params.id } }
+    )
+        .then((result) => {
+            flashMessage(res, 'success', 'Profile updated successfully.');
+            console.log(result[0] + ' profile updated');
+            
+            res.redirect('/staff/profile');
+        })
+        .catch(err => console.log(err));
+});
+////////////////////////////////////////////////////
+
+
 router.get('/deleteprofile/:id', ensureAuthenticatedStaff, async function (req, res) {
     try {
         let user = await User.findByPk(req.params.id);
@@ -247,7 +295,7 @@ router.get('/deleteaccount/:id', ensureAuthenticatedStaff, async function (req, 
 
 
 router.get('/editStaff/:id', ensureAuthenticatedStaff, (req, res) => {
-    Staff.findByPk(req.params.id)
+    User.findByPk(req.params.id)
         .then((staff) => {
 
             if (!staff) {
@@ -278,7 +326,7 @@ router.post('/editStaff/:id',ensureAuthenticatedStaff, (req, res) => {
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
 
-    Staff.update(
+    User.update(
         { staffno, firstname, lastname, username, email, password: hash },
         { where: { id: req.params.id } }
     )
@@ -291,7 +339,7 @@ router.post('/editStaff/:id',ensureAuthenticatedStaff, (req, res) => {
 
 router.get('/deletestaff/:id',ensureAuthenticatedStaff, async function (req, res) {
     try {
-        let staff = await Staff.findByPk(req.params.id);
+        let staff = await User.findByPk(req.params.id);
         if (!staff) {
             flashMessage(res, 'error', 'Staff not found');
             res.redirect('/staff/listStaff');
@@ -305,7 +353,7 @@ router.get('/deletestaff/:id',ensureAuthenticatedStaff, async function (req, res
         // }
 
 
-        let result = await Staff.destroy({ where: { id: staff.id } });
+        let result = await User.destroy({ where: { id: staff.id } });
         console.log(result + ' account deleted');
         flashMessage(res, 'success', 'Account successfully deleted');
         res.redirect('/staff/listStaff');
