@@ -14,10 +14,11 @@
 
                                     <tr>
                                         <th>&nbsp;ID</th>
-                                        <th>&nbsp;Name</th>
-                                        <th>&nbsp;Username</th>
-                                        <th>&nbsp;Email</th>
-                                        <th>&nbsp;Address</th>
+                                        <th>&nbsp;Voucher Name</th>
+                                        <th>&nbsp;Discount</th>
+                                        <th>&nbsp;Min. Spend</th>
+                                        <th>&nbsp;Code</th>
+                                        <th>&nbsp;Expiry Date</th>
                                         <th>&nbsp;Action</th>
                                     </tr>
                                 </thead>
@@ -32,14 +33,14 @@
                                     <td>&nbsp;{{valid}}</td>
                                     <td>
                                         <div>
-                                            <a href="/staff/editCust/{{id}}" class="card-link mb-2"
+                                            <a href="/voucher/editvoucher/{{id}}" class="card-link mb-2"
                                                 style="color: #8BAD97">
                                                 <i class="fas fa-pencil-alt"></i>
                                                 Edit
                                             </a>
                                         </div>
                                         <div>
-                                            <a href="/staff/deleteaccount/{{id}}" class="card-link"
+                                            <a href="/staff/deletevoucher/{{id}}" class="card-link"
                                                 style="color: darkred" data-toggle="confirmation"
                                                 data-title="Confirm delete?">
                                                 <i class="far fa-trash-alt"></i>

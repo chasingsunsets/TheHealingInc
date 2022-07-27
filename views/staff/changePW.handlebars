@@ -28,59 +28,49 @@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body">
-                                                         <a href="/staff/profile" style="color: grey ;float:left;  font-size:large" ><u> <i class="fa-solid fa-chevron-left"></i>Back</u></a>
-                        <h3 class="text-center" style="padding-top: 15px;">EDIT PROFILE</h3>
+                                 <a href="/staff/profile" style="color: grey ;float:left;  font-size:large" ><u> <i class="fa-solid fa-chevron-left"></i>Back</u></a>
+
+                        <h3 class="text-center" style="padding-top: 15px;">CHANGE PASSWORD</h3>
                         <form action="" method="post">
 
                             <div class="form-group row">
                                 <div class="col-sm-3">
-                                    <label for="username">Username</label>
-                                    {{!-- <input type="text" class="form-control" name="username"
-                                        value="{{staff.username}}" required> --}}
-                                    {{!-- <h6 class="mb-0">ID</h6> --}}
+                                    <label for="password">Current Password</label>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="username" value="{{user.username}}"
-                                        required>
+                                    <input type="password" name="password" class="form-control" value="" required>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="form-group row">
-                                <div class="col-sm-3">
-                                    <label for="firstname">First Name</label>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="firstname" value="{{user.firstname}}"
-                                        id="firstname" onblur="initialiseFirstname()" required>
-                                </div>
-                            </div>
+
                             <hr>
                             <div class="form-group row">
 
                                 <div class="col-sm-3">
-                                    <label for="lastname">Last Name</label>
+
+                                    <label for="password2">New Password</label>
                                 </div>
+
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="text" class="form-control" name="lastname" value="{{user.lastname}}"
-                                        id="lastname" onblur="initialiseLastname()" required>
+                                    <input type="password" name="password2" class="form-control" value="" required>
+
                                 </div>
                             </div>
+
                             <hr>
                             <div class="form-group row">
 
                                 <div class="col-sm-3">
-                                    <label for="email">Email</label>
+
+                                    <label for="password3">Confirm New Password</label>
                                 </div>
+
                                 <div class="col-sm-9 text-secondary">
-                                    <input type="email" name="email" class="form-control" value="{{user.email}}"
-                                        required>
+                                    <input type="password" name="password3" class="form-control" value="" required>
+
                                 </div>
                             </div>
-                            <hr>
-
-                     
                             <div style="padding-top:25px; padding-left:45px; float:right;">
-                                <button type="submit" class="staffbtn">EDIT</button>
+                                <button type="submit" class="staffbtn">CHANGE</button>
                             </div>
 
                         </form>
