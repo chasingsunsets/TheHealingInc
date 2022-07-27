@@ -230,112 +230,73 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res) {
         return;
     }
 
+
     try {
-        // If all is well, checks if user is already registered
-        let user = await User.findOne({ where: { email: email, type: "customer" } });
-        let usern = await User.findOne({ where: { username: username, type: "customer" } });
 
-        if (user) {
+        await User.findOne({ where: { email: email, type: "customer" } })
+            .then(user => {
 
-            if (user.id != req.params.id) {
-                // If user is found, that means email has already been registered
-                flashMessage(res, 'error', email + ' already registered');
-                // isValid = false;
-                // res.render('user/editprofile', { user });
-                User.findByPk(req.params.id)
-                    .then((user) => {
-                        res.render('user/editprofile', { user });
-                        return;
-                    })
-                    .catch(err => console.log(err));
-            }
-
-            else{
-            User.update(
-                // { firstname, lastname, username, phoneno, address, email, password: hash },
-                { firstname, lastname, username, phoneno, address, email },
-                { where: { id: req.params.id, type: "customer" } }
-            )
-                .then((result) => {
-                    console.log(result[0] + ' profile updated');
-                    flashMessage(res, 'success', ' Profile edited successfully');
-                    res.redirect('/user/profile');
-                })
-                .catch(err => console.log(err));
-            }
-        }
-
-        else if (usern) {
-            if (usern.id != req.params.id) {
-
-            // If user is found, that means username has already been registered
-            flashMessage(res, 'error', username + ' already registered');
-            // res.render('user/editprofile', { user });
-            // isValid = false;
-            User.findByPk(req.params.id)
-                .then((user) => {
-                    res.render('user/editprofile', { user });
-                })
-                .catch(err => console.log(err));
-            return;
-            }
-
-            else{
-                User.update(
-                    // { firstname, lastname, username, phoneno, address, email, password: hash },
-                    { firstname, lastname, username, phoneno, address, email },
-                    { where: { id: req.params.id, type: "customer" } }
-                )
-                    .then((result) => {
-                        console.log(result[0] + ' profile updated');
-                        flashMessage(res, 'success', ' Profile edited successfully');
-                        res.redirect('/user/profile');
-                    })
-                    .catch(err => console.log(err));
+                if (user.id != id) {
+                    // If user is found, that means email has already been registered
+                    flashMessage(res, 'error', email + ' already registered');
+                    isValid = false;
+                    // res.render('user/editprofile', { user });
+                    // User.findByPk(req.params.id)
+                    //     .then((user) => {
+                    //         return res.render('user/editprofile', { user });
+                    //     })
+                    //     .catch(err => console.log(err));
+                        // return;    
                 }
-        }
-        else {
-            // Create new user record
-            // var salt = bcrypt.genSaltSync(10);
-            // var hash = bcrypt.hashSync(password, salt);
-            // Use hashed password
-            // let user = await User.create({ type:"customer",firstname, lastname, username, phoneno, address, email, password: hash, verified: 0 });
 
-            // // Send email
-            // let token = jwt.sign(email, process.env.APP_SECRET);
-            // let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
-            // sendEmail(user.email, url)
-            //     .then(response => {
-            //         console.log(response);
-            //         flashMessage(res, 'success', user.email + ' registered successfully');
-            //         res.redirect('/user/login');
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //         flashMessage(res, 'error', 'Error when sending email to ' +
-            //             user.email);
-            //         res.redirect('/');
-            //     });
-            User.update(
-                // { firstname, lastname, username, phoneno, address, email, password: hash },
-                { firstname, lastname, username, phoneno, address, email },
-                { where: { id: req.params.id, type: "customer" } }
-            )
-                .then((result) => {
-                    console.log(result[0] + ' profile updated');
-                    flashMessage(res, 'success', ' Profile edited successfully');
-                    res.redirect('/user/profile');
-                })
+            })
+            .catch(err => console.log(err));
+
+        await User.findOne({ where: { username: username, type: "customer" } })
+            .then(user => {
+                if (user.id != id) {
+                    // If user is found, that means email has already been registered
+                    flashMessage(res, 'error', username + ' already registered');
+                    isValid = false;
+                    // res.render('user/editprofile', { user });
+                    // User.findByPk(req.params.id)
+                    //     .then((user) => {
+                    //         return res.render('user/editprofile', { user });
+                    //     })
+                    //     .catch(err => console.log(err));
+                        // return;
+                }
+            })
                 .catch(err => console.log(err));
-
-
-        }
+                
+    if (!isValid) {
+        User.findByPk(req.params.id)
+            .then((user) => {
+                res.render('user/editprofile', { user });
+            })
+            .catch(err => console.log(err));
+        return;
     }
+    }
+
     catch (err) {
         console.log(err);
     }
 
-});
+            User.update(
+            // { firstname, lastname, username, phoneno, address, email, password: hash },
+            { firstname, lastname, username, phoneno, address, email },
+            { where: { id: req.params.id, type: "customer" } }
+        )
+            .then((result) => {
+                console.log(result[0] + ' profile updated');
+                flashMessage(res, 'success', ' Profile edited successfully');
+                res.redirect('/user/profile');
+            })
+            .catch(err => console.log(err));
+
+    });
+
 
 
 router.get('/changepw/:id', ensureAuthenticated, (req, res) => {

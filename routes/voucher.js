@@ -16,7 +16,9 @@ router.post('/addVoucher', (req, res) => {
     let discount = req.body.discount;
     let minspend = req.body.minspend;
     let code = req.body.code;
-    let valid = moment(req.body.valid, 'DD/MM/YYYY');
+    // let valid = moment(req.body.valid, 'DD/MM/YYYY');
+    let valid = req.body.valid;
+
     // let language = req.body.language.toString();
     // // Multi-value components return array of strings or undefined
     // let subtitles = req.body.subtitles === undefined ? '' : req.body.subtitles.toString();
