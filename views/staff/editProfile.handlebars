@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="main-body">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" style="background-color: #8BAD97; border-radius:20px; ">
+            <ol class="breadcrumb" style="background-color: #8BAD97; ">
+                <li style="background-color: #8BAD97; color:white; font-size:25px; font-weight:bold;">User Profile</li>
+            </ol>
+        </nav>
+        <!-- /Breadcrumb -->
+
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="/img/avatar.jpg" alt="Admin" class="rounded-circle" width="150">
+                            <div class="mt-3">
+                                <h4>{{firstname}}</h4>
+                                <p class="text-secondary mb-1">Staff Member</p>
+                                {{!-- <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="text-center" style="padding-top: 15px;">EDIT PROFILE</h3>
+                        <form action="" method="post">
+
+                            <div class="form-group row">
+                                <div class="col-sm-3">
+                                    <label for="username">Username</label>
+                                    {{!-- <input type="text" class="form-control" name="username"
+                                        value="{{staff.username}}" required> --}}
+                                    {{!-- <h6 class="mb-0">ID</h6> --}}
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" class="form-control" name="username" value="{{staff.username}}"
+                                        required>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+                                <div class="col-sm-3">
+                                    <label for="firstname">First Name</label>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" class="form-control" name="firstname" value="{{staff.firstname}}"
+                                        id="firstname" onblur="initialiseFirstname()" required>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+
+                                <div class="col-sm-3">
+                                    <label for="lastname">Last Name</label>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" class="form-control" name="lastname" value="{{staff.lastname}}"
+                                        id="lastname" onblur="initialiseLastname()" required>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+
+                                <div class="col-sm-3">
+                                    <label for="email">Email</label>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="email" name="email" class="form-control" value="{{staff.email}}"
+                                        required>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+
+                                <div class="col-sm-3">
+                                    <label for="password">Password</label>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="password" name="password" class="form-control" value="" required>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group row">
+
+                                <div class="col-sm-3">
+
+                                    <label for="password2">Confirm Password</label>
+                                </div>
+
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="password" name="password2" class="form-control" value="" required>
+
+                                </div>
+                            </div>
+                            <div style="padding-top:25px; padding-left:45px; float:right;">
+                                <button type="submit" class="staffbtn">EDIT</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
