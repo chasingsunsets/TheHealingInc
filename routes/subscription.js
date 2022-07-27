@@ -1,14 +1,105 @@
 const express = require('express');
 const router = express.Router();
+
+// models
 const Subscription = require('../models/Subscription');
-const flashMessage = require('../helpers/messenger');
 const User = require('../models/User');
 
-// Required for verification
+// helpers
+const flashMessage = require('../helpers/messenger');
+
+// api
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
 
+// c: subscribe
+router.get('/addSub', (req, res) => {
+    res.render('newsletter/add');
+});
+
+router.post('/addSub', async function (req, res) {
+
+    let { firstName, lastName, email } = req.body;
+    let isValid = true;
+
+    if (!isValid) {
+        res.render('newsletter/add', {
+            firstName, lastName, email
+        });
+        return;
+    }
+
+    try {
+        // If all is well, checks if subscription email is already registered
+        let subscription = await Subscription.findOne({ where: { email: email } });
+
+        if (subscription) {
+            // If subscription email is found, that means email has already been registered
+            // flashMessage(res, 'error', email + ' already registered');
+            // res.render('newsletter/add', {
+            //     firstName, lastName, email
+            // });
+            // flashMessage(res, 'error', email + ' already registered');
+            res.render('subscription/message', { message: 'Email have been used. Please try again using a different email.', card_title: "Subscription Unsucessful", button: "Try Again", link: "/" });
+        }
+
+        else {
+            // Create new subscription record
+            let subscription = await Subscription.create({ firstName, lastName, email, verified: 0 });
+
+            User.findAll({
+                raw: true
+            })
+                .then((users) => {
+                    // create a userList that takes in user email
+                    let userList = [];
+                    for (let i = 0; i < users.length; i++) {
+                        userList.push(users[i].email);
+                    }
+
+                    // compare if subscription email is already a user email ==> if yes: dont need to send verify message
+                    if (userList.includes(subscription.email) == true) {
+                        Subscription.update(
+                            { verified: 1 },
+                            { where: { id: subscription.id } });
+                        // console.log("Dont need send email");
+                        res.render('subscription/message', { message: 'You have sucessfully subscribed to The Healing Inc. newsletter.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
+                    }
+
+                    else {
+                        // Send email
+                        let token = jwt.sign(email, process.env.APP_SECRET);
+                        let url = `${process.env.BASE_URL}:${process.env.PORT}/subscription/verify/${subscription.id}/${token}`;
+                        let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscription.id}`;
+                        sendEmail(subscription.email, url, urlDelete, firstName)
+                            .then(response => {
+                                console.log(response);
+                                // flashMessage(res, 'success', subscription.email + ' signed up successfully');
+                                // res.redirect('/');
+                                res.render('subscription/message', { message: 'You have subscribed successfully to The Healing Inc. newsletter. Please verify via your email.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
+                            })
+                            .catch(err => {
+                                console.log(err);
+                                res.render('subscription/message', { message: 'Error when sending email to ' + subscription.email, card_title: "Subscription Unsucessful", button: "Try Again", link: "/" });
+                                // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
+                                // res.redirect('/');
+                            });
+                    }
+                })
+                .catch(err => console.log(err));
+
+
+
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+});
+
+// r: list of subscriptions
 router.get('/listSubscriptions', (req, res) => {
     Subscription.findAll({
         raw: true
@@ -22,11 +113,37 @@ router.get('/listSubscriptions', (req, res) => {
         .catch(err => console.log(err));
 });
 
-// Newsletter Subscription
-router.get('/addSub', (req, res) => {
-    res.render('newsletter/add');
+// d: unsubscribe
+router.get('/deleteSub/:id', async function (req, res) {
+    try {
+        let subscription = await Subscription.findByPk(req.params.id);
+        console.log(req.params.id)
+        if (!subscription) {
+            res.render('subscription/message', { message: 'Subscription ID not found. Please try again', card_title: "Unsubscribe Unsuccessful", button: "Try Again", link: "/" });
+            // flashMessage(res, 'error', 'Subscription not found');
+            // res.redirect('/');
+            return;
+        }
+
+        // this is to check if the staff in logged in:
+        // if (req.subscription.id != req.params.id) {
+        //     flashMessage(res, 'error', 'Unauthorised access');
+        //     res.redirect('/');
+        //     return;
+        // }
+
+        let result = await Subscription.destroy({ where: { id: subscription.id } });
+        console.log(result + ' subscription deleted');
+        res.render('subscription/message', { message: 'You have unsubscribed successfully to The Healing Inc. newsletter.', card_title: "Unsubscribe Successful", button: "Home", link: "/" });
+        // flashMessage(res, 'success', 'Subscription successfully deleted');
+        // res.redirect('/');
+    }
+    catch (err) {
+        console.log(err);
+    }
 });
 
+// send email function
 function sendEmail(toEmail, url, urlDelete, firstName) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
@@ -151,6 +268,7 @@ function sendEmail(toEmail, url, urlDelete, firstName) {
     });
 }
 
+// verify function
 router.get('/verify/:subscriptionId/:token', async function (req, res) {
     let id = req.params.subscriptionId;
     let token = req.params.token;
@@ -160,12 +278,12 @@ router.get('/verify/:subscriptionId/:token', async function (req, res) {
         if (!subscription) {
             // flashMessage(res, 'error', 'Subscription not found');
             // res.redirect('/');
-            res.render('newsletter/message', { message: 'No subscription found. Please try again.', card_title: "Verfication Unsucessful", button: "Home", link: "/" });
+            res.render('subscription/message', { message: 'No subscription found. Please try again.', card_title: "Verfication Unsucessful", button: "Home", link: "/" });
             return;
         }
         // Check if subscription has been verified
         if (subscription.verified) {
-            res.render('newsletter/message', { message: 'Your email have been verified. Look out for exciting newsletters coming your way!', card_title: "Verfication Sucessful", button: "Start Shopping", link: "/" });
+            res.render('subscription/message', { message: 'Your email have been verified. Look out for exciting newsletters coming your way!', card_title: "Verfication Sucessful", button: "Start Shopping", link: "/" });
             return;
         }
         // Verify JWT token sent via URL
@@ -173,7 +291,7 @@ router.get('/verify/:subscriptionId/:token', async function (req, res) {
         if (authData != subscription.email) {
             // flashMessage(res, 'error', 'Unauthorised Access');
             // res.redirect('/');
-            res.render('newsletter/message', { message: 'There is an error. Please try again.', card_title: "Verfication Unsucessful", button: "Home", link: "/" });
+            res.render('subscription/message', { message: 'There is an error. Please try again.', card_title: "Verfication Unsucessful", button: "Home", link: "/" });
             return;
         }
         let result = await Subscription.update(
@@ -182,242 +300,11 @@ router.get('/verify/:subscriptionId/:token', async function (req, res) {
         console.log(result[0] + ' subscription updated');
         // flashMessage(res, 'success', subscription.email + ' verified. Please login');
         // res.redirect('/');
-        res.render('newsletter/message', { message: 'Your email have been verified. Look out for exciting newsletters coming your way!', card_title: "Verfication Sucessful", button: "Start Shopping", link: "/" });
+        res.render('subscription/message', { message: 'Your email have been verified. Look out for exciting newsletters coming your way!', card_title: "Verfication Sucessful", button: "Start Shopping", link: "/" });
     }
     catch (err) {
         console.log(err);
     }
 });
-
-router.post('/addSub', async function (req, res) {
-
-    let { firstName, lastName, email } = req.body;
-    let isValid = true;
-
-    if (!isValid) {
-        res.render('newsletter/add', {
-            firstName, lastName, email
-        });
-        return;
-    }
-    
-    try {
-        // If all is well, checks if subscription email is already registered
-        let subscription = await Subscription.findOne({ where: { email: email } });
-
-        if (subscription) {
-            // If subscription email is found, that means email has already been registered
-            // flashMessage(res, 'error', email + ' already registered');
-            // res.render('newsletter/add', {
-            //     firstName, lastName, email
-            // });
-            // flashMessage(res, 'error', email + ' already registered');
-            res.render('newsletter/message', { message: 'Email have been used. Please try again using a different email.', card_title: "Subscription Unsucessful", button: "Try Again", link: "/" });
-        }
-
-        else {
-            // Create new subscription record
-            let subscription = await Subscription.create({ firstName, lastName, email, verified: 0 });
-
-            User.findAll({
-                raw: true
-            })
-                .then((users) => {
-                    // create a userList that takes in user email
-                    let userList = [];
-                    for (let i = 0; i < users.length; i++) {
-                        userList.push(users[i].email);
-                    }
-                    
-                    // compare if subscription email is already a user email ==> if yes: dont need to send verify message
-                    if (userList.includes(subscription.email) == true) {
-                        Subscription.update(
-                            { verified: 1 },
-                            { where: { id: subscription.id } });
-                        // console.log("Dont need send email");
-                        res.render('newsletter/message', { message: 'You have sucessfully subscribed to The Healing Inc. newsletter.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
-                    }
-
-                    else {
-                        // Send email
-                        let token = jwt.sign(email, process.env.APP_SECRET);
-                        let url = `${process.env.BASE_URL}:${process.env.PORT}/subscription/verify/${subscription.id}/${token}`;
-                        let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscription.id}`;
-                        sendEmail(subscription.email, url, urlDelete, firstName)
-                            .then(response => {
-                                console.log(response);
-                                // flashMessage(res, 'success', subscription.email + ' signed up successfully');
-                                // res.redirect('/');
-                                res.render('newsletter/message', { message: 'You have subscribed successfully to The Healing Inc. newsletter. Please verify via your email.', card_title: "Subscription Successful", button: "Start Shopping", link: "/" });
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                res.render('newsletter/message', { message: 'Error when sending email to ' + subscription.email, card_title: "Subscription Unsucessful", button: "Try Again", link: "/" });
-                                // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
-                                // res.redirect('/');
-                            });
-                    }
-                })
-                .catch(err => console.log(err));
-
-
-            
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-
-});
-
-router.get('/deleteSub/:id', async function (req, res) {
-    try {
-        let subscription = await Subscription.findByPk(req.params.id);
-        console.log(req.params.id)
-        if (!subscription) {
-            flashMessage(res, 'error', 'Subscription not found');
-            res.redirect('/');
-            return;
-        }
-
-        // this is to check if the staff in logged in:
-        // if (req.subscription.id != req.params.id) {
-        //     flashMessage(res, 'error', 'Unauthorised access');
-        //     res.redirect('/');
-        //     return;
-        // }
-
-        let result = await Subscription.destroy({ where: { id: subscription.id } });
-        console.log(result + ' subscription deleted');
-        flashMessage(res, 'success', 'Subscription successfully deleted');
-        res.redirect('/');
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
-
-// router.post('/login', (req, res, next) => {
-//     passport.authenticate('local', {
-//         // Success redirect URL
-//         successRedirect: '/user/profile',
-//         // Failure redirect URL
-//         failureRedirect: '/user/login',
-//         /* Setting the failureFlash option to true instructs Passport to flash
-//         an error message using the message given by the strategy's verify callback.
-//         When a failure occur passport passes the message object as error */
-//         failureFlash: true
-//     })(req, res, next);
-// });
-
-// router.get('/logout', (req, res) => {
-//         req.logout();
-//         res.redirect('/');
-//         });  here broken, fix found online was:
-// router.get('/logout', (req, res) => {
-//     req.logout(function (err) {
-//         if (err) { return next(err); }
-//         res.redirect('/');
-//     });
-// });
-
-// router.get('/profile', ensureAuthenticated, (req, res) => {
-
-//     res.render('user/profile', { layout: 'account', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
-// });
-
-// router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
-//     User.findByPk(req.params.id)
-//         .then((user) => {
-
-//             if (!user) {
-//                 flashMessage(res, 'error', 'Invalid access');
-//                 res.redirect('/user/profile');
-//                 return;
-//             }
-
-//             if (req.user.id != req.params.id) {
-//                 flashMessage(res, 'error', 'Unauthorised access');
-//                 res.redirect('/user/profile');
-//                 return;
-//             }
-
-//             res.render('user/editprofile', { user });
-//         })
-//         .catch(err => console.log(err));
-// });
-
-// router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
-//     let firstname = req.body.firstname;
-//     let lastname = req.body.lastname;
-//     let username = req.body.username;
-//     let phoneno = req.body.phoneno;
-//     let address = req.body.address;
-//     let email = req.body.email;
-//     let password = req.body.password;
-//     let password2 = req.body.password2
-
-//     let isValid = true;
-//     if (password.length < 6) {
-//         flashMessage(res, 'error', 'Password must be at least 6 characters');
-//         isValid = false;
-//     }
-//     if (password != password2) {
-//         flashMessage(res, 'error', 'Passwords do not match');
-//         isValid = false;
-//     }
-//     if (phoneno.length != 8) {
-//         flashMessage(res, 'error', 'Phone number must be 8 digits');
-//         isValid = false;
-//     }
-
-//     if (!isValid) {
-//         User.findByPk(req.params.id)
-//             .then((user) => {
-//                 res.render('user/editprofile', { user });
-//             })
-//             .catch(err => console.log(err));
-//         return;
-//     }
-
-//     var salt = bcrypt.genSaltSync(10);
-//     var hash = bcrypt.hashSync(password, salt);
-
-//     User.update(
-//         { firstname, lastname, username, phoneno, address, email, password: hash },
-//         { where: { id: req.params.id } }
-//     )
-//         .then((result) => {
-//             console.log(result[0] + ' profile updated');
-//             res.redirect('/user/profile');
-//         })
-//         .catch(err => console.log(err));
-// });
-
-// router.get('/deleteaccount/:id', ensureAuthenticated, async function (req, res) {
-//     try {
-//         let user = await User.findByPk(req.params.id);
-//         if (!user) {
-//             flashMessage(res, 'error', 'User not found');
-//             res.redirect('/user/profile');
-//             return;
-//         }
-
-//         if (req.user.id != req.params.id) {
-//             flashMessage(res, 'error', 'Unauthorised access');
-//             res.redirect('/user/profile');
-//             return;
-//         }
-
-
-//         let result = await User.destroy({ where: { id: user.id } });
-//         console.log(result + ' account deleted');
-//         flashMessage(res, 'success', 'Account successfully deleted');
-//         res.redirect('/user/login');
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// });
 
 module.exports = router;
