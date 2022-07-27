@@ -11,9 +11,9 @@
                 </select>
             </div>
         </header><!-- sect-heading -->
-        {{#if products}}
+        {{#if product}}
         <div class="row">
-            {{#each products}}
+            {{#each product}}
             <div class="col-md-3">
                 <form action="" method="POST">
                 <figure class="card card-product-grid">
@@ -25,7 +25,7 @@
 						</a>
                     </div> <!-- img-wrap.// -->
                     <figcaption class="info-wrap">
-                        <a href="/product/itemDesc" class="title mb-2">{{name}}</a>
+                        <a href="/product/itemDesc/{{id}}" class="title mb-2">{{name}}</a>
                         <div class="price-wrap">
                             <span class="price">${{price}}</span>
                             <small class="text-muted">/per pack</small>
@@ -42,7 +42,7 @@
                             <span class="tag"> {{replaceCommas category}} </span>
                         </p>
 
-                        <a href="/itemDesc"> Enlarge  </a>
+                        <a href="/product/itemDesc/{{id}}"> Enlarge  </a>
 
                         {{!-- <input type="hidden" name="user_id" value="{{id}}">
                         <input type="hidden" name="amount" value="{{amount}}">
