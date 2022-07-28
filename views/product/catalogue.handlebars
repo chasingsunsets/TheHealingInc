@@ -1,61 +1,63 @@
 <!-- ========================= SECTION CONTENT ========================= -->
-<section class="section-content padding-y">
-    <div class="container">
-        <header class="mb-3">
-            <div class="form-inline">
-                <select class="mr-2 form-control">
-                    <option>Latest items</option>
-                    <option>Trending</option>
-                    <option>Most Popular</option>
-                    <option>Cheapest</option>
-                </select>
-            </div>
-        </header><!-- sect-heading -->
-        {{#if product}}
-        <div class="row">
-            {{#each product}}
-            <div class="col-md-3">
-                <form action="" method="POST">
-                <figure class="card card-product-grid">
-                    <div class="img-wrap">
-                        <span class="badge badge-danger"> NEW </span>
-						<a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
-							<img src="{{posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
-								onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
-						</a>
-                    </div> <!-- img-wrap.// -->
-                    <figcaption class="info-wrap">
-                        <a href="/product/itemDesc/{{id}}" class="title mb-2">{{name}}</a>
-                        <div class="price-wrap">
-                            <span class="price">${{price}}</span>
-                            <small class="text-muted">/per pack</small>
-                        </div> <!-- price-wrap.// -->
+<div class="container">
+    <section class="section-content padding-y">
+        <div class="container">
+            <header class="mb-3">
+                <div class="form-inline">
+                    <select class="mr-2 form-control">
+                        <option>Latest items</option>
+                        <option>Trending</option>
+                        <option>Most Popular</option>
+                        <option>Cheapest</option>
+                    </select>
+                </div>
+            </header><!-- sect-heading -->
+            {{#if product}}
+            <div class="row">
+                {{#each product}}
+                <div class="col-md-3">
+                    <form action="" method="POST">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <span class="badge badge-danger"> NEW </span>
+                            <a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
+                                <img src="{{posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
+                                    onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                            </a>
+                        </div> <!-- img-wrap.// -->
+                        <figcaption class="info-wrap">
+                            <a href="/product/itemDesc/{{id}}" class="title mb-2">{{name}}</a>
+                            <div class="price-wrap">
+                                <span class="price">${{price}}</span>
+                                <small class="text-muted">/per pack</small>
+                            </div> <!-- price-wrap.// -->
 
-                        <p class="mb-2"> {{size}} Servings <small class="text-muted">(Per Pack)</small></p>
+                            <p class="mb-2"> {{size}} Servings <small class="text-muted">(Per Pack)</small></p>
 
-                        <hr>
+                            <hr>
 
-                        <p class="mb-3">
-                            <span class="tag"> <i class="fa fa-check"></i> Verified</span>
-                            <span class="tag"> 23 reviews </span>
-                            <span class="tag"> China </span>
-                            <span class="tag"> {{replaceCommas category}} </span>
-                        </p>
+                            <p class="mb-3">
+                                <span class="tag"> <i class="fa fa-check"></i> Verified</span>
+                                <span class="tag"> 23 reviews </span>
+                                <span class="tag"> China </span>
+                                <span class="tag"> {{replaceCommas category}} </span>
+                            </p>
 
-                        <a href="/product/itemDesc/{{id}}"> Enlarge  </a>
+                            <a href="/product/itemDesc/{{id}}"> Enlarge  </a>
 
-                        {{!-- <input type="hidden" name="user_id" value="{{id}}">
-                        <input type="hidden" name="amount" value="{{amount}}">
-                        <button id="btnSubmit" type="submit" class="btn btn-primary">Add to Cart</button> --}}
-                    </figcaption>
-                </figure>
-                </form>
-            </div> <!-- col.// -->
-            {{/each}}
-        </div> <!-- row end.// -->
-        {{else}}
-        <h3>No products created</h3>
-        {{/if}}
-    </div> <!-- container .//  -->
-</section>
+                            {{!-- <input type="hidden" name="user_id" value="{{id}}">
+                            <input type="hidden" name="amount" value="{{amount}}">
+                            <button id="btnSubmit" type="submit" class="btn btn-primary">Add to Cart</button> --}}
+                        </figcaption>
+                    </figure>
+                    </form>
+                </div> <!-- col.// -->
+                {{/each}}
+            </div> <!-- row end.// -->
+            {{else}}
+            <h3>No products created</h3>
+            {{/if}}
+        </div> <!-- container .//  -->
+    </section>
+</div>
 <!-- ========================= SECTION CONTENT END// ========================= -->
