@@ -39,4 +39,4 @@ manage_catalogue.post('/', async (req, res) => {
 });
 
 
-module.exports = manage_catalogue;
+// module.exports = manage_catalogue;

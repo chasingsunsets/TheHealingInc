@@ -6,6 +6,8 @@ const Product = require('../models/Product');
 
 const ensureAuthenticated = require('../helpers/auth');
 
+Order = require('../models/Order');
+
 // Required for file upload 
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
@@ -20,9 +22,9 @@ router.get('/listProducts', (req, res) => {
 
 router.get('/catalogue', (req, res) => {
     Product.findAll()
-        .then((products) => {
-            console.log(products)
-            res.render('product/catalogue', { products });
+        .then((product) => {
+            console.log(product)
+            res.render('product/catalogue', { product });
         })
         .catch(err => console.log(err));
 });
@@ -121,13 +123,13 @@ router.post('/upload', (req, res) => {
 
 router.get('/itemDesc/:id', (req, res) => {
     Product.findByPk(req.params.id)
-        .then((products) => {
-            if (!products) {
-                flashMessage(res, 'error', 'Video not found');
+        .then((product) => {
+            if (!product) {
+                flashMessage(res, 'error', 'Product not found');
                 res.redirect('/product/catalogue');
                 return;
             }
-            res.render('product/itemDesc', { products });
+            res.render('product/itemDesc', { product });
         })
         .catch(err => console.log(err));
 });
@@ -136,8 +138,18 @@ router.post('/itemDesc/:id', async (req, res) => {
     const product = await Product.findByPk(req.params.id);
     let name = product.name;
     let price = product.price;
-
-    Order.CartItem.create(name, price);
+    let userId = req.user.id;
+    let totalprice = product.price;
+    let amount = 1;
+    flashMessage(res, 'success', 'Product has added in shopping cart');
+    Order.CartItem.create(
+		{ userId, product:name, amount, price, totalprice }
+	)
+		.then((order) => {
+			console.log(order.toJSON());
+			res.redirect('/product/itemDesc/' + req.params.id);
+		})
+		.catch(err => console.log(err));
 
 });
 

@@ -36,6 +36,7 @@ const setUpDB = (drop) => {
             
             User.hasMany(Voucher);
             Voucher.belongsTo(User);
+
             
 
             mySQLDB.sync({
