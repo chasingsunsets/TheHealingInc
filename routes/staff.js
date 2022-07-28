@@ -73,8 +73,8 @@ router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
 
     try {
         // If all is well, checks if user is already registered
-        let staffe = await Staff.findOne({ where: { email: email } });
-        let staffn = await Staff.findOne({ where: { username: username } });
+        let staffe = await Staff.findOne({ where: { email: email, type:"staff" } });
+        let staffn = await Staff.findOne({ where: { username: username, type:"staff" } });
 
         if (staffe) {
             // If staff is found, that means email has already been registered
