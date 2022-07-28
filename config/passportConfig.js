@@ -78,7 +78,7 @@ function localStrategy2(passport) {
     passport.deserializeUser((staffId, done) => {
         User.findByPk(staffId)
             .then((staff) => {
-                done(null, staff);
+                done(null, staffId);
                 // user object saved in req.session
             })
             .catch((done) => {

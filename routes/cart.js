@@ -64,11 +64,14 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 		// create a new order
 		let userId = req.user.id;
 		let totalamount = req.body.totalamount
-		Order.Order.create({ totalamount, userId })
+		let status = "Unshipped";
+		let payment = "Unpaid";
+		Order.Order.create({ totalamount, userId, status, payment })
 			.then(() => {
 				Order.Order.findOne({
 					where: { userId },
 					order: [['createdAt', 'DESC']],
+					raw: true
 				})
 					.then((order) => {
 						let orderId = order.id
@@ -93,7 +96,7 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 										Order.CartItem.destroy({ where: { userId: req.user.id} });
 									})
 								});
-								res.redirect('/payment/payment');
+								res.redirect('/payment/payment/' + orderId);
 							})
 					})
 

@@ -7,23 +7,33 @@ const moment = require('moment');
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
 
-router.get('/payment', ensureAuthenticated, (req, res) => {
-    console.log("get to payment page successfully")
-    console.log('user id: ', req.user.id)
-	Order.Order.findAll({
-		where: { userId: req.user.id },
-		order: [['createdat', 'DESC']],
-	})
+router.get('/payment/:id', ensureAuthenticated, (req, res) => {
+	console.log("get to payment page successfully")
+	console.log('user id: ', req.user.id)
+	Order.Order.findByPk(req.params.id)
 		.then((order) => {
-			console.log(order);
-			// pass object to cart.handlebars
-			res.render('../views/cart/purchase.handlebars', { order });
+			let orderId = order.id
+			let status = order.status
+			Order.OrderItem.findAll({
+				where: { orderId },
+				order: [['createdat', 'DESC']],
+			})
+				.then((orderItem) => {
+					res.render('../views/cart/purchase.handlebars', { orderItem, status });
+				})
 		})
 		.catch(err => console.log(err));
 });
 
-router.post('/payment', ensureAuthenticated, (req, res) => {
-    console.log("get to payment page failed")
+router.post('/payment/:id', ensureAuthenticated, async (req, res) => {
+	let order = await Order.Order.findByPk(req.params.id)
+	console.log("ORder: " + order.id);
+	if (req.body.cancel == 'cancel') {
+		flashMessage(res, 'success', 'Order has canceled for you');
+		await Order.Order.destroy({ where: { id: order.id } });
+		await Order.OrderItem.destroy({ where: { id: order.id} });
+		res.redirect('/');
+	}
 });
 
 

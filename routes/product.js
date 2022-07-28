@@ -6,14 +6,16 @@ const Product = require('../models/Product');
 
 const ensureAuthenticated = require('../helpers/auth');
 
+Order = require('../models/Order');
+
 // Required for file upload 
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 
 router.get('/listProducts', (req, res) => {
     Product.findAll()
-        .then((product) => {
-            res.render('product/listProducts', { product, layout: 'staffMain' });
+        .then((products) => {
+            res.render('product/listProducts', { products, layout: 'staffMain' });
         })
         .catch(err => console.log(err));
 });
@@ -132,5 +134,23 @@ router.get('/itemDesc/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
+router.post('/itemDesc/:id', async (req, res) => {
+    const product = await Product.findByPk(req.params.id);
+    let name = product.name;
+    let price = product.price;
+    let userId = req.user.id;
+    let totalprice = product.price;
+    let amount = 1;
+    flashMessage(res, 'success', 'Product has added in shopping cart');
+    Order.CartItem.create(
+		{ userId, product:name, amount, price, totalprice }
+	)
+		.then((order) => {
+			console.log(order.toJSON());
+			res.redirect('/product/itemDesc/' + req.params.id);
+		})
+		.catch(err => console.log(err));
+
+});
 
 module.exports = router;
