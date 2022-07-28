@@ -32,18 +32,21 @@
                         <div style="float:right;">
                             <a href="/staff/editProfile/{{id}}" class="card-link mb-2" style="color: #8BAD97">
                                 <i class="fas fa-pencil-alt"></i>
-                                Edit
+                                Edit Information
                             </a>
+
+
+
+                            <a href="/staff/changePW/{{id}}" class="card-link mb-2">
+                                <i class="fa-solid fa-lock"></i>
+                                Change Password
+                            </a>
+
                             {{!-- <a href="/staff/deleteaccount/{{id}}" class="card-link" style="color: darkred"
                                 data-toggle="confirmation" data-title="Confirm delete?">
                                 <i class="far fa-trash-alt"></i>
                                 Delete
                             </a> --}}
-                            <href="/staff/dashboard" data-toggle="modal" data-target="#deletestaffprofile" class="card-link" style="color: darkred">
-                                <i class="far fa-trash-alt"></i>
-                                Delete
-                            </a>
-                            
 
                         </div>
                         <div class="row">
@@ -63,7 +66,7 @@
                                 {{username}}
                             </div>
                         </div>
-                     <hr>
+                        <hr>
                         <div class="row">
                             <div class="col-sm-3">
                                 <h6 class="mb-0">Name</h6>
@@ -113,6 +116,13 @@
                                     href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
                             </div>
                         </div> --}}
+                        <div style="float:right;">
+                         <a href=" /staff/dashboard" data-toggle="modal" data-target="#deletestaffprofile"
+                                class="card-link" style="color: darkred">
+                                <i class="far fa-trash-alt"></i>
+                                Delete Account
+                                </a>
+                                </div>
                     </div>
                 </div>
 
@@ -124,22 +134,22 @@
 
 
 
- <!-- Logout Modal-->
-    <div class="modal fade" id="deletestaffprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Delete" below if you are deleting your account.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/staff/deleteprofile/{{id}}">Delete</a>
-                </div>
+<!-- Logout Modal-->
+<div class="modal fade" id="deletestaffprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Delete" below if you are deleting your account.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="/staff/deleteprofile/{{id}}">Delete</a>
             </div>
         </div>
     </div>
+</div>

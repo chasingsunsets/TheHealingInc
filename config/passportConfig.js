@@ -6,7 +6,7 @@ const Staff = require('../models/Staff');
 function localStrategy(passport) {
     passport.use(
         new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
-            User.findOne({ where: { username: username } })
+            User.findOne({ where: { username: username, type:"customer" } })
                 .then(user => {
                     if (!user) {
                         return done(null, false, { message: 'No User Found' });
@@ -78,7 +78,7 @@ function localStrategy2(passport) {
     passport.deserializeUser((staffId, done) => {
         User.findByPk(staffId)
             .then((staff) => {
-                done(null, staff);
+                done(null, staffId);
                 // user object saved in req.session
             })
             .catch((done) => {

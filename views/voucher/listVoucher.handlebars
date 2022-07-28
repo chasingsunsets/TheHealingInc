@@ -1,11 +1,12 @@
 <body>
     <div>{{!-- <div style="background-color: #F1EDE5;"> --}}
-            {{#if users}}
+            {{#if vouchers}}
             <div class="container-fluid">
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3" style="background-color:#8BAD97;">
-                        <h5 class="m-0 font-weight-bold" style="color:white;">Vouchers</h5>
-                    </div>
+                        <div class="card-header py-3" style="background-color:#8BAD97;">
+                            <h5 class="m-0 font-weight-bold" style="color:white;">Vouchers  <a href="/voucher/addVoucher" class="card-link mb-2" style="color:white ;padding-right:20px ; float:right;"><i class="fa-solid fa-ticket"></i> Add Voucher</a></h5>
+                            
+                        </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -13,31 +14,33 @@
 
                                     <tr>
                                         <th>&nbsp;ID</th>
-                                        <th>&nbsp;Name</th>
-                                        <th>&nbsp;Username</th>
-                                        <th>&nbsp;Email</th>
-                                        <th>&nbsp;Address</th>
+                                        <th>&nbsp;Voucher Name</th>
+                                        <th>&nbsp;Discount</th>
+                                        <th>&nbsp;Min. Spend</th>
+                                        <th>&nbsp;Code</th>
+                                        <th>&nbsp;Expiry Date</th>
                                         <th>&nbsp;Action</th>
                                     </tr>
                                 </thead>
-                                {{#each users}}
+                                {{#each vouchers}}
 
                                 <tr>
                                     <td>&nbsp;{{id}}</td>
-                                    <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
-                                    <td>&nbsp;{{username}}</td>
-                                    <td>&nbsp;{{email}}</td>
-                                    <td>&nbsp;{{address}}</td>
+                                    <td>&nbsp;{{vname}}</td>
+                                    <td>&nbsp;{{discount}}</td>
+                                    <td>&nbsp;{{minspend}}</td>
+                                    <td>&nbsp;{{code}}</td>
+                                    <td>&nbsp;{{valid}}</td>
                                     <td>
                                         <div>
-                                            <a href="/staff/editCust/{{id}}" class="card-link mb-2"
+                                            <a href="/voucher/editvoucher/{{id}}" class="card-link mb-2"
                                                 style="color: #8BAD97">
                                                 <i class="fas fa-pencil-alt"></i>
                                                 Edit
                                             </a>
                                         </div>
                                         <div>
-                                            <a href="/staff/deleteaccount/{{id}}" class="card-link"
+                                            <a href="/staff/deletevoucher/{{id}}" class="card-link"
                                                 style="color: darkred" data-toggle="confirmation"
                                                 data-title="Confirm delete?">
                                                 <i class="far fa-trash-alt"></i>

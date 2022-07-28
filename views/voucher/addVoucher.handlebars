@@ -25,11 +25,12 @@
 
                     <div class="form-group clear left spacing1">
                         <label for="valid">Valid Till</label>
+                       {{!-- <input id="datepicker" width="200" name="valid" readonly /> --}}
                         <input type="date" name="valid" class="form-control" value="{{valid}}" required>
                     </div>
 
 
-                <div class=" left spacing2" style="padding-top:25px; padding-left:45px">
+                <div style="padding-top:25px; padding-left:45px; float:right;">
                     <button type="submit" class="staffbtn" >ADD VOUCHER</button>
                 </div>
 
@@ -37,3 +38,11 @@
         </div>
     </div>
 </div>
+
+{{!-- <script>
+	$('#datepicker').datepicker({
+		format: 'dd/mm/yyyy',
+		uiLibrary: 'bootstrap4',
+		value: moment().format('DD/MM/YYYY'),
+	});
+</script> --}}

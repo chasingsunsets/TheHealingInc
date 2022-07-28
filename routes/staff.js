@@ -73,8 +73,8 @@ router.post('/register', ensureAuthenticatedStaff, async function (req, res) {
 
     try {
         // If all is well, checks if user is already registered
-        let staffe = await Staff.findOne({ where: { email: email } });
-        let staffn = await Staff.findOne({ where: { username: username } });
+        let staffe = await Staff.findOne({ where: { email: email, type:"staff" } });
+        let staffn = await Staff.findOne({ where: { username: username, type:"staff" } });
 
         if (staffe) {
             // If staff is found, that means email has already been registered
@@ -122,52 +122,180 @@ router.get('/profile', ensureAuthenticatedStaff, (req, res) => {
 });
 
 
-////////////////////////////////////////////////////
 router.get('/editProfile/:id', ensureAuthenticatedStaff, (req, res) => {
     User.findByPk(req.params.id)
-        .then((staff) => {
+        .then((user) => {
 
-            if (!staff) {
+            if (!user) {
                 flashMessage(res, 'error', 'Invalid access');
                 res.redirect('/staff/profile');
                 return;
             }
 
-            // if (req.user.id != req.params.id) {
-            //     flashMessage(res, 'error', 'Unauthorised access');
-            //     res.redirect('/staff/listCust');
-            //     return;
-            //     }
+            if (req.user.id != req.params.id) {
+                flashMessage(res, 'error', 'Unauthorised access');
+                res.redirect('/staff/profile');
+                return;
+            }
 
-            res.render('staff/editProfile', { staff, layout: 'staffMain' });
+            res.render('staff/editProfile', { user, layout: 'staffMain' });
         })
         .catch(err => console.log(err));
 });
 
-router.post('/editProfile/:id',ensureAuthenticatedStaff, (req, res) => {
-    let staffno = req.body.staffno;
+////////////////////////////
+
+router.post('/editProfile/:id', ensureAuthenticatedStaff, async function (req, res) {
+    let id = req.params.id;
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     let username = req.body.username;
     let email = req.body.email;
 
-    let password = req.body.password;
-    var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(password, salt);
+    let isValid = true;
 
-    User.update(
-        { staffno, firstname, lastname, username, email, password: hash },
-        { where: { id: req.params.id } }
-    )
-        .then((result) => {
-            flashMessage(res, 'success', 'Profile updated successfully.');
-            console.log(result[0] + ' profile updated');
-            
-            res.redirect('/staff/profile');
+    try {
+
+        await User.findOne({ where: { email: email, type: "staff" } })
+            .then(user => {
+
+                if (user.id != id) {
+                    // If user is found, that means email has already been registered
+                    flashMessage(res, 'error', email + ' already registered');
+                    isValid = false; 
+                }
+
+            })
+            .catch(err => console.log(err));
+
+        await User.findOne({ where: { username: username, type: "staff" } })
+            .then(user => {
+                if (user.id != id) {
+                    // If user is found, that means email has already been registered
+                    flashMessage(res, 'error', username + ' already registered');
+                    isValid = false;
+
+                }
+            })
+                .catch(err => console.log(err));
+                
+    if (!isValid) {
+        User.findByPk(req.params.id)
+            .then((user) => {
+                res.render('staff/editProfile', { layout: 'staffMain', user });
+            })
+            .catch(err => console.log(err));
+        return;
+    }
+    }
+
+    catch (err) {
+        console.log(err);
+    }
+
+            User.update(
+            // { firstname, lastname, username, phoneno, address, email, password: hash },
+            { firstname, lastname, username, email },
+            { where: { id: req.params.id, type: "staff" } }
+        )
+            .then((result) => {
+                console.log(result[0] + ' profile updated');
+                flashMessage(res, 'success', ' Profile edited successfully');
+                res.redirect('/staff/profile');
+            })
+            .catch(err => console.log(err));
+
+    });
+
+////////////////////////////////////////////////////
+
+
+
+
+
+router.get('/changePW/:id', ensureAuthenticatedStaff, (req, res) => {
+    User.findByPk(req.params.id)
+        .then((user) => {
+
+            if (!user) {
+                flashMessage(res, 'error', 'Invalid access');
+                res.redirect('/staff/profile');
+                return;
+            }
+
+            if (req.user.id != req.params.id) {
+                flashMessage(res, 'error', 'Unauthorised access');
+                res.redirect('/staff/profile');
+                return;
+            }
+
+            res.render('staff/changePW', { layout: 'staffMain', user, username: req.user.username });
         })
         .catch(err => console.log(err));
 });
-////////////////////////////////////////////////////
+
+router.post('/changePW/:id', ensureAuthenticatedStaff, (req, res) => {
+
+    let password = req.body.password;
+    let password2 = req.body.password2;
+    let password3 = req.body.password3;
+
+    let isValid = true;
+
+    User.findOne({ where: { username: req.user.username,type:"staff" } })
+        .then(user => {
+            // Match password
+            isMatch = bcrypt.compareSync(password, user.password);
+            if (!isMatch) {
+                // return done(null, false, {
+                //     message: 'Current Password incorrect' 
+                // });
+                flashMessage(res, 'error', 'Current Password incorrect');
+                // res.render('user/changepw', { user });   
+                isValid = false;
+            }
+
+            if (password2.length < 6) {
+                flashMessage(res, 'error', 'Password must be at least 6 characters');
+                isValid = false;
+            }
+            if (password2 != password3) {
+                flashMessage(res, 'error', 'New Passwords do not match');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                User.findByPk(req.params.id)
+                    .then((user) => {
+                        res.render('staff/changePW', {layout: 'staffMain', user});
+                    })
+                    .catch(err => console.log(err));
+                return;
+            }
+
+
+            var salt = bcrypt.genSaltSync(10);
+            var hash = bcrypt.hashSync(password2, salt);
+
+            User.update(
+                // { firstname, lastname, username, phoneno, address, email, password: hash },
+                { password: hash },
+                { where: { id: req.params.id } }
+            )
+                .then((result) => {
+                    console.log(result[0] + ' pw updated');
+                    flashMessage(res, 'success', ' Password changed successfully');
+                    res.redirect('/staff/profile');
+                })
+                .catch(err => console.log(err));
+
+
+        })
+        .catch(err => console.log(err));
+    return;
+});
+
+
 
 
 router.get('/deleteprofile/:id', ensureAuthenticatedStaff, async function (req, res) {
