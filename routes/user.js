@@ -104,8 +104,9 @@ router.post('/register', async function (req, res) {
     // res.redirect('/user/login');
     try {
         // If all is well, checks if user is already registered
-        let user = await User.findOne({ where: { email: email } });
-        let usern = await User.findOne({ where: { username: username } });
+        let user = await User.findOne({ where: { email: email, type:"customer" } });
+        let usern = await User.findOne({ where: { username: username, type:"customer" } });
+        let userp = await User.findOne({ where: { phoneno: phoneno, type:"customer" } });
 
         if (user) {
             // If user is found, that means email has already been registered
@@ -118,6 +119,13 @@ router.post('/register', async function (req, res) {
         else if (usern) {
             // If user is found, that means username has already been registered
             flashMessage(res, 'error', username + ' already registered');
+            res.render('user/register', {
+                firstname, lastname, username, phoneno, address, email
+            });
+        }
+        else if (userp) {
+            // If user is found, that means username has already been registered
+            flashMessage(res, 'error', phoneno + ' already registered');
             res.render('user/register', {
                 firstname, lastname, username, phoneno, address, email
             });
@@ -246,7 +254,7 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res) {
                     //         return res.render('user/editprofile', { user });
                     //     })
                     //     .catch(err => console.log(err));
-                        // return;    
+                    // return;    
                 }
 
             })
@@ -264,38 +272,50 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res) {
                     //         return res.render('user/editprofile', { user });
                     //     })
                     //     .catch(err => console.log(err));
-                        // return;
+                    // return;
                 }
             })
-                .catch(err => console.log(err));
-                
-    if (!isValid) {
-        User.findByPk(req.params.id)
-            .then((user) => {
-                res.render('user/editprofile', { user });
+            .catch(err => console.log(err));
+
+
+        await User.findOne({ where: { phoneno: phoneno, type: "customer" } })
+            .then(user => {
+
+                if (user.id != id) {
+                    flashMessage(res, 'error', phoneno + ' already registered');
+                    isValid = false;
+                }
+
             })
             .catch(err => console.log(err));
-        return;
-    }
+
+        if (!isValid) {
+            User.findByPk(req.params.id)
+                .then((user) => {
+                    res.render('user/editprofile', { user });
+                })
+                .catch(err => console.log(err));
+            return;
+        }
     }
 
     catch (err) {
         console.log(err);
     }
 
-            User.update(
-            // { firstname, lastname, username, phoneno, address, email, password: hash },
-            { firstname, lastname, username, phoneno, address, email },
-            { where: { id: req.params.id, type: "customer" } }
-        )
-            .then((result) => {
-                console.log(result[0] + ' profile updated');
-                flashMessage(res, 'success', ' Profile edited successfully');
-                res.redirect('/user/profile');
-            })
-            .catch(err => console.log(err));
+    User.update(
+        // { firstname, lastname, username, phoneno, address, email, password: hash },
+        { firstname, lastname, username, phoneno, address, email },
+        { where: { id: req.params.id, type: "customer" } }
+    )
+        .then((result) => {
+            console.log(result[0] + ' profile updated');
+            flashMessage(res, 'success', ' Profile edited successfully');
+            res.redirect('/user/profile');
+        })
+        .catch(err => console.log(err));
 
-    });
+});
 
 
 
