@@ -1,8 +1,8 @@
 <div class="container">
-	{{#if products}}
+	{{#if product}}
 	<div class="card card-body">
 		<h3 class="text-primary">Products</h3>
-		{{#each products}}
+		{{#each product}}
 		<div class="card border-primary mb-2 w-100 mx-auto">
 			<div class="card-header">
 				<h5 class="card-title">{{name}}</h5>
@@ -15,7 +15,7 @@
 								onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
 						</a>
 					</div>
-					<div class="col-lg-8">
+					<div class="col-lg-10">
 						<div class="row">
 							<div class="col-sm-12 col-md-12 col-lg-3">
 								<p class="font-italic">Stock</p>
@@ -41,21 +41,26 @@
 									{{replaceCommas category}}
 								</p>
 							</div>
-							<div class="col-lg-2">
-								<p>
-									<a href="/product/editProduct/{{id}}" class="card-link mb-2">
-										<i class="fas fa-pencil-alt"></i>
-										Edit
-									</a>
-								</p>
-								<p>
-									<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
-										<i class="far fa-trash-alt"></i>
-										Delete
-									</a>
-								</p>
+							<div class="row">
+								<div class="col-sm-12 col-md-12 col-lg-8">
+									<p>
+										<a href="/product/editProduct/{{id}}" class="card-link mb-2">
+											<i class="fas fa-pencil-alt"></i>
+											Edit
+										</a>
+									</p>
+								</div>
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<p>
+										<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
+											<i class="far fa-trash-alt"></i>
+											Delete
+										</a>
+									</p>
+								</div>
 							</div>
 						</div>
+
 					</div>						
 				</div>
 			</div>

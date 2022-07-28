@@ -14,8 +14,11 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3" style="background-color:#8BAD97;">
-                            <h5 class="m-0 font-weight-bold" style="color:white;">Staff List <a href="/staff/register" class="card-link mb-2" style="color:#F1EDE5; float:right; padding-right:40px; font-size:large"><i class="fa-solid fa-user-plus"></i> Add Staff</a></h5>
-                            
+                            <h5 class="m-0 font-weight-bold" style="color:white;">Staff List <a href="/staff/register"
+                                    class="card-link mb-2"
+                                    style="color:#F1EDE5; float:right; padding-right:40px; font-size:large"><i
+                                        class="fa-solid fa-user-plus"></i> Add Staff</a></h5>
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -24,7 +27,6 @@
 
                                         <tr>
                                             <th>&nbsp;ID</th>
-                                            <th>&nbsp;Staff Number</th>
                                             <th>&nbsp;Name</th>
                                             <th>&nbsp;Username</th>
                                             <th>&nbsp;Email</th>
@@ -36,24 +38,55 @@
 
                                     <tr>
                                         <td>&nbsp;{{id}}</td>
-                                        <td>&nbsp;{{staffno}}</td>
                                         <td>&nbsp;{{firstname}}&nbsp;{{lastname}}</td>
                                         <td>&nbsp;{{username}}</td>
                                         <td>&nbsp;{{email}}</td>
                                         <td>
-                                            <div>
+                                            {{!-- <div>
                                                 <a href="/staff/editStaff/{{id}}" class="card-link mb-2"
                                                     style="color: #8BAD97">
                                                     <i class="fas fa-pencil-alt"></i>
                                                     Edit
                                                 </a>
-                                            </div>
-                                            <div>
+                                            </div> --}}
+                                            {{!-- <div>
                                                 <a href="/staff/deletestaff/{{id}}" class="card-link"
                                                     style="color: darkred" data-toggle="confirmation"
                                                     data-title="Confirm delete?">
                                                     <i class="far fa-trash-alt"></i>
                                                     Delete
+                                                </a>
+                                            </div> --}}
+
+                                            <!-- Logout Modal-->
+                                            <div class="modal fade" id="deletestaff" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Delete
+                                                                Customer Account</h5>
+                                                            <button class="close" type="button" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">Select "Delete" below if you are
+                                                            deleting this customer account.</div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button"
+                                                                data-dismiss="modal">Cancel</button>
+                                                            <a class="btn btn-primary"
+                                                                href="/staff/deletestaff/{{id}}">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <a href="/staff/deletestaff/{{id}}" data-toggle="modal"
+                                                    data-target="#deletestaff" class="card-link" style="color: darkred">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    Delete Account
                                                 </a>
                                             </div>
                                         </td>
@@ -71,12 +104,33 @@
             </div>
 
             {{else}}
-                    <h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Staff <a href="/staff/register" class="card-link mb-2" style="color:#8BAD97; padding-right:20px ; float:right;"><i class="fa-solid fa-user-plus"></i>  Add Staff</a></h6> <hr>
+            <h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Staff <a href="/staff/register"
+                    class="card-link mb-2" style="color:#8BAD97; padding-right:20px ; float:right;"><i
+                        class="fa-solid fa-user-plus"></i> Add Staff</a></h6>
+                <hr>
 
-            {{/if}}
+                {{/if}}
     </body>
-    <script>
-        $('[data-toggle=confirmation]').confirmation({
-            rootSelector: '[data-toggle=confirmation]',
-        });
-    </script>
+
+    {{!--
+    <!-- Logout Modal-->
+    <div class="modal fade" id="deletestaff" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete
+                        Customer Account</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Delete" below if you are
+                    deleting this customer account.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/staff/deletestaff/{{id}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div> --}}

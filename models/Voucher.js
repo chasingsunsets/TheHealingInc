@@ -7,6 +7,7 @@ const Voucher = db.define('voucher',
         discount: { type: Sequelize.INTEGER },
         minspend: { type: Sequelize.INTEGER },
         code: { type: Sequelize.STRING },
-        valid: { type: Sequelize.DATE }
+        valid: { type: Sequelize.DATE },
+        use: { type: Sequelize.BOOLEAN }
     });
 module.exports = Voucher;

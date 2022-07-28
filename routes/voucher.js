@@ -3,6 +3,8 @@ const router = express.Router();
 const moment = require('moment');
 const flashMessage = require('../helpers/messenger');
 const Voucher = require('../models/Voucher');
+const Staff = require('../models/Staff');
+const User = require('../models/User');
 
 
 router.get('/addVoucher', (req, res) => {
@@ -14,20 +16,37 @@ router.post('/addVoucher', (req, res) => {
     let discount = req.body.discount;
     let minspend = req.body.minspend;
     let code = req.body.code;
-    let valid = moment(req.body.valid, 'DD/MM/YYYY');
+    // let valid = moment(req.body.valid, 'DD/MM/YYYY');
+    let valid = req.body.valid;
+
     // let language = req.body.language.toString();
     // // Multi-value components return array of strings or undefined
     // let subtitles = req.body.subtitles === undefined ? '' : req.body.subtitles.toString();
-    // let classification = req.body.classification;
     // let userId = req.user.id;
+    
+    User.findAll({
+        where: { type:"customer" },
+        // order: [['dateRelease', 'DESC']],
+        raw: true
+    })
+        .then((user) => {
+            
+            Voucher.create(
+                { vname, discount, minspend, code, valid, used: 0, userID:user.id}
+            )
+            flashMessage(res, 'success', vname + ' voucher added successfully');
+            // pass object to listVideos.handlebar
+            res.render('voucher/listVoucher', { layout: 'staffMain'});
+        })
+        .catch(err => console.log(err));
 
-    Voucher.create(
-        { vname, discount,minspend,code,valid }
-    )
-    flashMessage(res, 'success', vname + ' voucher added successfully');
+    // Voucher.create(
+    //     { vname, discount,minspend,code,valid, used:0 }
+    // )
+    // flashMessage(res, 'success', vname + ' voucher added successfully');
 });
 
-router.get('/listVoucher',  (req, res) => {
+router.get('/listVoucher', (req, res) => {
     Voucher.findAll({
         // where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
@@ -35,7 +54,7 @@ router.get('/listVoucher',  (req, res) => {
     })
         .then((vouchers) => {
             // pass object to listVideos.handlebar
-            res.render('voucher/listVoucher', { vouchers, layout: 'staffMain', vname: vouchers.vname, discount: vouchers.discount, minspend: vouchers.minspend, code: vouchers.code, valid: vouchers.valid});
+            res.render('voucher/listVoucher', { vouchers, layout: 'staffMain', vname: vouchers.vname, discount: vouchers.discount, minspend: vouchers.minspend, code: vouchers.code, valid: vouchers.valid });
         })
         .catch(err => console.log(err));
     // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });

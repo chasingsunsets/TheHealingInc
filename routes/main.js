@@ -5,17 +5,9 @@ const catalogue_router = require('./manage_catalogue');
 const Booking = require('../models/Booking');
 const Subscription = require('../models/Subscription');
 
-// newsletter email verification:
-const sgMail = require('@sendgrid/mail');
-const sgClient = require('@sendgrid/client');
-require('dotenv').config();
-// const jwt = require('jsonwebtoken');
-
 router.get('/', (req, res) => {
 	res.render('landing')
 });
-
-router.use("/catalogue",catalogue_router);
 
 router.get('/quiz', (req, res) => {
 	res.render('./quiz/createQuiz');
@@ -192,7 +184,7 @@ router.post('/addSub', async function (req, res) {
 		return;
 	}
 
-	try {
+	// try {
 		// If all is well, checks if subscription email is already registered
 		let subscription = await Subscription.findOne({ where: { email: email } });
 
@@ -222,41 +214,8 @@ router.post('/addSub', async function (req, res) {
 					flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
 					res.redirect('/');
 				});
-
-
-
-		}
-	}
-	catch (err) {
-		console.log(err);
-	}
-
-});
-
-router.get('/deleteSub/:id', async function (req, res) {
-	try {
-		let subscription = await Subscription.findByPk(req.params.id);
-		if (!subscription) {
-			flashMessage(res, 'error', 'Subscription not found');
-			res.redirect('/');
-			return;
-		}
-
-		if (req.subscription.id != req.params.id) {
-			flashMessage(res, 'error', 'Unauthorised access');
-			res.redirect('/');
-			return;
-		}
-
-		let result = await Subscription.destroy({ where: { id: subscription.id } });
-		console.log(result + ' subscription deleted');
-		flashMessage(res, 'success', 'Subscription successfully deleted');
-		res.redirect('/');
-	}
-	catch (err) {
-		console.log(err);
-	}
-});
+		};
+	});
 
 // // Newsletter Subscription
 // router.get('/', (req, res) => {
@@ -538,5 +497,4 @@ router.get('/deleteSub/:id', async function (req, res) {
 // 	}
 // 	await sgClient.request(request);
 // }
-
 module.exports = router;

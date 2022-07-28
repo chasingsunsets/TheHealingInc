@@ -1,0 +1,118 @@
+<body>
+    {{#if product}}
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <section class="section-content bg-white padding-y">
+        <div class=" container">
+            <!-- ============================ ITEM DETAIL ======================== -->
+            <div class="row product-item">
+                <aside class="col-md-5">
+                    <div class="card">
+                        <article class="gallery-wrap">
+                            <div class="img-big-wrap">
+                                <a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
+                                    <img src="{{posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
+                                        onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                                </a>
+                            </div> <!-- slider-product.// -->
+                            <!-- <div class="thumbs-wrap">
+                                <a href="#" class="item-thumb"> <img src="images/items/15.jpg"></a>
+                                <a href="#" class="item-thumb"> <img src="images/items/15-1.jpg"></a>
+                            </div> slider-nav.// -->
+                        </article> <!-- gallery-wrap .end// -->
+                    </div> <!-- card.// -->
+                </aside>
+                <main class="col-md-7">
+                    <article class="product-info-aside">
+
+                        <h2 class="title mt-3 productName">{{product.name}}</h2>
+                        <a href="#" class="title mb-2">{{product.category}}</a>
+
+                        <div class="rating-wrap mb-2">
+                            <ul class="rating-stars">
+                                <li style="width:100%" class="stars-active">
+                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                            </ul>
+                            <div class="label-rating">5/5</div>
+                            <small class="label-rating text-muted">132 reviews</small>
+                        </div> <!-- rating-wrap.// -->
+
+                        <div class="price-wrap">
+                            <var class="price h4">$<span class="priceValue">{{product.price}}</span></var>
+                        </div> <!-- price-wrap.// -->
+
+                        <hr>
+
+                        <p class="mb-3">
+                            <span class="tag"> <i class="fa fa-check"></i> Free Return</span>
+                            <span class="tag"><i class="far fa-clock"></i> Next Day Delivery</span>
+                            <span class="tag text-danger font-weight-bold"> HIT ITEM </span>
+                        </p>
+
+
+                        <p>
+                            Lorem Ipsum
+                        </p>
+
+                        <hr>
+
+                        <dl class="row">
+                            <dt class="col-sm-3">Delivery time</dt>
+                            <dd class="col-sm-9">3-4 days</dd>
+
+                            <dt class="col-sm-3">Availabilty</dt>
+                            <dd class="col-sm-9">
+                                {{product.stock}}
+                            </dd>
+                        </dl>
+
+                        <div class="form-row  mt-4">
+                            <!-- col.// -->
+                            
+                            <div>
+                                <div>
+                                    <button class="btn btn-outline-danger addToCart" \>
+                                        <i class="fa fa-cart-plus"></i> Add to cart 
+                                    </button>
+                                    <a href="#" class="btn btn-light addToWish"><i class="fa fa-heart"></i> Wishlist </a>
+                                </div>
+                            </div>
+                            
+                        </div> <!-- row.// -->
+                    </article> <!-- product-info-aside .// -->
+                </main> <!-- col.// -->
+            </div> <!-- row.// -->
+            <!-- ================ ITEM DETAIL END .// ================= -->
+        </div> <!-- container .//  -->
+
+        <br>
+
+        <div class="container">
+        
+            <div class="row">
+                <div class="col">
+                    <h5 class="title-description">Note</h5>
+                    <p>
+                        It is recommended to store your herbs in a cool, dry place that is out of direct sunlight. 
+                        You may observe some discoloration over time but the product is still completely save to consume. 
+                        You may find the manufacturing date and expiry date on the packaging.
+                    </p>
+                </div> <!-- col.// -->
+        
+        
+        
+            </div> <!-- box.// -->
+        </div> <!-- row.// -->
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+    {{else}}
+    <h3>No products created</h3>
+    {{/if}}
+</body>
