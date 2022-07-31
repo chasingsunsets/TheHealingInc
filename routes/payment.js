@@ -36,6 +36,10 @@ router.post('/payment/:id', ensureAuthenticated, async (req, res) => {
 	}
 });
 
+router.get('/payment_card', ensureAuthenticated, async (req, res) => {
+	res.render('../views/cart/payment_card.handlebars')
+});
+
 
 
 
