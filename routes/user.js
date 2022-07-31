@@ -479,7 +479,7 @@ router.get('/listOrder', async (req, res) => {
         include: {model: OrderItem},
         where: { userId },
         order: [['createdat', 'DESC']],
-        raw: true
+        // raw: true
     })
     const orders = await Order.findAll({
         where: { userId },
