@@ -60,53 +60,59 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 		res.redirect('/cart/cart');
 	}
 	else if (req.body.checkout == 'checkout') {
+		if (req.body.sum == 0) {
+			flashMessage(res, 'danger', 'There is no product in the cart');
+			res.redirect('/cart/cart');
+		}
+		else {
 
-		// create a new order
-		let userId = req.user.id;
-		let totalamount = req.body.totalamount
-		let status = "Unshipped";
-		let payment = "Unpaid";
-		Order.Order.create({ totalamount, userId, status, payment })
-			.then(() => {
-				Order.Order.findOne({
-					where: { userId },
-					order: [['createdAt', 'DESC']],
-					raw: true
-				})
-					.then((order) => {
-						let orderId = order.id
-						//move cart items to orderIttem table
-						Order.CartItem.findAll({
-							where: { userId },
-							order: [['createdat', 'DESC']],
-							//raw: true
-						})
-							.then((cartItem) => {
-								console.log("cartItem");
-								cartItem.forEach(element => {
-									let userId = element.userId;
-									let amount = element.amount;
-									let price = element.totalprice;
-									let product = element.product;
-
-									Order.OrderItem.create(
-										{ userId, amount, price, product, orderId }
-									)
-									.then(() => {
-										Order.CartItem.destroy({ where: { userId: req.user.id} });
-									})
-								});
-								res.redirect('/payment/payment/' + orderId);
-							})
+			// create a new order
+			let userId = req.user.id;
+			let totalamount = req.body.totalamount
+			let status = "Unshipped";
+			let payment = "Unpaid";
+			Order.Order.create({ totalamount, userId, status, payment })
+				.then(() => {
+					Order.Order.findOne({
+						where: { userId },
+						order: [['createdAt', 'DESC']],
+						raw: true
 					})
+						.then((order) => {
+							let orderId = order.id
+							//move cart items to orderIttem table
+							Order.CartItem.findAll({
+								where: { userId },
+								order: [['createdat', 'DESC']],
+								//raw: true
+							})
+								.then((cartItem) => {
+									console.log("cartItem");
+									cartItem.forEach(element => {
+										let userId = element.userId;
+										let amount = element.amount;
+										let price = element.totalprice;
+										let product = element.product;
+
+										Order.OrderItem.create(
+											{ userId, amount, price, product, orderId }
+										)
+											.then(() => {
+												Order.CartItem.destroy({ where: { userId: req.user.id } });
+											})
+									});
+									res.redirect('/payment/payment/' + orderId);
+								})
+						})
 
 
-			}
+				}
 
 
 
 
-			)
+				)
+		}
 	}
 });
 

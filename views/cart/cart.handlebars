@@ -25,6 +25,7 @@
             document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
             document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
             document.getElementById("totalamount").value = afterGST;
+            document.getElementById("sum").value = sum;
         }
     </script>
 </head>
@@ -158,6 +159,7 @@
                     </button>
                     <input type="hidden" name="checkout" value="checkout">
                     <input type="hidden" id="totalamount" name="totalamount" value="">
+                    <input type="hidden" id="sum" name="sum" value="">
                     </form>
                     <div class="text-center">
                         <a type="button" class="btn" href="/catalogue"><u>Add More?</u></a>
