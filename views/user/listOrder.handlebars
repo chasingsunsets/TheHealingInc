@@ -1,4 +1,6 @@
-{{!-- <head>
+{{!--
+
+<head>
     <script>
         window.onload = function () {
             if (document.getElementById("btn") == 'Cancelled') {
@@ -75,7 +77,8 @@
                         <section>
                             <div class="content content-1"
                                 style="height: 400px;  overflow-y:scroll; overflow-x: hidden; border-style: none;">
-                                <table class="table table-borderless table-hover" style="border-style: None;border-collapse: collapse">
+                                <table class="table table-borderless table-hover"
+                                    style="border-style: None;border-collapse: collapse">
                                     <thead>
                                         <tr class="font-weight-bold">
                                             <th>Id</th>
@@ -89,8 +92,8 @@
                                     </thead>
                                     <br>
                                     <tbody>
-                                        {{#if order}}
-                                        {{#each order}}
+                                        {{#if orders}}
+                                        {{#each orders}}
                                         <tr style="border: solid; border-width: 1px 0;">
                                             <td>{{this.id}}</td>
                                             <td>{{this.totalamount}}</td>
@@ -176,119 +179,257 @@
                                                                         class="fa-solid fa-xmark"></i></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                {{!-- {{#equals this.id  1}} --}}
-                                                                {{#each orderitem}}
-                                                                <div class="card border mb-3">
-                                                                    <ul class="list-group list-group-flush">
-                                                                        <li class="list-group-item">Product Name: {{
-                                                                            this.id}}</li>
-                                                                        <li class="list-group-item">Unit Price:
-                                                                            {{'orderItems.price'}}</li>
-                                                                        <li class="list-group-item">Quantity:
-                                                                            {{'orderItems.amount'}}</li>
-                                                                        {{/each}}
-                                                                        {{!-- {{/equals}} --}}
-                                                                        {{!-- {% if product.get_status() == 'Low Stock'
-                                                                        or product.get_status() ==
-                                                                        'Out of Stock' %}
-                                                                        <li class="list-group-item float-right">Stock:
-                                                                            {{
-                                                                            product.get_product_stock() }} <p
-                                                                                class="badge badge-danger">{{
-                                                                                product.get_status() }}</p>
-                                                                        </li>
-                                                                        {% else %}
-                                                                        <li class="list-group-item float-right">Stock:
-                                                                            {{
-                                                                            product.get_product_stock() }} <p
-                                                                                class="badge badge-success">{{
-                                                                                product.get_status() }}</p>
-                                                                        </li>
-                                                                        {% endif %} --}}
-                                                                    </ul>
-                                                                    <div class="card-body">
-                                                                        Created on: {{formatDate createdAt
-                                                                        'DD/MM/YYYY'}}
-                                                                        <br>
-                                                                        <hr>
-                                                                        Modified on: {{formatDate updatedAt
-                                                                        'DD/MM/YYYY'}}
+                                                                <h5 style="text-align: center;">Order id: {{this.id}}</h5>
+{{!-- order细节 --}}
+                                                                <div class="order-track">
+                                                                    <div class="order-track-step">
+                                                                        <div class="order-track-status">
+                                                                            <span class="order-track-status-dot"></span>
+                                                                            <span
+                                                                                class="order-track-status-line"></span>
+                                                                        </div>
+                                                                        <div class="order-track-text">
+                                                                            <p class="order-track-text-stat">Package Preparation</p>
+                                                                            <span class="order-track-text-sub">Status:
+                                                                                </span>
+                                                                        </div>
                                                                     </div>
+                                                                    <div class="order-track-step">
+                                                                        <div class="order-track-status">
+                                                                            <span class="order-track-status-dot"></span>
+                                                                            <span
+                                                                                class="order-track-status-line"></span>
+                                                                        </div>
+                                                                        <div class="order-track-text">
+                                                                            <p class="order-track-text-stat"> Delivery - {{this.Vanaddress}}
+                                                                                
+                                                                                 </p>
+                                                                            <span class="order-track-text-sub">1st
+                                                                                November, 2019</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="order-track-step">
+                                                                        <div class="order-track-status">
+                                                                            <span class="order-track-status-dot"></span>
+                                                                            <span
+                                                                                class="order-track-status-line"></span>
+                                                                        </div>
+                                                                        <div class="order-track-text">
+                                                                            <p class="order-track-text-stat"> Shipped
+                                                                                - {{this.address}}
+                                                                                </p>
+                                                                            <span class="order-track-text-sub">3rd
+                                                                                November, 2019</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                </ul>
+                                                                <div class="card-body">
+                                                                    Created on: {{formatDate createdAt
+                                                                    'DD/MM/YYYY'}}
+                                                                    <br>
+                                                                    <hr>
+                                                                    Modified on: {{formatDate updatedAt
+                                                                    'DD/MM/YYYY'}}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <button type="button" title="payment" class="btn btn-warning "
-                                                    data-bs-toggle="modal" data-bs-target="#my_">
-                                                    <i class="fa-solid fa-bag-shopping"></i>
-                                                </button>
-
-                                                <!-- The Modal -->
-                                                <div class="modal" id="my_">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-
-                                                            <!-- Modal Header -->
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title">Payment</h4>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"></button>
-                                                            </div>
-
-                                                            <!-- Modal body -->
-                                                            <div class="modal-body">
-                                                                Are you sure you continue to buy ?
-                                                            </div>
-
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <a href="/payment/payment/{{id}}"
-                                                                    class="btn btn-danger">Yes</a>
-
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {{/each}}
-                                        {{else}}
-                                        <div>
-                                            <td colspan="8" style="text-align:center;">
-                                                <h6 class="empty">You currently have no Order.</h6>
-                                            </td>
-                                        </div>
-                                        {{/if}}
-                                    </tbody>
-                                </table>
                             </div>
-                        </section>
+                            </td>
+                            <td>
+                                <button type="button" title="payment" class="btn btn-warning " data-bs-toggle="modal"
+                                    data-bs-target="#my_">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                </button>
 
+                                <!-- The Modal -->
+                                <div class="modal" id="my_">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Payment</h4>
+                                                <button type="button" class="btn-close"
+                                                    data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                Are you sure you continue to buy ?
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <a href="/payment/payment/{{id}}" class="btn btn-danger">Yes</a>
+
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            </tr>
+                            {{/each}}
+                            {{else}}
+                            <div>
+                                <td colspan="8" style="text-align:center;">
+                                    <h6 class="empty">You currently have no Order.</h6>
+                                </td>
+                            </div>
+                            {{/if}}
+                            </tbody>
+                            </table>
+                            <h1>{{address}}</h1>
                     </div>
-                    <!-- /.container-fluid -->
+                    </section>
 
                 </div>
-                <!-- End of Main Content -->
+                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Content Wrapper -->
+            <!-- End of Main Content -->
 
         </div>
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
 </body>
 
 <style>
+    {
+            {
+             !-- order细节 --
+        }
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap");
+
+
+    h2,
+    h4,
+    h6 {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+    }
+
+    .root {
+        padding: 1rem;
+        border-radius: 5px;
+        box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+    }
+
+    figure {
+        display: flex;
+    }
+
+    figure img {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 15%;
+        border: 1.5px solid #f05a00;
+        margin-right: 1.5rem;
+        padding: 1rem;
+    }
+
+    figure figcaption {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    figure figcaption h4 {
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
+
+    figure figcaption h6 {
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    figure figcaption h2 {
+        font-size: 1.6rem;
+        font-weight: 500;
+    }
+
+    .order-track {
+        margin-top: 2rem;
+        padding: 0 1rem;
+        border-top: 1px dashed #2c3e50;
+        padding-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-track-step {
+        display: flex;
+        height: 7rem;
+    }
+
+    .order-track-step:last-child {
+        overflow: hidden;
+        height: 4rem;
+    }
+
+    .order-track-step:last-child .order-track-status span:last-of-type {
+        display: none;
+    }
+
+    .order-track-status {
+        margin-right: 1.5rem;
+        position: relative;
+    }
+
+    .order-track-status-dot {
+        display: block;
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        background: #f05a00;
+    }
+
+    .order-track-status-line {
+        display: block;
+        margin: 0 auto;
+        width: 2px;
+        height: 7rem;
+        background: #f05a00;
+    }
+
+    .order-track-text-stat {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 3px;
+    }
+
+    .order-track-text-sub {
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    .order-track {
+        transition: all .3s height 0.3s;
+        transform-origin: top center;
+    }
+
+        {
+            {
+             !-- -------------------------------------------------- --
+        }
+    }
+
     ::selection {
         background: #8BAD97(23, 98, 184, 0.3);
     }
@@ -339,7 +480,7 @@
         background: #e0d1b5;
     }
 
-    
+
 
     #about:checked~nav label.about {
         color: #fff;
@@ -392,10 +533,10 @@
         display: block;
         background: #fff;
         border-collapse: collapse;
-        
+
     }
 
-   
+
 
     #about:checked~section .content-4 {
         display: block;
@@ -411,7 +552,7 @@
         text-align: justify;
     }
 
-    #darft:checked ~ section .content-1{
+    #darft:checked~section .content-1 {
         display: block;
     }
 </style>

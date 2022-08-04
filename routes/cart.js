@@ -71,7 +71,10 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 			let totalamount = req.body.totalamount
 			let status = "Unshipped";
 			let payment = "Unpaid";
-			Order.Order.create({ totalamount, userId, status, payment })
+			let address = req.body.address;
+			let Vanaddress = "30 Jalan Kilang Barat Singapore 159363";
+			console.log("address: " + address);
+			Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress})
 				.then(() => {
 					Order.Order.findOne({
 						where: { userId },

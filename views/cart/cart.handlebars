@@ -78,7 +78,7 @@
                                 <input type="hidden" name="price" value="{{price}}">
                             </form>
                             <form action="" method="POST">
-                            <p class="amount text-muted">{{amount}}</p>
+                                <p class="amount text-muted">{{amount}}</p>
                             </form>
                             <form action="" method="POST">
                                 <button id="btnSubmit" type="submit" class="btn">+</button>
@@ -92,9 +92,9 @@
                         <p class="text-muted col-sm-3 col-md-3 col-lg-3">
                             SG $ <span class="price text-muted">{{totalprice}}</span>
                         </p>
-                        <div class=" row col-sm-3 col-md-3 col-lg-3" >
+                        <div class=" row col-sm-3 col-md-3 col-lg-3">
                             <form action="" method="POST" class=" col-sm-12 col-md-12 col-lg-12">
-                                
+
                                 <button id="btnSubmit" type="submit" class="btn">
                                     <i class="fa-solid fa-delete-left"></i>Delete
                                 </button>
@@ -151,19 +151,24 @@
                     <h5></h5>
                     </p>
                 </div>
+                <hr size="12px" width="100%">
                 <br>
-                <div>
-                    <form action="" method="POST">
-                    <button type="submit" class="btn btn-success btn-block" id="checkout">
-                        <h4>Check Out</h4>
-                    </button>
-                    <input type="hidden" name="checkout" value="checkout">
-                    <input type="hidden" id="totalamount" name="totalamount" value="">
-                    <input type="hidden" id="sum" name="sum" value="">
-                    </form>
-                    <div class="text-center">
-                        <a type="button" class="btn" href="/catalogue"><u>Add More?</u></a>
+                <label for="email"><b>Address: </b></label>
+                <form action="#" style="display: inline;" method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control col-sm-12" id="address" name="address"
+                            placeholder="Enter Your Address Here..."
+                            style="float: left; width: 95%; margin-bottom: 3.5%;">
+                        <button type="submit" class="btn btn-success btn-block" id="checkout">
+                            <h4>Check Out</h4>
+                        </button>
+                        <input type="hidden" name="checkout" value="checkout">
+                        <input type="hidden" id="totalamount" name="totalamount" value="">
+                        <input type="hidden" id="sum" name="sum" value="">
                     </div>
+                </form>
+                <div class="text-center">
+                    <a type="button" class="btn" href="/catalogue"><u>Add More?</u></a>
                 </div>
 
             </div>
