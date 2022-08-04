@@ -89,8 +89,8 @@
                                     </thead>
                                     <br>
                                     <tbody>
-                                        {{#if orders}}
-                                        {{#each orders}}
+                                        {{#if order}}
+                                        {{#each order}}
                                         <tr style="border: solid; border-width: 1px 0;">
                                             <td>{{this.id}}</td>
                                             <td>{{this.totalamount}}</td>
@@ -177,11 +177,11 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 {{!-- {{#equals this.id  1}} --}}
-                                                                {{#each order}}
+                                                                {{#each orderitem}}
                                                                 <div class="card border mb-3">
                                                                     <ul class="list-group list-group-flush">
                                                                         <li class="list-group-item">Product Name: {{
-                                                                            'orderItems.product'}}</li>
+                                                                            this.id}}</li>
                                                                         <li class="list-group-item">Unit Price:
                                                                             {{'orderItems.price'}}</li>
                                                                         <li class="list-group-item">Quantity:

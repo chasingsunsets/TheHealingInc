@@ -15,9 +15,10 @@ const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
 // const { Order } = require('../models/Order');
 
-const {Order,OrderItem} = require('../models/Order');
+const Order = require('../models/Order');
 
 const { response } = require('express');
+// const { where } = require('sequelize/types');
 // const { where } = require('sequelize/types');
 
 
@@ -495,27 +496,40 @@ module.exports = router;
 
 router.get('/listOrder', async (req, res) => {
     let userId = req.user.id
-    const order = await Order.findAll({
-        include: {model: OrderItem},
-        where: { userId },
-        order: [['createdat', 'DESC']],
-        // raw: true
-    })
-    const orders = await Order.findAll({
+    const orders = await Order.Order.findAll({
         where: { userId },
         order: [['createdat', 'DESC']],
         raw: true
     })
+    // const orders = await Order.findAll({
+    //     where: { userId },
+    //     order: [['createdat', 'DESC']],
+    //     // raw: true
+    // })
+    Order.Order.findAll({
+        where: { userId },
+        order: [['createdat', 'DESC']],
+        raw: true 
+    }).then((order) =>{
+        console.log("order" + order.id);
+        let orderId = order.id
+        Order.OrderItem.findAll({
+            where:{orderId:orderId},
+            order: [['createdat', 'DESC']],
+            raw: true
+        })
+    }).then((orderitem) =>{
+        res.render('user/listOrder',{layout: 'account', orders, orderitem})
+    });
     
     
-        console.log("Orders:",orders);
-        console.log("Sudden Order:",order);
-        res.render('user/listOrder',{layout: 'account', order, orders})
+    
+        
     });
 
 router.get('/cancelOrder/:id', async (req, res) => {
     let status = "Cancelled";
-    const order = await Order.findByPk(req.params.id);
+    const order = await Order.Order.findByPk(req.params.id);
     Order.update(
         {status: status},
         {where: {id: order.id}},
