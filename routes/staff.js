@@ -496,4 +496,13 @@ router.get('/dashboard', ensureAuthenticatedStaff, (req, res) => {
     res.render('./staff/dashboard', { layout: 'staffMain' });
 });
 
+
+router.get('/listCustOrder',ensureAuthenticatedStaff, async (req, res) => {
+    const orders = await Order.Order.findAll({
+        order: [['createdat', 'DESC']],
+        raw: true
+    })
+    res.render('./staff/listCustOrder', {layout: 'staffMain' ,orders});
+});
+
 module.exports = router;

@@ -496,34 +496,11 @@ module.exports = router;
 
 router.get('/listOrder', async (req, res) => {
     let userId = req.user.id
-    var arr = [];
     const orders = await Order.Order.findAll({
         where: { userId },
         order: [['createdat', 'DESC']],
         raw: true
     })
-    // Order.Order.findAll({
-    //     where: { userId },
-    //     order: [['createdat', 'DESC']],
-    //     raw: true 
-    // }).then((order) =>{
-    //     order.forEach(element => {
-    //         console.log("order id: " + element.id);
-    //         let orderId = element.id;
-    //         Order.OrderItem.findAll({
-    //             where:{orderId:orderId},
-    //             order: [['createdat', 'DESC']],
-    //             raw: true
-    //         }).then((orderItem) =>{
-    //             arr.push(orderItem);
-    //             console.log("arr: "+arr);
-    //             for (let i = 0; i < arr.length; i++){
-    //                 console.log("arr list:" + arr[i].id);
-    //             }
-    //         })
-    //     });
-
-
         res.render('user/listOrder',{layout: 'account', orders})
     });
     
