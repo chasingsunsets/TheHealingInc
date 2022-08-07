@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
+const { request } = require('express');
 
 router.get('/payment/:id', ensureAuthenticated, (req, res) => {
 	Order.Order.findByPk(req.params.id)
@@ -53,10 +54,22 @@ router.get('/payment_is_successful/:id', ensureAuthenticated, async (req, res) =
 	res.render('../views/cart/payment_is_successful.handlebars')
 });
 
+router.post('/payment_is_successful/:id', ensureAuthenticated, async (req, res) => {
+	const order = await Order.Order.findByPk(req.params.id)
+	let payment = order.payment
+	if (payment == "Paid") {
+		flashMessage(res, 'success', 'Thanks for purchase!!!');
+		res.redirect("/")
+	}
+	else{
+		flashMessage(res, 'error', 'You have not pay the order');
+		res.redirect("/payment/payment_is_successful/" + req.params.id)
+	}
+});
+
 router.get('/payment_card_successful', ensureAuthenticated, (req, res) => {
 	res.render('../views/cart/payment_card_successful.handlebars')
 });
-
 
 
 

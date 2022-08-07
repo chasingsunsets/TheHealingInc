@@ -9,7 +9,6 @@ const ensureAuthenticated = require('../helpers/auth');
 const { response } = require('express');
 
 router.get('/cart', ensureAuthenticated, (req, res) => {
-	console.log('user id: ', req.user.id)
 	Order.CartItem.findAll({
 		where: { userId: req.user.id },
 		order: [['createdat', 'DESC']],
@@ -61,7 +60,7 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 	}
 	else if (req.body.checkout == 'checkout') {
 		if (req.body.sum == 0) {
-			flashMessage(res, 'danger', 'There is no product in the cart');
+			flashMessage(res, 'error', 'There is no product in the cart');
 			res.redirect('/cart/cart');
 		}
 		else {

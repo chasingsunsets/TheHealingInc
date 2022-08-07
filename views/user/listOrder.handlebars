@@ -63,13 +63,14 @@
                         {{!-- <input type="radio" name="slider" id="help"> --}}
 
                         <nav>
-                            <label for="draft" class="draft"><i class="fa-solid fa-pen-ruler"></i>Current Orders</label>
-                            <label for="scheduled" class="scheduled"><i class="fa-solid fa-calendar-check"></i>Completed
+                            <label for="draft" class="draft" data-rel="1"><i class="fa-solid fa-pen-ruler"></i>Current
                                 Orders</label>
-                            <label for="past" class="past"><i class="fa-solid fa-clock-rotate-left"></i>Past
+                            <label for="scheduled" class="scheduled" data-rel="2"><i
+                                    class="fa-solid fa-calendar-check"></i>Completed
                                 Orders</label>
-                            {{!-- <label for="help" class="help"><i class="fas fa-ring"></i>Accessories</label> --}}
-
+                            <label for="past" class="past" data-rel="3"><i
+                                    class="fa-solid fa-clock-rotate-left"></i>Past
+                                Orders</label>
                             <div class="slider"></div>
                         </nav>
 
@@ -85,8 +86,6 @@
                                             <th>Total Amount</th>
                                             <th>Payment</th>
                                             <th>Status</th>
-                                            {{!-- <th>Created By/ Modified By</th>
-                                            <th>Date</th> --}}
                                             <th colspan="4">Operations</th>
                                         </tr>
                                     </thead>
@@ -99,18 +98,6 @@
                                             <td>{{this.totalamount}}</td>
                                             <td>{{this.payment}}</td>
                                             <td>{{this.status}}</td>
-                                            {{!-- <td>{{createdBy}}</td>
-                                            <td>{{updatedAt}}</td> --}}
-                                            {{!-- {% if product.get_status() == 'Low Stock' or product.get_status() ==
-                                            'Out of Stock' %}
-                                            <td>
-                                                <p class="badge badge-danger">xcx</p>
-                                            </td>
-                                            {% else %}
-                                            <td>
-                                                <p class="badge badge-success">xccxcxcx</p>
-                                            </td>
-                                            {% endif %} --}}
                                             <td>
                                                 <form action="/user/cancelOrder/{{id}}">
 
@@ -147,18 +134,6 @@
                                                                 </div>
                                                 </form>
                                             </td>
-                                            {{!-- <td>
-                                                <form action="" method="POST">
-                                                    <!-- Button to Open the Modal -->
-                                                    <button type="submit" title="Update"
-                                                        class="btn btn-primary bg-gradient-primary"
-                                                        data-bs-target="#myModal_">
-                                                        <i class="fas fa-pen"></i>
-                                                    </button>
-
-                                                </form>
-                                            </td> --}}
-
                                             <td>
                                                 <button type="button" title="View" class="btn btn-info"
                                                     data-bs-toggle="modal" data-bs-target="#weModal_">
@@ -177,8 +152,9 @@
                                                                         class="fa-solid fa-xmark"></i></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <h5 style="text-align: center;">Order id: {{this.id}}</h5>
-{{!-- order细节 --}}
+                                                                <h5 style="text-align: center;">Order id: {{this.id}}
+                                                                </h5>
+                                                                {{!-- order细节 --}}
                                                                 <div class="order-track">
                                                                     <div class="order-track-step">
                                                                         <div class="order-track-status">
@@ -187,9 +163,10 @@
                                                                                 class="order-track-status-line"></span>
                                                                         </div>
                                                                         <div class="order-track-text">
-                                                                            <p class="order-track-text-stat">Package Preparation</p>
+                                                                            <p class="order-track-text-stat">Package
+                                                                                Preparation</p>
                                                                             <span class="order-track-text-sub">Status:
-                                                                                </span>
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="order-track-step">
@@ -199,9 +176,10 @@
                                                                                 class="order-track-status-line"></span>
                                                                         </div>
                                                                         <div class="order-track-text">
-                                                                            <p class="order-track-text-stat"> Delivery - {{this.Vanaddress}}
-                                                                                
-                                                                                 </p>
+                                                                            <p class="order-track-text-stat"> Delivery -
+                                                                                {{this.Vanaddress}}
+
+                                                                            </p>
                                                                             <span class="order-track-text-sub">1st
                                                                                 November, 2019</span>
                                                                         </div>
@@ -215,7 +193,7 @@
                                                                         <div class="order-track-text">
                                                                             <p class="order-track-text-stat"> Shipped
                                                                                 - {{this.address}}
-                                                                                </p>
+                                                                            </p>
                                                                             <span class="order-track-text-sub">3rd
                                                                                 November, 2019</span>
                                                                         </div>
@@ -282,17 +260,27 @@
                             </tbody>
                             </table>
                             <h1>{{address}}</h1>
+                        </section>
+
+                       
                     </div>
-                    </section>
 
                 </div>
-                <!-- /.container-fluid -->
+
+
+
+
+
+
 
             </div>
-            <!-- End of Main Content -->
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Main Content -->
+
+    </div>
+    <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
@@ -550,10 +538,23 @@
         text-align: justify;
     }
 
-    #darft:checked~section .content-1 {
+    #draft:checked ~ section .content-1,
+    #scheduled:checked ~ section .content-2,
+    #past:checked ~ section .content-3,
+    {{!-- #help:checked ~ section .content-4, --}}
+    #about:checked ~ section .content-4{
         display: block;
     }
+    section .content .title{
+        font-size: 21px;
+        font-weight: 500;
+        margin: 30px 0 10px 0;
+    }
+    section .content p{
+    text-align: justify;
+    }
 </style>
+
 
 {{!--
 <!-- Bootstrap core JavaScript-->
