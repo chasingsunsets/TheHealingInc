@@ -3,7 +3,6 @@ const router = express.Router();
 const moment = require('moment');
 const flashMessage = require('../helpers/messenger');
 const Voucher = require('../models/Voucher');
-const Staff = require('../models/Staff');
 const User = require('../models/User');
 
 
@@ -16,34 +15,32 @@ router.post('/addVoucher', (req, res) => {
     let discount = req.body.discount;
     let minspend = req.body.minspend;
     let code = req.body.code;
-    // let valid = moment(req.body.valid, 'DD/MM/YYYY');
-    let valid = req.body.valid;
+    let valid = moment(req.body.valid, 'DD/MM/YYYY');
+    // let valid = req.body.valid;
 
-    // let language = req.body.language.toString();
-    // // Multi-value components return array of strings or undefined
-    // let subtitles = req.body.subtitles === undefined ? '' : req.body.subtitles.toString();
-    // let userId = req.user.id;
+
     
-    User.findAll({
-        where: { type:"customer" },
-        // order: [['dateRelease', 'DESC']],
-        raw: true
-    })
-        .then((user) => {
+    // User.findAll({
+    //     where: { type:"customer" },
+    //     // order: [['dateRelease', 'DESC']],
+    //     raw: true
+    // })
+    //     .then((user) => {
             
-            Voucher.create(
-                { vname, discount, minspend, code, valid, used: 0, userID:user.id}
-            )
-            flashMessage(res, 'success', vname + ' voucher added successfully');
-            // pass object to listVideos.handlebar
-            res.render('voucher/listVoucher', { layout: 'staffMain'});
-        })
-        .catch(err => console.log(err));
+    //         Voucher.create(
+    //             { vname, discount, minspend, code, valid, used: 0, userID:user.id}
+    //         )
+    //         flashMessage(res, 'success', vname + ' voucher added successfully');
+    //         // pass object to listVideos.handlebar
+    //         res.render('voucher/listVoucher', { layout: 'staffMain'});
+    //     })
+    //     .catch(err => console.log(err));
 
-    // Voucher.create(
-    //     { vname, discount,minspend,code,valid, used:0 }
-    // )
-    // flashMessage(res, 'success', vname + ' voucher added successfully');
+    Voucher.create(
+        { vname, discount,minspend,code,valid, used:0 }
+    )
+    flashMessage(res, 'success', vname + ' voucher added successfully');
+    res.redirect('/voucher/listVoucher');
 });
 
 router.get('/listVoucher', (req, res) => {

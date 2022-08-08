@@ -19,6 +19,8 @@ const setUpDB = (drop) => {
             */
             Subscription;
             Newsletter;
+            Voucher;
+            
             User.hasMany(Quiz);
             Quiz.belongsTo(User);
 
@@ -34,8 +36,8 @@ const setUpDB = (drop) => {
             Order.Order.hasMany(Order.OrderItem);
             Order.OrderItem.belongsTo(Order.Order);
             
-            User.hasMany(Voucher);
-            Voucher.belongsTo(User);
+            // User.hasMany(Voucher);
+            // Voucher.belongsTo(User);
 
             
 
