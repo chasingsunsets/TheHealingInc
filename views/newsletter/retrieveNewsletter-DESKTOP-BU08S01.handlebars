@@ -76,6 +76,7 @@
                                         <!-- Newsletter Draft -->
                                         <div class="tab-pane fade show active" id="nav-draft" role="tabpanel" aria-labelledby="nav-draft-tab">
                                             <br>
+                                            {{#each newsletters}}
                                             <!-- DataTales Example -->
                                             <div class="card shadow mb-4">
                                                 <div class="card-body">
@@ -89,11 +90,9 @@
                                                                     <th>Created By</th>
                                                                     <th>Last Update</th>
                                                                     <th>Status</th>
-                                                                    <th>Delete</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {{#each newsletters}}
                                                                 <tr>
                                                                     <td>{{id}}</td>
                                                                     <td>{{newsletterName}}</td>
@@ -101,18 +100,13 @@
                                                                     <td>{{createdBy}}</td>
                                                                     <td>{{updatedAt}}</td>
                                                                     <td>{{status}}</td>
-                                                                    <td>
-                                                                        <h6 class="delete"><a href="/subscription/deleteNewsletter/{{id}}" data-toggle="confirmation" data-title="Confirm delete?">
-                                                                                Delete
-                                                                            </a></h6>
-                                                                    </td>
                                                                 </tr>
-                                                                {{/each}}
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {{/each}}
                                         </div>
                     
                                         <!--Ready to Send-->
