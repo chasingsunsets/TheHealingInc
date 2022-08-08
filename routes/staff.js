@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 
-const Staff = require('../models/Staff');
 const User = require('../models/User');
 
 const bcrypt = require('bcryptjs');
