@@ -2,7 +2,23 @@
     {{#if product}}
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content bg-white padding-y">
-        <div class=" container">
+    {{!-- <section class="section-content padding-y"> --}}
+        <div class="container">
+
+            <div class=" container">
+            
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+            
+                        <li class="breadcrumb-item"><a href="#" onclick="history.back()">Products</a></li>
+            
+                        <li class="breadcrumb-item active" aria-current="page">{{product.name}}</li>
+                    </ol>
+                </nav>
+
+            <br>
+            
             <!-- ============================ ITEM DETAIL ======================== -->
             <div class="row product-item">
                 <aside class="col-md-5">
@@ -10,8 +26,8 @@
                         <article class="gallery-wrap">
                             <div class="img-big-wrap">
                                 <a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
-                                    <img src="{{product.posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
-                                        onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                                    <img src="{{product.posterURL}}" alt="Poster"
+                                        onerror="this.src='/img/no-image.jpg'">
                                 </a>
                             </div> <!-- slider-product.// -->
                             <!-- <div class="thumbs-wrap">
@@ -50,16 +66,16 @@
 
                         <hr>
 
-                        <p class="mb-3">
+                        <h7 class="mb-3">
                             <span class="tag"> <i class="fa fa-check"></i> Free Return</span>
                             <span class="tag"><i class="far fa-clock"></i> Next Day Delivery</span>
                             <span class="tag text-danger font-weight-bold"> HIT ITEM </span>
-                        </p>
+                        </h7>
 
 
-                        <p>
+                        <h7>
                             Lorem Ipsum
-                        </p>
+                        </h7>
 
                         <hr>
 
@@ -82,7 +98,6 @@
                                     <button id="btnSubmit" type="submit" class="btn btn-outline-danger addToCart">
                                     <i class="fa fa-cart-plus"></i>Add to cart
                                     </button>
-                                    <a href="#" class="btn btn-light addToWish"><i class="fa fa-heart"></i> Wishlist </a>
                                     </form>
                                 </div>
                             </div>
@@ -100,12 +115,12 @@
         
             <div class="row">
                 <div class="col">
-                    <h5 class="title-description">Note</h5>
-                    <p>
+                    <h5 class="title-description">Note:</h5>
+                    <h7p>
                         It is recommended to store your herbs in a cool, dry place that is out of direct sunlight. 
                         You may observe some discoloration over time but the product is still completely save to consume. 
                         You may find the manufacturing date and expiry date on the packaging.
-                    </p>
+                    </h7>
                 </div> <!-- col.// -->
             </div> <!-- box.// -->
         </div> <!-- row.// -->
@@ -114,4 +129,5 @@
     {{else}}
     <h3>No products created</h3>
     {{/if}}
+    <br>
 </body>

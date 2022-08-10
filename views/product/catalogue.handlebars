@@ -18,21 +18,29 @@
                 <div class="col-md-3">
                     <form action="" method="POST">
                     <figure class="card card-product-grid">
-                        <div class="img-wrap">
+                        <div class="img-wrap product-image">
                             <span class="badge badge-danger"> NEW </span>
-                            <a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
+                            {{!-- <a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
                                 <img src="{{posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
                                     onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
+                            </a> --}}
+                            <a href="/product/itemDesc/{{id}}" data-title="{{title}}" data-toggle="lightbox">
+                                <img src="{{posterURL}}" alt="Poster" onerror="this.src='/img/no-image.jpg' style="width:100px;height:100px;">
                             </a>
                         </div> <!-- img-wrap.// -->
                         <figcaption class="info-wrap">
-                            <a href="/product/itemDesc/{{id}}" class="title mb-2">{{name}}</a>
-                            <div class="price-wrap">
-                                <span class="price">${{price}}</span>
-                                <small class="text-muted">/per pack</small>
-                            </div> <!-- price-wrap.// -->
+                            <div class="product-summary">
+                                <a href="/product/itemDesc/{{id}}" class="title mb-2">{{name}}</a>
 
-                            <p class="mb-2"> {{size}} Servings <small class="text-muted">(Per Pack)</small></p>
+                                <div class="price-wrap">
+                                    <span class="price">${{price}}</span>
+                                    <small class="text-muted">/ per pack</small>
+                                </div> <!-- price-wrap.// -->
+                                
+                                <br>
+
+                                <h7> {{size}} Servings <small class="text-muted">(Per Pack)</small></h7>
+                            </div>
 
                             <hr>
 
@@ -43,7 +51,22 @@
                                 <span class="tag"> {{replaceCommas category}} </span>
                             </p>
 
-                            <a href="/product/itemDesc/{{id}}"> Enlarge  </a>
+                            <div class="form-row  mt-4">
+                                <!-- col.// -->
+                            
+                                <div>
+                                    <div>
+                                        <form action="" method="post">
+                                            <button id="btnSubmit" type="submit" class="btn btn-outline-danger addToCart">
+                                                <i class="fa fa-cart-plus"></i>Add to cart
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            
+                            </div> <!-- row.// -->
+
+                            {{!-- <a href="/product/itemDesc/{{id}}"> Enlarge  </a> --}}
 
                             {{!-- <input type="hidden" name="user_id" value="{{id}}">
                             <input type="hidden" name="amount" value="{{amount}}">
