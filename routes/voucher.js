@@ -11,15 +11,58 @@ router.get('/addVoucher', (req, res) => {
 });
 
 router.post('/addVoucher', (req, res) => {
-    let vname = req.body.vname;
+    let vname = req.body.vname; 
     let dtype = req.body.dtype;
-    let discount = req.body.discount;
-    let minspend = req.body.minspend;
-    let limituse= req.body.limituse;
-    let code = req.body.code;
+    let discount = req.body.discount; //float
+    let minspend = req.body.minspend; //float
+    let limituse= req.body.limituse; //int
+    let code = req.body.code; 
     let valid = moment(req.body.valid, 'DD/MM/YYYY');
     let displaydate = moment(valid).utc().format('DD/MM/YYYY');
+    let displaytoday = moment().utc().format('DD/MM/YYYY');
     // let valid = req.body.valid;
+    let isValid=true;
+
+    if (isNaN(discount)){
+        console.log('discount not digit')
+        flashMessage(res, 'error', 'Discount must be in digits');
+        isValid = false;
+    }
+
+    if (isNaN(minspend)){
+        console.log('minspend not digit')
+        flashMessage(res, 'error', 'Minimum Spend must be in digits');
+        isValid = false;
+    }
+
+    if (isNaN(limituse)){
+        console.log('limituse not digit')
+        flashMessage(res, 'error', 'Limit Use must be in digits');
+        isValid = false;
+    }
+
+    if ((!(displaytoday<displaydate))){
+        console.log('invalid expire date');
+        flashMessage(res, 'error', 'Expire date cannot be today or the past dates');
+        isValid = false;
+    } 
+    
+    if(dtype=="$ off"){
+        console.log("$ off")
+    }
+
+    if (!isValid) {
+        // User.findByPk(req.params.id)
+        //     .then((user) => {
+        //         res.render('user/editprofile', { user });
+        //     })
+        //     .catch(err => console.log(err));
+        res.render('./voucher/addVoucher', { layout: 'staffMain', 
+        vname,dtype,discount,minspend,limituse,code,valid
+    });
+        return;
+    }
+
 
 
     
@@ -42,6 +85,8 @@ router.post('/addVoucher', (req, res) => {
     Voucher.Voucher.create(
         { vname,discount,dtype,minspend,code,limituse,usecount:0,valid,displaydate, invalidtype: "valid"  }
     )
+    console.log('voucher created')
+
     flashMessage(res, 'success', vname + ' voucher added successfully');
     res.redirect('/voucher/listVoucher');
 });
