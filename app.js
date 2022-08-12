@@ -135,8 +135,6 @@ const paymentRoute = require('./routes/payment');
 const subscriptionRoute = require('./routes/subscription');
 const newsletterRoute = require('./routes/newsletter');
 
-
-
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
 app.use('/user', userRoute);
@@ -156,7 +154,6 @@ app.use('/newsletter', newsletterRoute);
 
 // const port = 5000;
 // const port = process.env.PORT;
-
 
 const port = process.env.PORT;
 

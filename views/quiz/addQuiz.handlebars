@@ -256,24 +256,23 @@ input[type="radio"].gender + label.gender {
   border-radius: 10px;
   width: 100px;
 }
-
 </style>
 
 <div class="quiz-container">
     <form id="regForm" name="regForm" action="" onsubmit="return validateForm()" method="POST">
     
         <p>Personalization Quiz</p>
-    
+
         <!-- One "tab" for each step in the form: -->
         <div class="tab">
-            <div class="qn">Name your quiz</div>
+            <div class="qn">{{qn1}}</div>
             <p>We will use this to personalize your experience.</p>
             <p><input type="text" placeholder="Chantalle's Headache Remedy" oninput="this.className = ''" name="quizName">
             </p>
         </div>
 
         <div class="tab">
-            <div class="qn">Which gender are you assigned at birth?</div>
+            <div class="qn">{{qn2}}</div>
             <div class="container-gender">
                 <input type='radio' id='male' checked='checked' name='gender' class="gender" value="male">
                 <label for='male' class="gender">Male</label>
@@ -283,12 +282,12 @@ input[type="radio"].gender + label.gender {
         </div>
     
         <div class="tab">
-            <div class="qn">What is your age?</div>
+            <div class="qn">{{qn3}}</div>
             <p><input type="text" placeholder="35" oninput="this.className = ''" name="age"></p>
         </div>
     
         <div class="tab">
-            <div class="qn">When it comes to traditional chinese medicine, you:</div>
+            <div class="qn">{{qn4}}</div>
             <label class="option" id="border">
                 <input type="radio" name="tcm" value="yes" />
                 <span class="option1">Know more than the average person.</span>
@@ -306,7 +305,7 @@ input[type="radio"].gender + label.gender {
         </div>
     
         <div class="tab">
-            <div class="qn">Have you taken supplements/ traditional chinese medicine in the past?</div>
+            <div class="qn">{{qn5}}</div>
             <label class="option" id="border">
                 <input type="radio" name="supplements" value="yes" />
                 <span class="option1">For a while</span>
@@ -324,7 +323,7 @@ input[type="radio"].gender + label.gender {
         </div>
     
         <div class="tab">
-            <div class="qn">Which areas of health are you looking to improve?</div>
+            <div class="qn">{{qn6}}</div>
             <p>You can choose more than 1 area.</p>
             <div class="list">
                 <div class="form-element">
@@ -359,7 +358,7 @@ input[type="radio"].gender + label.gender {
         </div>
 
         <div class="tab">
-            <div class="qn">What is current diet like?</div>
+            <div class="qn">{{qn7}}</div>
             <label class="option" id="border">
                 <input type="radio" name="diet" value="normal" />
                 <span class="option1">Normal</span>
@@ -382,7 +381,7 @@ input[type="radio"].gender + label.gender {
         </div>
 
         <div class="tab">
-            <div class="qn">Are you on any medication?</div>
+            <div class="qn">{{qn8}}</div>
             <label class="option" id="border">
                 <input type="radio" name="medication" value="no" />
                 <span class="option1">No</span>
@@ -395,7 +394,7 @@ input[type="radio"].gender + label.gender {
         </div>
 
         <div class="tab">
-            <div class="qn">Do you have any allergies?</div>
+            <div class="qn">{{qn9}}</div>
             <p>You can choose more than 1 allergy type.</p>
             <div class="list">
                 <div class="form-element">
@@ -433,7 +432,7 @@ input[type="radio"].gender + label.gender {
         </div>
 
         <div class="tab">
-            <div class="qn">Do you smoke?</div>
+            <div class="qn">{{qn10}}</div>
             <label class="option" id="border">
                 <input type="radio" name="smoke" value="no" />
                 <span class="option1">No</span>
@@ -472,7 +471,6 @@ input[type="radio"].gender + label.gender {
     
     </form>
 </div>
-
 
 <script>
     var currentTab = 0; // Current tab is set to be the first tab (0)
@@ -566,5 +564,4 @@ input[type="radio"].gender + label.gender {
                 return true;
             }
         }
-
 </script>
