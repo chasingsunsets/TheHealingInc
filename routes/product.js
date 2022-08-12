@@ -5,6 +5,7 @@ const flashMessage = require('../helpers/messenger');
 const Product = require('../models/Product');
 
 const ensureAuthenticated = require('../helpers/auth');
+const ensureAuthenticatedStaff = require('../helpers/auth2');
 
 Order = require('../models/Order');
 
@@ -12,7 +13,7 @@ Order = require('../models/Order');
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 
-router.get('/listProducts', (req, res) => {
+router.get('/listProducts', ensureAuthenticatedStaff, (req, res) => {
     Product.findAll()
         .then((products) => {
             res.render('product/listProducts', { products, layout: 'staffMain' });
@@ -37,13 +38,12 @@ router.post('/addProduct', (req, res) => {
     let name = req.body.name;
     let posterURL = req.body.posterURL;
     let stock = req.body.stock;
-    let size = req.body.size;
     let price = req.body.price;
     // Multi-value components return array of strings or undefined
     let category = req.body.category === undefined ? '' : req.body.category.toString();
 
     Product.create(
-        { name, posterURL, stock, size, price, category}
+        { name, posterURL, stock, price, category}
     )
         .then((product) => {
             console.log(product.toJSON());
@@ -70,11 +70,10 @@ router.post('/editProduct/:id', (req, res) => {
     let name = req.body.name;
     let posterURL = req.body.posterURL;
     let stock = req.body.stock;
-    let size = req.body.size;
     let price = req.body.price;
     let category = req.body.category === undefined ? '' : req.body.category.toString();
     Product.update(
-        { name, posterURL, stock, size, price, category },
+        { name, posterURL, stock, price, category },
         { where: { id: req.params.id } }
     )
         .then((result) => {

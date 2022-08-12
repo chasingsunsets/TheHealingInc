@@ -15,30 +15,6 @@
                         <label class="font-italic" for="stock">Stock</label>
                         <input class="form-control" type="number" id="stock" name="stock"  value="{{product.stock}}" required />
 					</div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                        <label class="font-italic">Pack Size</label>
-                        <br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="50" value="50" name="size" 
-                            {{radioCheck product.size "50" }}>
-                            <label class="form-check-label" for="50">50g</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="100" value="100" name="size"
-                            {{radioCheck product.size "100" }}>
-                            <label class="form-check-label" for="100">100g</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="200" value="200" name="size"
-                            {{radioCheck product.size "200" }}>
-                            <label class="form-check-label" for="200">200g</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="300" value="300" name="size"
-                            {{radioCheck product.size "300" }}>
-                            <label class="form-check-label" for="300">300g</label>
-                        </div>
-                    </div>
 					<div class="col-lg-3">
 						<div class="custom-file mb-2">
 							<input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
