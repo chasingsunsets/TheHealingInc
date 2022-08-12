@@ -1,79 +1,83 @@
-<div class="container">
-	{{#if product}}
-	<div class="card card-body">
-		<h3 class="text-primary">Products</h3>
-		{{#each product}}
-		<div class="card border-primary mb-2 w-100 mx-auto">
-			<div class="card-header">
-				<h5 class="card-title">{{name}}</h5>
-			</div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-lg-2">
-						<a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
-							<img src="{{posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
-								onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
-						</a>
-					</div>
-					<div class="col-lg-10">
-						<div class="row">
-							<div class="col-sm-12 col-md-12 col-lg-3">
-								<p class="font-italic">Stock</p>
-								<p class="text-info">
-									{{stock}}
-								</p>
-							</div>
-							<div class="col-sm-12 col-md-12 col-lg-3">
-								<p class="font-italic">Size</p>
-								<p class="text-info">
-									{{size}}
-								</p>
-							</div>
-							<div class="col-sm-12 col-md-12 col-lg-3">
-								<p class="font-italic">Price</p>
-								<p class="text-info">
-									${{price}}
-								</p>
-							</div>
-							<div class="col-sm-12 col-md-12 col-lg-3">
-								<p class="font-italic">Category</p>
-								<p class="text-info">
-									{{replaceCommas category}}
-								</p>
-							</div>
-							<div class="row">
-								<div class="col-sm-12 col-md-12 col-lg-8">
-									<p>
-										<a href="/product/editProduct/{{id}}" class="card-link mb-2">
+<body>
+    <div>
+		{{#if product}}
+		<div class="container-fluid">
+			<!-- Page Heading -->
+			<div class="card shadow mb-4">
+				<div class="card-header py-3" style="background-color:#8BAD97;">
+					<h5 class="m-0 font-weight-bold" style="color:white;">Staff List </h5>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							<thead style="background-color: #F1EDE5;">
+								<tr>
+									<th>&nbsp;ID</th>
+									<th>&nbsp;Name</th>
+									<th>&nbsp;Stock</th>
+									<th>&nbsp;Price</th>
+									<th>&nbsp;Category</th>
+									<th>&nbsp;Action</th>
+								</tr>
+							</thead>
+							{{#each product}}
+
+							<tr>
+								<td>&nbsp;{{productid}}</td>
+								<td>&nbsp;{{product.name}}</td>
+								<td>&nbsp;{{product.stock}}</td>
+								<td>&nbsp;{{product.price}}</td>
+								<td>&nbsp;{{replaceCommas product.category}}</td>
+
+								<td>
+									<div>
+										<a href="/product/editProduct/{{id}}" class="card-link mb-2"
+											style="color: #8BAD97">
 											<i class="fas fa-pencil-alt"></i>
 											Edit
 										</a>
-									</p>
-								</div>
-								<div class="col-sm-12 col-md-12 col-lg-12">
-									<p>
-										<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
+									</div>
+									<div>
+										<!-- Logout Modal-->
+										<div class="modal fade" id="deletecust" tabindex="-1" role="dialog"
+											aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="exampleModalLabel">Delete
+															Product</h5>
+														<button class="close" type="button" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">×</span>
+														</button>
+													</div>
+													<div class="modal-body">Select "Delete" below if you are
+														deleting this product.</div>
+													<div class="modal-footer">
+														<button class="btn btn-secondary" type="button"
+															data-dismiss="modal">Cancel</button>
+														<a class="btn btn-primary"
+															href="/product/deleteProduct/{{id}}">Delete</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<a href="/product/deleteProduct/{{id}}" data-toggle="modal"
+											data-target="#deletecust" class="card-link" style="color: darkred">
 											<i class="far fa-trash-alt"></i>
 											Delete
 										</a>
-									</p>
-								</div>
-							</div>
-						</div>
-
-					</div>						
+									</div>
+								</td>
+							</tr>
+							{{/each}}
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
-		{{/each}}
+		{{else}}
+		<h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Products</h6>
+		{{/if}}
 	</div>
-	{{else}}
-	<h3>No products created</h3>
-	{{/if}}
-</div>
-
-<script>
-	$('[data-toggle=confirmation]').confirmation({
-		rootSelector: '[data-toggle=confirmation]',
-	});
-</script>
+</body>
