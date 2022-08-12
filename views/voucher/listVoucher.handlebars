@@ -3,10 +3,12 @@
             {{#if vouchers}}
             <div class="container-fluid">
                 <div class="card shadow mb-4">
-                        <div class="card-header py-3" style="background-color:#8BAD97;">
-                            <h5 class="m-0 font-weight-bold" style="color:white;">Vouchers <a href="/voucher/addVoucher" class="card-link mb-2" style="color:white ;padding-right:20px ; float:right;"><i class="fa-solid fa-ticket"></i> Add Voucher</a></h5>
-                            
-                        </div>
+                    <div class="card-header py-3" style="background-color:#8BAD97;">
+                        <h5 class="m-0 font-weight-bold" style="color:white;">Vouchers <a href="/voucher/addVoucher"
+                                class="card-link mb-2" style="color:white ;padding-right:20px ; float:right;"><i
+                                    class="fa-solid fa-ticket"></i> Add Voucher</a></h5>
+
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -15,22 +17,26 @@
                                     <tr>
                                         <th>&nbsp;ID</th>
                                         <th>&nbsp;Voucher Name</th>
+                                        <th>&nbsp;Discount Type</th>
                                         <th>&nbsp;Discount</th>
                                         <th>&nbsp;Min. Spend</th>
                                         <th>&nbsp;Code</th>
+                                        <th>&nbsp;Use Count</th>
                                         <th>&nbsp;Expiry Date</th>
                                         <th>&nbsp;Action</th>
-                                    </tr>
+                                    </tr> 
                                 </thead>
                                 {{#each vouchers}}
 
                                 <tr>
                                     <td>&nbsp;{{id}}</td>
                                     <td>&nbsp;{{vname}}</td>
+                                    <td>&nbsp;{{dtype}}</td>
                                     <td>&nbsp;{{discount}}</td>
                                     <td>&nbsp;{{minspend}}</td>
                                     <td>&nbsp;{{code}}</td>
-                                    <td>&nbsp;{{valid}}</td>
+                                    <td>&nbsp;{{usecount}}/{{limituse}}</td>
+                                    <td>&nbsp;{{displaydate}}</td>
                                     <td>
                                         <div>
                                             <a href="/voucher/editvoucher/{{id}}" class="card-link mb-2"
@@ -62,8 +68,11 @@
         </div>
 
         {{else}}
-        <h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Voucher <a href="/voucher/addVoucher" class="card-link mb-2" style="color:#8BAD97;padding-right:20px ; float:right;"><i class="fa-solid fa-ticket"></i> Add Voucher</a></h6> <hr>
-                            
+        <h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Voucher <a href="/voucher/addVoucher"
+                class="card-link mb-2" style="color:#8BAD97;padding-right:20px ; float:right;"><i
+                    class="fa-solid fa-ticket"></i> Add Voucher</a></h6>
+            <hr>
+
 
     </div>
     {{/if}}

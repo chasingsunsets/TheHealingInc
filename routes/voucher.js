@@ -12,10 +12,13 @@ router.get('/addVoucher', (req, res) => {
 
 router.post('/addVoucher', (req, res) => {
     let vname = req.body.vname;
+    let dtype = req.body.dtype;
     let discount = req.body.discount;
     let minspend = req.body.minspend;
+    let limituse= req.body.limituse;
     let code = req.body.code;
     let valid = moment(req.body.valid, 'DD/MM/YYYY');
+    let displaydate = moment(valid).utc().format('DD/MM/YYYY');
     // let valid = req.body.valid;
 
 
@@ -34,24 +37,24 @@ router.post('/addVoucher', (req, res) => {
     //         // pass object to listVideos.handlebar
     //         res.render('voucher/listVoucher', { layout: 'staffMain'});
     //     })
-    //     .catch(err => console.log(err));
+    //     .catch(err => console.log(err)); 
 
-    Voucher.create(
-        { vname, discount,minspend,code,valid, used:0 }
+    Voucher.Voucher.create(
+        { vname,discount,dtype,minspend,code,limituse,usecount:0,valid,displaydate, invalidtype: "valid"  }
     )
     flashMessage(res, 'success', vname + ' voucher added successfully');
     res.redirect('/voucher/listVoucher');
 });
 
 router.get('/listVoucher', (req, res) => {
-    Voucher.findAll({
+    Voucher.Voucher.findAll({
         // where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
         raw: true
     })
         .then((vouchers) => {
             // pass object to listVideos.handlebar
-            res.render('voucher/listVoucher', { vouchers, layout: 'staffMain', vname: vouchers.vname, discount: vouchers.discount, minspend: vouchers.minspend, code: vouchers.code, valid: vouchers.valid });
+            res.render('voucher/listVoucher', { vouchers, layout: 'staffMain' });
         })
         .catch(err => console.log(err));
     // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });

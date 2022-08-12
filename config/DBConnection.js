@@ -19,7 +19,7 @@ const setUpDB = (drop) => {
             */
             Subscription;
             Newsletter;
-            Voucher;
+            // Voucher;
             
             User.hasMany(Quiz);
             Quiz.belongsTo(User);
@@ -31,14 +31,17 @@ const setUpDB = (drop) => {
             Order.CartItem.belongsTo(User);
 
             User.hasMany(Order.Order);
-            Order.Order.belongsTo(User);
 
             Order.Order.hasMany(Order.OrderItem);
             Order.OrderItem.belongsTo(Order.Order);
             
-            // User.hasMany(Voucher);
-            // Voucher.belongsTo(User);
+            User.hasMany(Voucher.UserVoucher);
+            Voucher.UserVoucher.belongsTo(User);
 
+            // Voucher.UserVoucher.hasMany(Voucher.Voucher);
+            // Voucher.Voucher.belongsTo(Voucher.UserVoucher);
+            Voucher.Voucher.hasMany(Voucher.UserVoucher);
+            Voucher.UserVoucher.belongsTo(Voucher.Voucher);
             
 
             mySQLDB.sync({

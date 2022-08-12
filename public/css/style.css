@@ -365,7 +365,7 @@ div .container {
 
 /* staff */
 #staffpg {
-  background-image: url('/img/stafflogin.png');
+  /* background-image: url('/img/stafflogin.png'); */
   background-repeat: no-repeat;
   background-size: contain;
   overflow: hidden;

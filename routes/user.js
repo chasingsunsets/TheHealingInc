@@ -21,10 +21,26 @@ const { response } = require('express');
 // const { where } = require('sequelize/types');
 // const { where } = require('sequelize/types');
 
+const Voucher = require('../models/Voucher');
+
 
 router.get('/login', (req, res) => {
     res.render('user/login');
 });
+
+
+// Order.Order.findByPk(req.params.id)
+//     .then((order) => {
+//         let orderId = order.id
+//         let status = order.status
+//         Order.OrderItem.findAll({
+//             where: { orderId },
+//             order: [['createdat', 'DESC']],
+//         })
+//             .then((orderItem) => {
+//                 res.render('../views/cart/purchase.handlebars', { orderItem, status, orderId });
+//             })
+//     })
 
 router.get('/register', (req, res) => {
     res.render('user/register');
@@ -111,9 +127,9 @@ router.post('/register', async function (req, res) {
     // res.redirect('/user/login');
     try {
         // If all is well, checks if user is already registered
-        let user = await User.findOne({ where: { email: email, type:"customer" } });
-        let usern = await User.findOne({ where: { username: username, type:"customer" } });
-        let userp = await User.findOne({ where: { phoneno: phoneno, type:"customer" } });
+        let user = await User.findOne({ where: { email: email, type: "customer" } });
+        let usern = await User.findOne({ where: { username: username, type: "customer" } });
+        let userp = await User.findOne({ where: { phoneno: phoneno, type: "customer" } });
 
         if (user) {
             // If user is found, that means email has already been registered
@@ -176,6 +192,8 @@ router.post('/login', (req, res, next) => {
         successRedirect: '/user/profile',
         // Failure redirect URL
         failureRedirect: '/user/login',
+
+        
         /* Setting the failureFlash option to true instructs Passport to flash
         an error message using the message given by the strategy's verify callback.
         When a failure occur passport passes the message object as error */
@@ -195,7 +213,69 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/profile', ensureAuthenticated, (req, res) => {
+    User.findByPk(req.user.id)
+        .then((user) => {
+            Voucher.Voucher.findAll({
+                where: { invalidtype: "valid" }
+            })
+                .then((voucher) => {
+                    console.log(voucher)
+                    voucher.forEach(element=> {
+                        console.log(req.user.id)
+                        let userId=req.user.id;
+                        let voucherId = element.id
+                        let vname = element.vname
+                        let dtype = element.dtype
+                        let discount = element.discount
+                        let minspend = element.minspend
+                        let code = element.code
+                        let valid = element.valid
+                        let displaydate = element.displaydate
+                        let invalidtype = element.invalidtype
 
+                        Voucher.UserVoucher.findOrCreate({
+                            where: { userId: userId, voucherId:voucherId  },
+                            defaults: {
+                            //   job: 'Technical Lead JavaScript'
+                            vname,
+                            dtype, 
+                            discount, 
+                            minspend, 
+                            code, 
+                            valid, 
+                            displaydate, 
+                            invalidtype, 
+                            use:0,
+                            userId, 
+                            voucherId 
+                            }
+                          });
+
+                        // .then((uservoucher) => {
+                        //     if (!uservoucher) {
+                        //         Voucher.UserVoucher.create(
+                        //             { vname,dtype, discount, minspend, code, valid, displaydate, invalidtype, used: 0, userId, voucherId }
+                        //         )
+                        //     }
+                        // })
+                        // .catch(err => console.log(err));
+                        // Voucher.UserVoucher.findByPk( voucherId)
+                        // .then((uservoucher) => {
+                        //     if (!uservoucher) {
+                        //         Voucher.UserVoucher.create(
+                        //             { vname,dtype, discount, minspend, code, valid, displaydate, invalidtype, used: 0, userId, voucherId }
+                        //         )
+                        //     }
+                        // })
+                        // .catch(err => console.log(err));
+                    })
+                    
+                    
+                    
+
+                })
+                .catch(err => console.log(err));
+            });
     res.render('user/profile', { layout: 'account', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
@@ -471,7 +551,7 @@ router.get('/deleteaccount/:id', ensureAuthenticated, async function (req, res) 
         console.log(err);
     }
 });
-module.exports = router;
+
 
 // router.get('/listVideos', (req, res) => {
 //     Video.findAll({
@@ -489,33 +569,47 @@ module.exports = router;
 
 
 
+router.get('/listUserVoucher',ensureAuthenticated,  (req, res) => {
+    Voucher.UserVoucher.findAll({
+        where: { userId: req.user.id },
+        // order: [['dateRelease', 'DESC']],
+        raw: true
+    })
+        .then((vouchers) => {
+            // pass object to listVideos.handlebar
+            res.render('user/listUserVoucher', { layout: 'account', vouchers });
+        })
+        .catch(err => console.log(err));
+    // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
+});
 
 
 
 
-
-router.get('/listOrder', async (req, res) => {
+router.get('/listOrder',ensureAuthenticated,  async (req, res) => {
     let userId = req.user.id
     const orders = await Order.Order.findAll({
         where: { userId },
         order: [['createdat', 'DESC']],
         raw: true
     })
-        res.render('user/listOrder',{layout: 'account', orders})
-    });
-    
-    
-    
-        
-    // });
+    res.render('user/listOrder', { layout: 'account', orders })
+});
 
-router.get('/cancelOrder/:id', async (req, res) => {
+
+
+
+// });
+
+router.get('/cancelOrder/:id', ensureAuthenticated,  async (req, res) => {
     let status = "Cancelled";
     const order = await Order.Order.findByPk(req.params.id);
     Order.update(
-        {status: status},
-        {where: {id: order.id}},
-        )
-    
+        { status: status },
+        { where: { id: order.id } },
+    )
+
     res.redirect('/user/listOrder');
 });
+
+module.exports = router;
