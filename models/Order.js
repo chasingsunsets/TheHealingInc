@@ -25,6 +25,8 @@ const CartItem = db.define('cartItem',
         amount: { type: Sequelize.INTEGER },
         price: { type: Sequelize.DECIMAL },
         totalprice: { type: Sequelize.DECIMAL },
+        weight: { type: Sequelize.INTEGER },
+        m_weight: { type: Sequelize.INTEGER },
     });
 
 

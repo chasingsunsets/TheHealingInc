@@ -1,588 +1,91 @@
-{{!--
-
-<head>
-    <script>
-        window.onload = function () {
-            if (document.getElementById("btn") == 'Cancelled') {
-                console.log("Cancelled");
-                document.getElementById("btn").className = "badge badge-danger";
-            }
-            else if (document.getElementById("btn") == "unshipped") {
-                console.log("unshipped");
-                document.getElementById("btn").className = "badge badge-alert";
-            }
-        }
-    </script>
-</head> --}}
-
-<body id="page-top">
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <h1 class="display-4">Order List</h1>
-                    <br>
-                    <div class="row">
-                        <div class="col-10 col-md-8 col-sm-2">
-                            <form>
-                                <div class="d-none d-sm-inline-block form-inline navbar-search "
-                                    style='padding-bottom: 20px;'>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light bvoucher-0 small"
-                                            placeholder="Newsletter ID..." aria-label="Search"
-                                            aria-describedby="basic-addon2" id='search-voucher'>
-                                        <div class="input-group-append">
-                                            <button class="btn voucher-search-button" type="button"
-                                                style="background-color:#8BAD97; border: 0px;">
-                                                <i class="fas fa-search fa"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-2 col-md-4 col-sm-10 text-right">
-                            {{!-- <a href="/newsletter/addNewsletter" class="btn btn"
-                                style="background-color: #e0d1b5; color:white; font-weight: bold;">Create Newsletter</a>
-                            --}}
-                        </div>
-                    </div>
-                    <br>
-
-                    <div class="wrapper">
-
-                        <input type="radio" name="slider" checked id="draft">
-                        <input type="radio" name="slider" id="scheduled">
-                        <input type="radio" name="slider" id="past">
-                        {{!-- <input type="radio" name="slider" id="help"> --}}
-
-                        <nav>
-                            <label for="draft" class="draft"><i class="fa-solid fa-pen-ruler"></i>Current Orders</label>
-                            <label for="scheduled" class="scheduled"><i class="fa-solid fa-calendar-check"></i>Completed
-                                Orders</label>
-                            <label for="past" class="past"><i class="fa-solid fa-clock-rotate-left"></i>Past
-                                Orders</label>
-                            {{!-- <label for="help" class="help"><i class="fas fa-ring"></i>Accessories</label> --}}
-
-                            <div class="slider"></div>
-                        </nav>
-
-                        <!-- Section: Draft -->
-                        <section>
-                            <div class="content content-1"
-                                style="height: 400px;  overflow-y:scroll; overflow-x: hidden; border-style: none;">
-                                <table class="table table-borderless table-hover"
-                                    style="border-style: None;border-collapse: collapse">
-                                    <thead>
-                                        <tr class="font-weight-bold">
-                                            <th>Id</th>
-                                            <th>Total Amount</th>
-                                            <th>Payment</th>
-                                            <th>Status</th>
-                                            {{!-- <th>Created By/ Modified By</th>
-                                            <th>Date</th> --}}
-                                            <th colspan="4">Operations</th>
-                                        </tr>
-                                    </thead>
-                                    <br>
-                                    <tbody>
-                                        {{#if orders}}
-                                        {{#each orders}}
-                                        <tr style="border: solid; border-width: 1px 0;">
-                                            <td>{{this.id}}</td>
-                                            <td>{{this.totalamount}}</td>
-                                            <td>{{this.payment}}</td>
-                                            <td>{{this.status}}</td>
-                                            {{!-- <td>{{createdBy}}</td>
-                                            <td>{{updatedAt}}</td> --}}
-                                            {{!-- {% if product.get_status() == 'Low Stock' or product.get_status() ==
-                                            'Out of Stock' %}
-                                            <td>
-                                                <p class="badge badge-danger">xcx</p>
-                                            </td>
-                                            {% else %}
-                                            <td>
-                                                <p class="badge badge-success">xccxcxcx</p>
-                                            </td>
-                                            {% endif %} --}}
-                                            <td>
-                                                <form action="/user/cancelOrder/{{id}}">
-
-                                                    <!-- Button to Open the Modal -->
-                                                    <button type="button" title="Cancel" class="btn btn-danger "
-                                                        data-bs-toggle="modal" data-bs-target="#modal_delete">
-                                                        <i class="fa-solid fa-xmark"></i>
-                                                    </button>
-
-                                                    <!-- The Modal -->
-                                                    <div class="modal" id="modal_delete">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Cancel Confirmation</h4>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-
-                                                                <!-- Modal body -->
-                                                                <div class="modal-body">
-                                                                    Are you sure you want to Cancel Order #{{this.id}}?
-                                                                </div>
-
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                    <input type="submit" value="Yes"
-                                                                        class="btn btn-danger">
-
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">No</button>
-                                                                </div>
-                                                </form>
-                                            </td>
-                                            {{!-- <td>
-                                                <form action="" method="POST">
-                                                    <!-- Button to Open the Modal -->
-                                                    <button type="submit" title="Update"
-                                                        class="btn btn-primary bg-gradient-primary"
-                                                        data-bs-target="#myModal_">
-                                                        <i class="fas fa-pen"></i>
-                                                    </button>
-
-                                                </form>
-                                            </td> --}}
-
-                                            <td>
-                                                <button type="button" title="View" class="btn btn-info"
-                                                    data-bs-toggle="modal" data-bs-target="#weModal_">
-                                                    <i class="far fa-eye"></i>
-                                                </button>
-
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby=""
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="">Order Detail</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"><i
-                                                                        class="fa-solid fa-xmark"></i></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <h5 style="text-align: center;">Order id: {{this.id}}</h5>
-{{!-- order细节 --}}
-                                                                <div class="order-track">
-                                                                    <div class="order-track-step">
-                                                                        <div class="order-track-status">
-                                                                            <span class="order-track-status-dot"></span>
-                                                                            <span
-                                                                                class="order-track-status-line"></span>
-                                                                        </div>
-                                                                        <div class="order-track-text">
-                                                                            <p class="order-track-text-stat">Package Preparation</p>
-                                                                            <span class="order-track-text-sub">Status:
-                                                                                </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="order-track-step">
-                                                                        <div class="order-track-status">
-                                                                            <span class="order-track-status-dot"></span>
-                                                                            <span
-                                                                                class="order-track-status-line"></span>
-                                                                        </div>
-                                                                        <div class="order-track-text">
-                                                                            <p class="order-track-text-stat"> Delivery - {{this.Vanaddress}}
-                                                                                
-                                                                                 </p>
-                                                                            <span class="order-track-text-sub">1st
-                                                                                November, 2019</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="order-track-step">
-                                                                        <div class="order-track-status">
-                                                                            <span class="order-track-status-dot"></span>
-                                                                            <span
-                                                                                class="order-track-status-line"></span>
-                                                                        </div>
-                                                                        <div class="order-track-text">
-                                                                            <p class="order-track-text-stat"> Shipped
-                                                                                - {{this.address}}
-                                                                                </p>
-                                                                            <span class="order-track-text-sub">3rd
-                                                                                November, 2019</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                </ul>
-                                                                <div class="card-body">
-                                                                    Created on: {{formatDate createdAt
-                                                                    'DD/MM/YYYY'}}
-                                                                    <br>
-                                                                    <hr>
-                                                                    Modified on: {{formatDate updatedAt
-                                                                    'DD/MM/YYYY'}}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                            </div>
-                            </td>
-                            <td>
-                                <button type="button" title="payment" class="btn btn-warning " data-bs-toggle="modal"
-                                    data-bs-target="#my_">
-                                    <i class="fa-solid fa-bag-shopping"></i>
-                                </button>
-
-                                <!-- The Modal -->
-                                <div class="modal" id="my_">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-
-                                            <!-- Modal Header -->
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Payment</h4>
-                                                <button type="button" class="btn-close"
-                                                    data-bs-dismiss="modal"></button>
-                                            </div>
-
-                                            <!-- Modal body -->
-                                            <div class="modal-body">
-                                                Are you sure you continue to buy ?
-                                            </div>
-
-                                            <!-- Modal footer -->
-                                            <div class="modal-footer">
-                                                <a href="/payment/payment/{{id}}" class="btn btn-danger">Yes</a>
-
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">No</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            </tr>
-                            {{/each}}
-                            {{else}}
-                            <div>
-                                <td colspan="8" style="text-align:center;">
-                                    <h6 class="empty">You currently have no Order.</h6>
-                                </td>
-                            </div>
-                            {{/if}}
-                            </tbody>
-                            </table>
-                            <h1>{{address}}</h1>
-                    </div>
-                    </section>
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-</body>
-
-<style>
-    {
-            {
-             !-- order细节 --
-        }
-    }
-
-    @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap");
-
-
-    h2,
-    h4,
-    h6 {
-        margin: 0;
-        padding: 0;
-        display: inline-block;
-    }
-
-    .root {
-        padding: 1rem;
-        border-radius: 5px;
-        box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
-    }
-
-    figure {
-        display: flex;
-    }
-
-    figure img {
-        width: 8rem;
-        height: 8rem;
-        border-radius: 15%;
-        border: 1.5px solid #f05a00;
-        margin-right: 1.5rem;
-        padding: 1rem;
-    }
-
-    figure figcaption {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
-
-    figure figcaption h4 {
-        font-size: 1.4rem;
-        font-weight: 500;
-    }
-
-    figure figcaption h6 {
-        font-size: 1rem;
-        font-weight: 300;
-    }
-
-    figure figcaption h2 {
-        font-size: 1.6rem;
-        font-weight: 500;
-    }
-
-    .order-track {
-        margin-top: 2rem;
-        padding: 0 1rem;
-        border-top: 1px dashed #2c3e50;
-        padding-top: 2.5rem;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .order-track-step {
-        display: flex;
-        height: 7rem;
-    }
-
-    .order-track-step:last-child {
-        overflow: hidden;
-        height: 4rem;
-    }
-
-    .order-track-step:last-child .order-track-status span:last-of-type {
-        display: none;
-    }
-
-    .order-track-status {
-        margin-right: 1.5rem;
-        position: relative;
-    }
-
-    .order-track-status-dot {
-        display: block;
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        background: #f05a00;
-    }
-
-    .order-track-status-line {
-        display: block;
-        margin: 0 auto;
-        width: 2px;
-        height: 7rem;
-        background: #f05a00;
-    }
-
-    .order-track-text-stat {
-        font-size: 1.3rem;
-        font-weight: 500;
-        margin-bottom: 3px;
-    }
-
-    .order-track-text-sub {
-        font-size: 1rem;
-        font-weight: 300;
-    }
-
-    .order-track {
-        transition: all .3s height 0.3s;
-        transform-origin: top center;
-    }
-
-        {
-            {
-             !-- -------------------------------------------------- --
-        }
-    }
-
-    ::selection {
-        background: #8BAD97(23, 98, 184, 0.3);
-    }
-
-    .wrapper {
-
-        width: 100%;
-        padding: 25px 30px 30px 30px;
-        border-radius: 5px;
-        background: #fff;
-
-    }
-
-    .wrapper header {
-        font-size: 30px;
-        font-weight: 600;
-        padding-bottom: 20px;
-    }
-
-    .wrapper nav {
-        position: relative;
-        width: 100%;
-        height: 50px;
-        display: flex;
-        margin-bottom: 10px;
-        align-items: center;
-    }
-
-    .wrapper nav label {
-        display: block;
-        height: 100%;
-        width: 100%;
-        text-align: center;
-        line-height: 50px;
-        cursor: pointer;
-        position: relative;
-        z-index: 1;
-        color: #8BAD97;
-        font-size: 17px;
-        border-radius: 5px;
-        margin: 0 5px;
-
-        transition: all 0.3s ease;
-    }
-
-    .wrapper nav label:hover {
-        margin-bottom: 10px;
-        background: #e0d1b5;
-    }
-
-
-
-    #about:checked~nav label.about {
-        color: #fff;
-    }
-
-    nav label i {
-        padding-right: 7px;
-    }
-
-    nav .slider {
-        position: absolute;
-        height: 100%;
-        width: 33%;
-        left: 0;
-        bottom: 0;
-        z-index: 0;
-        border-radius: 5px;
-        background: #e0d1b5;
-        transition: all 0.3s ease;
-
-    }
-
-    input[type="radio"] {
-        display: none;
-    }
-
-    #scheduled:checked~nav .slider {
-        left: 33.33%;
-    }
-
-    #past:checked~nav .slider {
-        left: 66.66%;
-    }
-
-        {
-            {
-             !-- #help:checked~nav .slider {
-                left: 99%;
-            }
-
-            --
-        }
-    }
-
-    #about:checked~nav .slider {
-        left: 99.99%;
-    }
-
-    section .content {
-        display: block;
-        background: #fff;
-        border-collapse: collapse;
-
-    }
-
-
-
-    #about:checked~section .content-4 {
-        display: block;
-    }
-
-    section .content .title {
-        font-size: 21px;
-        font-weight: 500;
-        margin: 30px 0 10px 0;
-    }
-
-    section .content p {
-        text-align: justify;
-    }
-
-    #darft:checked~section .content-1 {
-        display: block;
-    }
-</style>
-
-{{!--
-<!-- Bootstrap core JavaScript-->
-<script src="/vendor/jquery/jquery.min.js"></script>
-<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="/js/demo/datatables-demo.js"></script> --}}
-
-{{!-- JavaScript Bundle with Popper --}}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/jquery/jquery.slim.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<div>
+	{{#if product}}
+	<div class="container-fluid">
+		<!-- Page Heading -->
+		<div class="card shadow mb-4">
+			<div class="card-header py-3" style="background-color:#8BAD97;">
+				<h5 class="m-0 font-weight-bold" style="color:white; ">Product Inventory
+					<a href="/product/addProduct" class="card-link mb-2" style="color:white; padding-right:20px ; padding-top:6px; float:right;">
+					<i class="fa-solid fa-square-plus"></i> Add Product</a>
+				</h5>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead style="background-color: #F1EDE5;">
+							<tr>
+								<th>&nbsp;ID</th>
+								<th>&nbsp;Name</th>
+								<th>&nbsp;Stock</th>
+								<th>&nbsp;Weight (grams)</th>
+								<th>&nbsp;Price ($)</th>
+								<th>&nbsp;Category</th>
+								<th>&nbsp;Action</th>
+							</tr>
+						</thead>
+						{{#each product}}
+						<tr>
+							<td>&nbsp;{{id}}</td>
+							<td>&nbsp;{{name}}</td>
+							<td>&nbsp;{{stock}}</td>
+							<td>&nbsp;{{weight}}</td>
+							<td>&nbsp;{{price}}</td>
+							<td>&nbsp;{{spaceCommas category}}</td>
+							<td>
+								<div>
+									<a href="/product/editProduct/{{id}}" class="text-primary card-link mb-2">
+										<i class="fas fa-pencil-alt"></i>
+										Edit Product
+									</a>
+								</div>
+								<div>
+									<!-- Button HTML (to Trigger Modal) -->
+									<a href="#myModal_{{id}}" class="trigger-btn delete text-danger" data-toggle="modal"> 
+										<i class="far fa-trash-alt"></i>
+										Delete
+									</a>
+								</div>
+
+								<!-- Modal HTML -->
+								<form action="/product/deleteProduct/{{id}}">
+									<div id="myModal_{{id}}" class="modal fade">
+										<div class="modal-dialog modal-confirm">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title">Deletion Confirmation</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<p>Do you really want to delete this product? This process cannot be undone.</p>
+												</div>
+												<div class="modal-footer justify-content-center">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+													<button type="submit" value="Delete" class="btn btn-danger">Delete</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</td>
+						</tr>
+						{{/each}}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{else}}
+	<h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Products Created 
+		<a href="/product/addProduct" class="card-link mb-2" style="color:#8BAD97; padding-right:20px ; float:right;">
+		<i class="fa-solid fa-square-plus"></i> Add Product</a>
+	</h3>
+	<hr>
+	{{/if}}
+</div>
+<script>
+	$('[data-toggle=confirmation]').confirmation({
+		rootSelector: '[data-toggle=confirmation]',
+	});
+</script>

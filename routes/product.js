@@ -141,10 +141,11 @@ router.post('/itemDesc/:id', async (req, res) => {
     let price = product.price;
     let userId = req.user.id;
     let totalprice = product.price;
+    let weight = product.weight;
     let amount = 1;
     flashMessage(res, 'success', 'Product has added in shopping cart');
     Order.CartItem.create(
-		{ userId, product:name, amount, price, totalprice }
+		{ userId, product:name, amount, price, totalprice, weight, m_weight: weight },
 	)
 		.then((order) => {
 			console.log(order.toJSON());
