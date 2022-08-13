@@ -2,7 +2,102 @@
 
 <br>
 
-<div class="card shadow mb-4">
+<div class="card" style="border-radius: 20px;">
+    <div class="card-body">
+        {{!-- <h6 class=" text-center">You have {{prodLenght}} recommendations</h6> --}}
+        <br>
+        <div class="row" style="border-radius: 20px;">
+            <div class="col-4">
+                <div class="list-group" id="list-tab" role="tablist">
+                    {{#each prodForHealthAreas}}
+                    <a class="list-group-item list-group-item-action" id="{{id}}" data-toggle="list"
+                        href="#list-profile-{{id}}"role="tab" aria-controls="profile"><img class="img-thumbnail" id="prodImage" src="{{image}}" alt="Card image cap">{{prodName}}</a>
+                    {{/each}}
+                </div>
+            </div>
+            
+            <div class="col-8">
+                <div class="tab-content" id="nav-tabContent">
+                    {{#each prodForHealthAreas}}
+                    <div class="tab-pane fade" id="list-profile-{{id}}" role="tabpanel" aria-labelledby="{{id}}">
+                        <div class="card-body">
+                            <h2 class="text-center">{{prodName}}</h2>
+                            <p>{{description}}</p>
+                            <hr>
+                            <p>Health Focus Area:
+                                   <span class="badge badge-pill badge-area">{{area}}</span>
+                            </p> 
+                        </div>
+
+                        <div class="card-footer">
+                            <a href="/product/catalogue"><button>Buy Now</button></a>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="card-deck">
+    <div class="card ser-col">
+        <div class="card-body">
+            {{#comparison quizzes.tcm "yes"}}
+            <h6 class="text-muted">As you are educated about traditional chinese medicine and need no assistance, you can skip out on our face to face appointment.</h6>
+            {{/comparison}}
+
+            {{#comparison quizzes.tcm "sometimes"}}
+            <h6 class="text-muted">On top of these products, we also recommend you these services:</h6>
+            <br>
+            <h1 class="card-title title" id="area">
+                {{#comparison quizzes.tcm "sometimes"}}
+                Consultation
+                {{/comparison}}
+            </h1>
+            {{/comparison}}
+
+            {{#comparison quizzes.tcm "never"}}
+            <h6 class="text-muted">On top of these products, we also recommend you these services:</h6>
+            <br>
+            <h1 class="card-title title" id="area">
+                {{#comparison quizzes.tcm "never"}}
+                Consultation
+                {{/comparison}}
+            </h1>
+            {{/comparison}}
+        </div>
+        {{#comparison quizzes.tcm "never"}}
+        <div class="card-footer">
+            Why is that?:
+            <br>
+            <small class="text-muted">
+                You have stated in the quiz that you are not convinced about traditional chinese medicine yet.
+            </small>
+
+            <a href="/booking/addBooking"><button>Book Apointment Now</button></a>
+        </div>
+        {{/comparison}}
+
+        {{#comparison quizzes.tcm "sometimes"}}
+        <div class="card-footer">
+            Why is that?:
+            <br>
+            <small class="text-muted">
+                You have stated in the quiz that you want to learn more about traditional chinese medicine yet.
+            </small>
+
+            <a href="/booking/addBooking"><button>Book Apointment Now</button></a>
+        </div>
+        {{/comparison}}
+    </div>
+</div>
+
+<br><br>
+
+{{!-- <div class="card shadow mb-4">
     <div class="card-header py-3" style="background-color:#8BAD97;">
         <h6 class="m-0 font-weight-bold" style="color:white;">Quiz Answers</h6>
     </div>
@@ -70,60 +165,11 @@
             </table>
         </div>
     </div>
-</div>
-
-<div class="card-deck">
-    <div class="card ser-col">
-        <div class="card-body">
-            {{#comparison quizzes.tcm "yes"}}
-            <h6 class="text-muted">As you are educated about traditional chinese medicine and need no assistance, we have no services to recommend to you.</h6>
-            {{/comparison}}
-            
-            {{#comparison quizzes.tcm "sometimes"}}
-            <h6 class="text-muted">On top of these products, we also recommend you these services:</h6>
-            <br>
-            <h1 class="card-title title" id="area">
-                {{#comparison quizzes.tcm "sometimes"}}
-                Consultation
-                {{/comparison}}
-            </h1>
-            {{/comparison}}
-            
-            {{#comparison quizzes.tcm "never"}}
-            <h6 class="text-muted">On top of these products, we also recommend you these services:</h6>
-            <br>
-            <h1 class="card-title title" id="area">
-                {{#comparison quizzes.tcm "never"}}
-                Consultation
-                {{/comparison}}
-            </h1>
-            {{/comparison}}
-        </div>
-        {{#comparison quizzes.tcm "never"}}
-        <div class="card-footer">
-            Why is that?:
-            <br>
-            <small class="text-muted">
-                You have stated in the quiz that you are not convinced about traditional chinese medicine yet.
-            </small>
-        </div>
-        {{/comparison}}
-
-        {{#comparison quizzes.tcm "sometimes"}}
-        <div class="card-footer">
-            Why is that?:
-            <br>
-            <small class="text-muted">
-                You have stated in the quiz that you want to learn more about traditional chinese medicine yet.
-            </small>
-        </div>
-        {{/comparison}}
-    </div>
-</div>
+</div> --}}
 
 <br>
 
-<div class="card-deck">
+{{!-- <div class="card-deck">
     <div class="card ser-col">
         <div class="card-body">
             <h6 class="text-muted">Health Focus: {{quizzes.area}}</h6>
@@ -187,7 +233,7 @@
             <button>Add To Cart</button>
         </div>
     </div>
-</div>
+</div> --}}
 
 <style>
     .header {
@@ -215,5 +261,16 @@
 
     button:hover {
         background-color: #bdd4c5;;
+    }
+
+    #prodImage {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
+    }
+
+    .badge-area {
+        background-color: #d9d9ee;
     }
 </style>

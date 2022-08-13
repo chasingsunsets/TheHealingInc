@@ -22,7 +22,100 @@
                                             Update
                                         </a>
                                     </button>
-                                    <br>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-viewQuiz" data-toggle="modal" data-target="#exampleModal_{{id}}">
+                                        Answers
+                                    </button>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal_{{id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Quiz Answers</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card shadow mb-4">
+                                                        <div class="card-header py-3" style="background-color:#8BAD97;">
+                                                            <h6 class="m-0 font-weight-bold" style="color:white;">Quiz Answers</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                                    <thead style="background-color: #F1EDE5;">
+                                                    
+                                                                        <tr>
+                                                                            <th>Question</th>
+                                                                            <th>Answer</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                    
+                                                                    <tr>
+                                                                        <td>Quiz Name</td>
+                                                                        <td>{{quizName}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>Gender</td>
+                                                                        <td>{{gender}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>Age</td>
+                                                                        <td>{{age}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>TCM knowledge</td>
+                                                                        <td>{{tcm}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>Supplements/ TCM intake</td>
+                                                                        <td>{{supplements}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>Health area to improve</td>
+                                                                        <td>{{area}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>Diet</td>
+                                                                        <td>{{diet}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>On medication?</td>
+                                                                        <td>{{medication}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>Allergies?</td>
+                                                                        <td>{{allergy}}</td>
+                                                                    </tr>
+                                                    
+                                                                    <tr>
+                                                                        <td>Smoke?</td>
+                                                                        <td>{{smoke}}</td>
+                                                                    </tr>
+                                                    
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br><br>
                                     <h6 class="text-muted">#quiz: {{id}}</h6>
                                     <br><br><br>
                                     <a href="/quiz/quizResult/{{id}}">
@@ -38,12 +131,12 @@
                                 <div class="card-footer">
                                         <div class="text-center">
                                             <!-- Button HTML (to Trigger Modal) -->
-                                            <a href="#myModal" class="trigger-btn delete" data-toggle="modal">Delete</a>
+                                            <a href="#myModal_{{id}}" class="trigger-btn delete" data-toggle="modal">Delete</a>
                                         </div>
 
                                         <!-- Modal HTML -->
                                         <form action="/quiz/deleteQuiz/{{id}}">
-                                            <div id="myModal" class="modal fade">
+                                            <div id="myModal_{{id}}" class="modal fade">
                                                 <div class="modal-dialog modal-confirm">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -118,6 +211,16 @@
 		width: 100px;
         text-align: center;
         float: right;
+        font-size: 15px;
+    }
+
+    .btn-viewQuiz {
+        color: #000000;
+		background: #8BAD97;
+		border-radius: 60px;
+		width: 100px;
+        text-align: center;
+        float: left;
         font-size: 15px;
     }
 
