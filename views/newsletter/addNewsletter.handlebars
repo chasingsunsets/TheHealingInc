@@ -98,7 +98,9 @@
 
                         <div class="form-group">
                             <label for="createdBy">Created By/ Modified By</label>
-                            <input class="form-control" type="text" id="createdBy" name="createdBy" required />
+                            {{#if_equal user.type "staff"}}
+                            <input class="form-control" type="text" id="createdBy" name="createdBy" value="{{user.username}}" readonly />
+                            {{/if_equal}}
                         </div>
                                             
                         

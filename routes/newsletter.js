@@ -45,12 +45,30 @@ router.post('/addNewsletter', (req, res) => {
 
 // r: retrieve newsletters
 router.get('/listNewsletters', (req, res) => {
+    draftTab = []
+    completedTab = []
+    sentTab = []
     Newsletter.findAll({
         raw: true
     })
         .then((newsletters) => {
+            for (i in newsletters) {
+                if (newsletters[i].status == "Draft") {
+                    draftTab.push(newsletters[i])
+                }
+                else if (newsletters[i].status == "Completed")
+                {
+                    completedTab.push(newsletters[i])
+                }
+                else if (newsletters[i].status == "Sent")
+                {
+                    sentTab.push(newsletters[i])
+                }
+            }
+            console.log(draftTab)
+            console.log(sentTab);
             res.render('newsletter/listNewsletters', {
-                newsletters, layout: 'staffMain', newsletterName: newsletters.newsletterName,
+                newsletters, layout: 'staffMain', draftTab, completedTab, sentTab, newsletterName: newsletters.newsletterName,
                 category: newsletters.category, htmlContent: newsletters.htmlContent, fileUpload: newsletters.fileUpload, status: newsletters.status, createdBy: newsletters.createdBy
             });
         })
@@ -143,6 +161,7 @@ router.post('/upload', (req, res) => {
 router.get('/sendNewsletter/:id', async function (req, res) {
     try {
         let newsletter = await Newsletter.findByPk(req.params.id);
+        verifiedList = []
         if (!newsletter) {
             flashMessage(res, 'error', 'Newsletter not found');
             res.redirect('/');
@@ -154,37 +173,56 @@ router.get('/sendNewsletter/:id', async function (req, res) {
                 raw: true
             })
                 .then((subscriptions) => {
+                    // check for verified users in the subscriptions
+                    for (i in subscriptions) {
+                        // console.log(subscriptions[i])
+                        verifiedList.push(subscriptions[i].verified)
+                    }
+
                     if (subscriptions.length == 0)
                     {
                         res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "There is currently no subscribers in your subscription list.", button: "Return", link: "/newsletter/listNewsletters" });
                     }
-                    for (let i = 0; i < subscriptions.length; i++) {
-                        let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscriptions[i].id}`;
-                        let htmlContent = newsletter.htmlContent;
-                        let newsletterName = newsletter.newsletterName;
-                        let toEmail = subscriptions[i].email
-                        pathToAttachment = './public/' + newsletter.posterURL;
-                        attachment = fs.readFileSync(pathToAttachment).toString("base64");
-                        if (subscriptions[i].verified == 1)
-                        {
-                            sendEmail2(toEmail, newsletterName, htmlContent, urlDelete)
-                                .then(response => {
-                                    console.log(response);
-                                    // flashMessage(res, 'success', subscription.email + ' signed up successfully');
-                                    // res.redirect('/');
-                                    res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Newsletter Sent Successfully", card_title2: "Newsletter Details:", message1: "ID = " + newsletter.id, message2: "Newsletter Name = " + newsletter.newsletterName, button: "Return", link: "/newsletter/listNewsletters" });
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                    res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Newsletter Sent Unsucessfully", card_title2: "Newsletter Details:", message1: "ID = " + newsletter.id, message2: "Newsletter Name = " + newsletter.newsletterName, button: "Return", link: "/newsletter/listNewsletters" });
-                                    // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
-                                    // res.redirect('/');
-                                });
+
+                    else if (!verifiedList.includes(1)) 
+                    {
+                        res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "There is currently no subscribers in your subscription list who are verified.", button: "Return", link: "/newsletter/listNewsletters" });
+                    }
+                    
+                    else 
+                    {
+                        for (let i = 0; i < subscriptions.length; i++) {
+                            let urlDelete = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscriptions[i].id}`;
+                            let htmlContent = newsletter.htmlContent;
+                            let newsletterName = newsletter.newsletterName;
+                            let toEmail = subscriptions[i].email;
+                            let image = './public/' + newsletter.posterURL;
+                            pathToAttachment = './public/' + newsletter.posterURL;
+                            attachment = fs.readFileSync(pathToAttachment).toString("base64");
+
+                            if (subscriptions[i].verified == 1) {
+                                sendEmail2(toEmail, newsletterName, htmlContent, urlDelete, image)
+                                    .then(response => {
+                                        console.log(response);
+                                        // flashMessage(res, 'success', subscription.email + ' signed up successfully');
+                                        // res.redirect('/');
+                                        res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Newsletter Sent Successfully", card_title2: "Newsletter Details:", message1: "ID = " + newsletter.id, message2: "Newsletter Name = " + newsletter.newsletterName, button: "Return", link: "/newsletter/listNewsletters" });
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                        res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "An error occurred.", button: "Return", link: "/newsletter/listNewsletters" });
+                                        // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
+                                        // res.redirect('/');
+                                    });
+                            }
                         }
                     }
+                    let result = Newsletter.update(
+                        { status: "Sent" },
+                        { where: { id: newsletter.id } });
+                    console.log(result, newsletter.newsletterName + ' newsletter updated');
                 })
                 .catch(err => console.log(err));
-                
             // Send email
 
         }
@@ -195,7 +233,7 @@ router.get('/sendNewsletter/:id', async function (req, res) {
     }
 });
 
-function sendEmail2(toEmail, newsletterName, htmlContent, urlDelete, firstName) {
+function sendEmail2(toEmail, newsletterName, htmlContent, urlDelete, image) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
@@ -224,6 +262,7 @@ function sendEmail2(toEmail, newsletterName, htmlContent, urlDelete, firstName) 
 					<td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
 					<p style="margin: 0;">${htmlContent}</p>
 					</td>
+                    <img src="${image}" alt="mypicture">                 
 				</tr>
 				<!-- end copy -->
 
