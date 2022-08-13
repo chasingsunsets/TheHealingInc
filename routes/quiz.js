@@ -4,6 +4,7 @@ const ensureAuthenticated = require('../helpers/auth');
 const Quiz = require('../models/Quiz');
 const QuizQuestion = require('../models/QuizQuestion');
 const Product = require('../models/Product');
+const flashMessage = require('../helpers/messenger');
 
 // display questions
 // QuizQuestion.findAll({
@@ -63,6 +64,7 @@ router.post('/addQuiz', ensureAuthenticated, (req, res) => {
     )
         .then((quiz) => {
             console.log(quiz.toJSON());
+            flashMessage(res, 'success', "Quiz" + ' has been created!');
             res.redirect('/quiz/listQuizzes');
         })
         .catch(err => console.log(err))
@@ -214,6 +216,7 @@ router.post('/editQuiz/:id', ensureAuthenticated, (req, res) => {
     )
         .then((quiz) => {
             console.log(quiz[0] + ' quiz updated');
+            flashMessage(res, 'success', "Quiz" + ' has been updated!');
             res.redirect('/quiz/listQuizzes');
         })
         .catch(err => console.log(err));
@@ -236,6 +239,7 @@ router.get('/deleteQUiz/:id', ensureAuthenticated, async function
         }
         let result = await Quiz.destroy({ where: { id: quiz.id } });
         console.log(result + ' quiz deleted');
+        flashMessage(res, 'success', "Quiz" + ' has been deleted!');
         res.redirect('/quiz/listQuizzes');
     }
     catch (err) {
