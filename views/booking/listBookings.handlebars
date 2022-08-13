@@ -1,62 +1,97 @@
-<div class="container">
+<div>
 	{{#if bookings}}
-	<div class="card card-body">
-		<h3 class="text-primary">Bookings</h3>
-		{{#each bookings}}
-		<div class="card border-primary mb-2 w-100 mx-auto">
-			<div class="card-header">
-				<h5 class="card-title">{{name}}</h5>
+	<div class="container-fluid">
+		<!-- Page Heading -->
+		<div class="card shadow mb-4">
+			<div class="card-header py-3" style="background-color:#8BAD97;">
+				<h5 class="m-0 font-weight-bold" style="color:white;">Bookings</h5>
 			</div>
 			<div class="card-body">
-				<div class="row">
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Date</p>
-						<p class="text-info">
-							{{formatDate dateRelease 'DD MMM YYYY'}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-3">
-						<p class="font-italic">Email</p>
-						<p class="text-info">
-							{{email}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">Contact No.</p>
-						<p class="text-info">
-							{{contactno}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p class="font-italic">Service Type</p>
-						<p class="text-info">
-							{{service}}
-						</p>
-					</div>
-					<div class="col-sm-12 col-md-12 col-lg-2">
-						<p>
-							<a href="/product/editProduct/{{id}}" class="card-link mb-2">
-								<i class="fas fa-pencil-alt"></i>
-								Edit
-							</a>
-						</p>
-						<p>
-							<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
-								<i class="far fa-trash-alt"></i>
-								Delete
-							</a>
-						</p>
-					</div>
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead style="background-color: #F1EDE5;">
+							<tr>
+								<th>&nbsp;ID</th>
+								<th>&nbsp;Name</th>
+								<th>&nbsp;Date</th>
+								<th>&nbsp;Email</th>
+								<th>&nbsp;Contact No.</th>
+								<th>&nbsp;Service Type</th>
+								<th>&nbsp;Action</th>
+							</tr>
+						</thead>
+						{{#each bookings}}
+						<tr>
+							<td>&nbsp;{{id}}</td>
+							<td>&nbsp;{{name}}</td>
+							<td>&nbsp;{{formatDate dateRelease 'DD MMM YYYY'}}</td>
+							<td>&nbsp;{{email}}</td>
+							<td>&nbsp;{{contactno}}</td>
+							<td>&nbsp;{{service}}</td>
+							<td>
+								<div>
+									<a href="/booking/editBooking/{{id}}" class="text-primary card-link mb-2">
+										<i class="fas fa-pencil-alt"></i>
+										Edit Booking
+									</a>
+								</div>
+								{{!-- <div>
+									<a href="/staff/deletestaff/{{id}}" class="card-link"
+										style="color: darkred" data-toggle="confirmation"
+										data-title="Confirm delete?">
+										<i class="far fa-trash-alt"></i>
+										Delete
+									</a>
+								</div> --}}
+
+								<!-- Logout Modal-->
+								<div class="modal fade" id="" tabindex="-1" role="dialog"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Delete
+													Product</h5>
+												<button class="close" type="button" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body">Select "Delete" below if you are
+												deleting this booking.
+											</div>
+											<div class="modal-footer">
+												<button class="btn btn-secondary" type="button"
+													data-dismiss="modal">Cancel</button>
+												<a class="btn btn-primary"
+													href="/booking/deleteBooking/{{id}}">Delete</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div>
+									<a href="/booking/deleteBooking/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?" 
+										style="color: darkred">
+										<i class="far fa-trash-alt"></i>
+										Delete Booking
+									</a>
+								</div>
+							</td>
+						</tr>
+						{{/each}}
+					</table>
 				</div>
 			</div>
 		</div>
-		{{/each}}
 	</div>
 	{{else}}
-	<h3>No bookings created</h3>
+	<h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Bookings Created 
+		<a href="/booking/addBooking" class="card-link mb-2" style="color:#8BAD97; padding-right:20px ; float:right;">
+		<i class="fa-solid fa-square-plus"></i> Add Booking</a>
+	</h3>
+	<hr>
 	{{/if}}
 </div>
-
 <script>
 	$('[data-toggle=confirmation]').confirmation({
 		rootSelector: '[data-toggle=confirmation]',

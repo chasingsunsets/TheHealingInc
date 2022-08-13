@@ -5,7 +5,7 @@
 			<div class="form-group">
 				<label class="font-italic" for="name">Name</label>
 				<input class="form-control" id="name" name="name" value="{{product.name}}"
-                    onblur="initialiseName()" required />
+                    onblur="initialiseProductName()" required />
 
 			</div>
 
@@ -22,10 +22,10 @@
 							<label class="custom-file-label" for="customFile">Choose File</label>
 						</div>
 						<div class="text-danger small mb-2" id="posterErr" style="display:none"></div>
-						<img id="poster" src="{{video.posterURL}}" alt="Poster" class="border img-thumbnail img-fluid"
+						<img id="poster" src="{{product.posterURL}}" alt="Poster" class="border img-thumbnail img-fluid"
 							onerror="this.src='/img/no-image.jpg'">
 						{{!—- Hidden field to submit URL of poster to the server --}}
-						<input id="posterURL" type="hidden" name="posterURL" value="{{video.posterURL}}">
+						<input id="posterURL" type="hidden" name="posterURL" value="{{product.posterURL}}">
 					</div>				
 				</div>
 			</div>
@@ -37,43 +37,51 @@
 						<input class="form-control" type="text" id="price" name="price"  value="{{product.price}}" required/>
 					</div>
 					<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-						<label class="font-italic">Category</label>
+						<label class="font-italic" >Category</label>
 						<br>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="heart"
-								value="heart" {{checkboxCheck product.category "Heart" }}>
+							<input class="form-check-input" type="checkbox" name="category" id="heart" value="Heart" 
+								{{checkboxCheck product.category "Heart" }}
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="heart">Heart</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="brain"
-								value="brain" {{checkboxCheck product.category "Brain" }}>
+							<input class="form-check-input" type="checkbox" name="category" id="brain" value="Brain" 
+								{{checkboxCheck product.category "Brain" }}
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="brain">Brain</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="gut" 
-                            value="gut" {{checkboxCheck product.category "Gut" }}>
+							<input class="form-check-input" type="checkbox" name="category" id="gut" value="Gut" 
+								{{checkboxCheck product.category "Gut" }}
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="gut">Gut</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="eyes" 
-                            value="eyes" {{checkboxCheck product.category "Eyes" }}>
+							<input class="form-check-input" type="checkbox" name="category" id="eyes" value="Eyes" 
+								{{checkboxCheck product.category "Eyes" }}
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="eyes">Eyes</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="immunity" 
-                            value="immunity" {{checkboxCheck product.category "Immunity" }}>
+							<input class="form-check-input" type="checkbox" name="category" id="immunity" value="Immunity" 
+								{{checkboxCheck product.category "Immunity" }}
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="immunity">Immunity</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="joints" 
-                            value="joints" {{checkboxCheck product.category "Joints" }}>
+							<input class="form-check-input" type="checkbox" name="category" id="joints" value="Joints" 
+								{{checkboxCheck product.category "Joints" }}
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="joints">Joints</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="skin" 
-                            value="skin" {{checkboxCheck product.category "Skin" }}>
+							<input class="form-check-input" type="checkbox" name="category" id="skin" value="Skin" 
+								{{checkboxCheck product.category "Skin" }}
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="skin">Skin</label>
 						</div>
+						<p class="text-danger m-0" id="categoryErr" style="display:none">Please select one category</p>
 					</div>
 				</div>
 			</div>

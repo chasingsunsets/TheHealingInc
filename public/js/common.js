@@ -183,6 +183,24 @@ function loadPreviousQuestion() {
 // previousButton.addEventListener('click', loadPreviousQuestion);
 // result.addEventListener('click', restartQuiz);
 
+function ensureOneCheck(checkBoxName, messageId, submitId) {
+    const checkBoxes = $('[name=' + checkBoxName + ']');
+    let checkCount = 0;
+    for (let i = 0; i < checkBoxes.length; i++) {
+        if (checkBoxes[i].checked)
+            checkCount++;
+    }
+    if (checkCount === 0) {
+        $('#' + messageId).show();
+        $('#' + submitId).prop('disabled', true);
+        return false;
+    } else {
+        $('#' + messageId).hide();
+        $('#' + submitId).prop('disabled', false);
+        return true;
+    }
+}
+    
 function initialiseFirstname() {
     let firstname = $('#firstname').val();
     let titleArr = [];
@@ -219,6 +237,19 @@ function initialiseAddress() {
             initTitle += titleArr[i].charAt(0).toUpperCase() + titleArr[i].slice(1) + (i == titleArr.length - 1 ? '' : ' ');
         }
         $('#address').val(initTitle);
+    }
+}
+
+function initialiseProductName() {
+    let name = $('#name').val();
+    let titleArr = [];
+    let initTitle = '';
+    if (name) {
+        titleArr = name.trim().split(' ');
+        for (let i = 0; i < titleArr.length; i++) {
+            initTitle += titleArr[i].charAt(0).toUpperCase() + titleArr[i].slice(1) + (i == titleArr.length - 1 ? '' : ' ');
+        }
+        $('#name').val(initTitle);
     }
 }
 
