@@ -1,83 +1,97 @@
-<body>
-    <div>
-		{{#if product}}
-		<div class="container-fluid">
-			<!-- Page Heading -->
-			<div class="card shadow mb-4">
-				<div class="card-header py-3" style="background-color:#8BAD97;">
-					<h5 class="m-0 font-weight-bold" style="color:white;">Staff List </h5>
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-							<thead style="background-color: #F1EDE5;">
-								<tr>
-									<th>&nbsp;ID</th>
-									<th>&nbsp;Name</th>
-									<th>&nbsp;Stock</th>
-									<th>&nbsp;Price</th>
-									<th>&nbsp;Category</th>
-									<th>&nbsp;Action</th>
-								</tr>
-							</thead>
-							{{#each product}}
-
+<div>
+	{{#if product}}
+	<div class="container-fluid">
+		<!-- Page Heading -->
+		<div class="card shadow mb-4">
+			<div class="card-header py-3" style="background-color:#8BAD97;">
+				<h5 class="m-0 font-weight-bold" style="color:white;">Product Inventory</h5>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead style="background-color: #F1EDE5;">
 							<tr>
-								<td>&nbsp;{{productid}}</td>
-								<td>&nbsp;{{product.name}}</td>
-								<td>&nbsp;{{product.stock}}</td>
-								<td>&nbsp;{{product.price}}</td>
-								<td>&nbsp;{{replaceCommas product.category}}</td>
+								<th>&nbsp;ID</th>
+								<th>&nbsp;Name</th>
+								<th>&nbsp;Stock</th>
+								<th>&nbsp;Price</th>
+								<th>&nbsp;Category</th>
+								<th>&nbsp;Action</th>
+							</tr>
+						</thead>
+						{{#each product}}
+						<tr>
+							<td>&nbsp;{{id}}</td>
+							<td>&nbsp;{{name}}</td>
+							<td>&nbsp;{{stock}}</td>
+							<td>&nbsp;{{price}}</td>
+							<td>&nbsp;{{spaceCommas category}}</td>
+							<td>
+								<div>
+									<a href="/product/editProduct/{{id}}" class="text-primary card-link mb-2">
+										<i class="fas fa-pencil-alt"></i>
+										Edit Product
+									</a>
+								</div>
+								{{!-- <div>
+									<a href="/staff/deletestaff/{{id}}" class="card-link"
+										style="color: darkred" data-toggle="confirmation"
+										data-title="Confirm delete?">
+										<i class="far fa-trash-alt"></i>
+										Delete
+									</a>
+								</div> --}}
 
-								<td>
-									<div>
-										<a href="/product/editProduct/{{id}}" class="card-link mb-2"
-											style="color: #8BAD97">
-											<i class="fas fa-pencil-alt"></i>
-											Edit
-										</a>
-									</div>
-									<div>
-										<!-- Logout Modal-->
-										<div class="modal fade" id="deletecust" tabindex="-1" role="dialog"
-											aria-labelledby="exampleModalLabel" aria-hidden="true">
-											<div class="modal-dialog" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">Delete
-															Product</h5>
-														<button class="close" type="button" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">×</span>
-														</button>
-													</div>
-													<div class="modal-body">Select "Delete" below if you are
-														deleting this product.</div>
-													<div class="modal-footer">
-														<button class="btn btn-secondary" type="button"
-															data-dismiss="modal">Cancel</button>
-														<a class="btn btn-primary"
-															href="/product/deleteProduct/{{id}}">Delete</a>
-													</div>
-												</div>
+								<!-- Logout Modal-->
+								<div class="modal fade" id="" tabindex="-1" role="dialog"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Delete
+													Product</h5>
+												<button class="close" type="button" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">×</span>
+												</button>
+											</div>
+											<div class="modal-body">Select "Delete" below if you are
+												deleting this customer account.
+											</div>
+											<div class="modal-footer">
+												<button class="btn btn-secondary" type="button"
+													data-dismiss="modal">Cancel</button>
+												<a class="btn btn-primary"
+													href="/product/deleteProduct/{{id}}">Delete</a>
 											</div>
 										</div>
-										<a href="/product/deleteProduct/{{id}}" data-toggle="modal"
-											data-target="#deletecust" class="card-link" style="color: darkred">
-											<i class="far fa-trash-alt"></i>
-											Delete
-										</a>
 									</div>
-								</td>
-							</tr>
-							{{/each}}
-						</table>
-					</div>
+								</div>
+								<div>
+									<a href="/product/deleteProduct/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?" 
+										style="color: darkred">
+										<i class="far fa-trash-alt"></i>
+										Delete Product
+									</a>
+								</div>
+							</td>
+						</tr>
+						{{/each}}
+					</table>
 				</div>
 			</div>
 		</div>
-		{{else}}
-		<h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Products</h6>
-		{{/if}}
 	</div>
-</body>
+	{{else}}
+	<h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Products Created 
+		<a href="/product/addProduct" class="card-link mb-2" style="color:#8BAD97; padding-right:20px ; float:right;">
+		<i class="fa-solid fa-square-plus"></i> Add Product</a>
+	</h3>
+	<hr>
+	{{/if}}
+</div>
+<script>
+	$('[data-toggle=confirmation]').confirmation({
+		rootSelector: '[data-toggle=confirmation]',
+	});
+</script>

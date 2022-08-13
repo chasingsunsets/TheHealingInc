@@ -6,7 +6,7 @@
 				<div class="col-lg-9">
 					<div class="form-group">
 						<label class="font-italic" for="name">Name</label>
-						<input class="form-control mb-1" id="name" name="name" onblur="initialiseName()" />
+						<input class="form-control mb-1" id="name" name="name" onblur="initialiseProductName()" />
 					</div>
 					<div class="form-group">
                         <label class="font-italic" for="stock">Stock</label>
@@ -20,35 +20,41 @@
 						<label class="font-italic">Category</label>
 						<br>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="heart"
-								value="heart">
+							<input class="form-check-input" type="checkbox" name="category" id="heart" value="Heart" 
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="heart">Heart</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="brain"
-								value="brain">
+							<input class="form-check-input" type="checkbox" name="category" id="brain" value="Brain" 
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="brain">Brain</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="gut" value="gut">
+							<input class="form-check-input" type="checkbox" name="category" id="gut" value="Gut" 
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="gut">Gut</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="eyes" value="eyes">
+							<input class="form-check-input" type="checkbox" name="category" id="eyes" value="Eyes" 
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="eyes">Eyes</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="immunity" value="immunity">
+							<input class="form-check-input" type="checkbox" name="category" id="immunity" value="Immunity"
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="immunity">Immunity</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="joints" value="joints">
+							<input class="form-check-input" type="checkbox" name="category" id="joints" value="Joints"
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="joints">Joints</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="skin" value="skin">
+							<input class="form-check-input" type="checkbox" name="category" id="skin" value="Skin"
+								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="skin">Skin</label>
 						</div>
+						<p class="text-danger m-0" id="categoryErr" style="display:none">Please select one category</p>
 					</div>
 				</div>
 				<div class="col-lg-3">

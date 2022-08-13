@@ -6,9 +6,14 @@ const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
 };
 
+const spaceCommas = function(value) {
+    return value ? value.replace(/,/g, ', ') : 'None';
+};
+
 const replaceCommas = function(value) {
     return value ? value.replace(/,/g, ' | ') : 'None';
 };
+
 
 const checkboxCheck = function (value, checkboxValue) {
     return (value.search(checkboxValue) >= 0) ? 'checked' : '';
@@ -30,4 +35,4 @@ const if_equal = function(a, b, opts) {
     }
 };
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison, if_equal }
+module.exports = { formatDate, spaceCommas, replaceCommas, checkboxCheck, radioCheck, comparison, if_equal }

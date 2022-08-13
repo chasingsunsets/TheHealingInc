@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const handlebars = require('../helpers/handlebars');
 const flashMessage = require('../helpers/messenger');
 
 const Product = require('../models/Product');
@@ -13,10 +14,10 @@ Order = require('../models/Order');
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 
-router.get('/listProducts', ensureAuthenticatedStaff, (req, res) => {
+router.get('/listProducts', (req, res) => {
     Product.findAll()
-        .then((products) => {
-            res.render('product/listProducts', { products, layout: 'staffMain' });
+        .then((product) => {
+            res.render('product/listProducts', { product, layout: 'staffMain' });
         })
         .catch(err => console.log(err));
 });
@@ -24,7 +25,6 @@ router.get('/listProducts', ensureAuthenticatedStaff, (req, res) => {
 router.get('/catalogue', (req, res) => {
     Product.findAll()
         .then((product) => {
-            console.log(product)
             res.render('product/catalogue', { product });
         })
         .catch(err => console.log(err));
