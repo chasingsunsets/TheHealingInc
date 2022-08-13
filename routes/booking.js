@@ -8,7 +8,7 @@ const ensureAuthenticated = require('../helpers/auth');
 router.get('/listBookings', (req, res) => {
     Booking.findAll({
         where:  req.params.id,
-        order: [['dateRelease', 'DESC']],
+        order: [['dateRelease', 'ASC']],
         raw: true
     })
         .then((bookings) => {
