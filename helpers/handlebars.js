@@ -40,5 +40,5 @@ const dollaroff = function(a, b) {
     return result  
 }; 
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison, if_equal, dollaroff }
+module.exports = { formatDate, replaceCommas,spaceCommas, checkboxCheck, radioCheck, comparison, if_equal, dollaroff }
 
