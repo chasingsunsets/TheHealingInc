@@ -33,6 +33,12 @@ const if_equal = function(a, b, opts) {
     } else {
         return opts.inverse(this)
     }
-};
+}; 
 
-module.exports = { formatDate, spaceCommas, replaceCommas, checkboxCheck, radioCheck, comparison, if_equal }
+const dollaroff = function(a, b) {
+    result=parseFloat(a)-parseFloat(b);
+    return result  
+}; 
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, comparison, if_equal, dollaroff }
+

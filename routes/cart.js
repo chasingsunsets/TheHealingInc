@@ -17,7 +17,7 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 		// raw: true
 	})
 		.then((cartItem) => {
-			console.log(cartItem);
+			// console.log(cartItem);
 			// pass object to cart.handlebars
 			res.render('../views/cart/cart.handlebars', { cartItem });
 		})
@@ -27,6 +27,53 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 
 router.post('/cart', ensureAuthenticated, async (req, res) => {
 	let item_id = await Order.CartItem.findByPk(req.body.item_id);
+
+	User.findByPk(req.user.id)///////////////////////////////////////////////add voucher to uservoucherdb
+		.then((user) => {
+			Voucher.Voucher.findAll({
+				where: { invalidtype: "valid" }
+			})
+				.then((voucher) => {
+					// console.log(voucher)
+					voucher.forEach(element => {
+						// console.log(req.user.id)
+						let userId = req.user.id;
+						let voucherId = element.id
+						let vname = element.vname
+						let dtype = element.dtype
+						let discount = element.discount
+						let minspend = element.minspend
+						let code = element.code
+						let valid = element.valid
+						let displaydate = element.displaydate
+						let invalidtype = element.invalidtype
+
+						Voucher.UserVoucher.findOrCreate({
+							where: { userId: userId, voucherId: voucherId },
+							defaults: {
+								//   job: 'Technical Lead JavaScript'
+								vname,
+								dtype,
+								discount,
+								minspend,
+								code,
+								valid,
+								displaydate,
+								invalidtype,
+								use: 0,
+								userId,
+								voucherId
+							}
+						});
+
+					})
+
+				})
+				.catch(err => console.log(err));
+		})
+		.catch(err => console.log(err));
+	//////////////////////////////////////////////////////////////////^add voucher to uservoucher db
+
 	if (req.body.minus == "minus") {
 		const amount = parseInt(req.body.amount)
 		if (amount <= 1) {
@@ -61,15 +108,69 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 		res.redirect('/cart/cart');
 	}
 
-    else if (req.body.apply =='apply'){
+	else if (req.body.apply == 'apply') {        ///////////////////////////////////////apply voucher
 		console.log("apply")
-		if(req.body.code.length==0){
+		if (req.body.sum == 0) {
+			flashMessage(res, 'error', 'There is no product in the cart');
+			res.redirect('/cart/cart');
+		}
+
+		if (req.body.code.length == 0) {
 			console.log("no code")
 			flashMessage(res, 'error', 'No code entered');
 			res.redirect('/cart/cart');
 		}
-        console.log(req.body.code)
-	}
+		
+		else {
+			let totalamountforvoucher = req.body.totalamountforvoucher;
+
+			uservoucher = await Voucher.UserVoucher.findOne({ where: {  code: req.body.code, use: 0 } });
+			if (!uservoucher){
+				console.log("invalid")
+				flashMessage(res, 'error', 'Invalid Voucher');
+			    res.redirect('/cart/cart');
+			}
+			
+			if (uservoucher){
+                console.log("totalamt:" +totalamountforvoucher)
+				console.log("minspend:" +uservoucher.minspend)
+				console.log(parseFloat(totalamountforvoucher)+" "+parseFloat(uservoucher.minspend))
+
+				if(parseFloat(totalamountforvoucher)<parseFloat(uservoucher.minspend)){
+					console.log(parseFloat(totalamountforvoucher)+" "+parseFloat(uservoucher.minspend))
+					flashMessage(res, 'error', 'Minimum spend of'+' $'+parseFloat(uservoucher.minspend)+" to use the voucher: '"+uservoucher.code+"'");
+			        res.redirect('/cart/cart');
+				}
+
+				else{
+                    
+
+					Order.CartItem.findAll({
+						where: { userId: req.user.id },
+						order: [['createdat', 'DESC']],
+						// raw: true
+					})
+						.then((cartItem) => {
+							// console.log(cartItem);
+							// pass object to cart.handlebars
+							console.log("voucher applied")
+					        res.render('../views/cart/cartvoucher.handlebars', { cartItem, uservoucher });
+						})
+						.catch(err => console.log(err));
+				}
+
+                
+			}
+			
+			
+			// if (!item_id) {
+			// 	flashMessage(res, 'error', 'There is no product in the cart');
+			// 	res.redirect('/cart/cart');
+			// }
+        
+
+		}
+	}                                                  ////////////////////////////////apply voucher
 
 	else if (req.body.checkout == 'checkout') {
 		if (req.body.sum == 0) {
@@ -87,7 +188,7 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 			let Vanaddress = "30 Jalan Kilang Barat Singapore 159363";
 			let code = req.body.code;
 			console.log("address: " + address);
-			Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress})
+			Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress })
 				.then(() => {
 					Order.Order.findOne({
 						where: { userId },
