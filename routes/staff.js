@@ -7,6 +7,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const ensureAuthenticatedStaff = require('../helpers/auth2');
+const { OrderItem, Order } = require('../models/Order');
 
 router.get('/login', (req, res) => {
     try {
@@ -498,10 +499,19 @@ router.get('/dashboard', ensureAuthenticatedStaff, (req, res) => {
 
 router.get('/listCustOrder',ensureAuthenticatedStaff, async (req, res) => {
     const orders = await Order.Order.findAll({
-        order: [['createdat', 'DESC']],
+        order: [['createdAt', 'DESC']],
         raw: true
     })
     res.render('./staff/listCustOrder', {layout: 'staffMain' ,orders});
 });
+
+
+router.get('/modifyStatus/:id',ensureAuthenticatedStaff, async (req, res) => {
+    const order = await Order.Order.findByPk(req.params.id);
+    let status = req.body.status
+    Order.Order.update({ status: status });
+    res.redirect("/staff/listCustOrder")
+})
+
 
 module.exports = router;

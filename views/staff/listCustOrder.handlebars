@@ -1,5 +1,5 @@
 <div>
-	{{#if product}}
+	{{#if orders}}
 	<div class="container-fluid">
 		<!-- Page Heading -->
 		<div class="card shadow mb-4">
@@ -15,29 +15,41 @@
 						<thead style="background-color: #F1EDE5;">
 							<tr>
 								<th>&nbsp;ID</th>
-								<th>&nbsp;Name</th>
-								<th>&nbsp;Stock</th>
-								<th>&nbsp;Weight (grams)</th>
-								<th>&nbsp;Price ($)</th>
-								<th>&nbsp;Category</th>
-								<th>&nbsp;Action</th>
+								<th>&nbsp;Total Amount (SG $)</th>
+								<th>&nbsp;Delivery Status</th>
+								<th>&nbsp;Payment Status</th>
+								<th>&nbsp;Address</th>
+								<th>&nbsp;Modify Status</th>
+                                <th>&nbsp;Action</th>
+
 							</tr>
 						</thead>
-						{{#each product}}
+						{{#each orders}}
 						<tr>
 							<td>&nbsp;{{id}}</td>
-							<td>&nbsp;{{name}}</td>
-							<td>&nbsp;{{stock}}</td>
-							<td>&nbsp;{{weight}}</td>
-							<td>&nbsp;{{price}}</td>
-							<td>&nbsp;{{spaceCommas category}}</td>
+							<td>&nbsp;{{totalamount}}</td>
+							<td>&nbsp;{{status}}</td>
+							<td>&nbsp;{{payment}}</td>
+							<td>&nbsp;{{address}}</td>
+							<td>&nbsp;
+                                <form action="" method="POST">
+                                    <div style="text-align: center;">
+                                    <select style="margin: 10px;" name="status" id="status">
+                                <option value="Shipping">Shipping</option>
+                                <option value="Deliverying">Deliverying</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                            
+                            <button type="submit" class="btn btn-info" style="">Modify</button>
+                                </div></form>
+                            </td>
 							<td>
-								<div>
+								{{!-- <div>
 									<a href="/product/editProduct/{{id}}" class="text-primary card-link mb-2">
 										<i class="fas fa-pencil-alt"></i>
-										Edit Product
+										Modify Order Status
 									</a>
-								</div>
+								</div> --}}
 								<div>
 									<!-- Button HTML (to Trigger Modal) -->
 									<a href="#myModal_{{id}}" class="trigger-btn delete text-danger" data-toggle="modal"> 
