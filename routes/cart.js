@@ -7,6 +7,8 @@ const moment = require('moment');
 const User = require('../models/User');
 const ensureAuthenticated = require('../helpers/auth');
 const { response } = require('express');
+const Voucher = require('../models/Voucher');
+
 
 router.get('/cart', ensureAuthenticated, (req, res) => {
 	Order.CartItem.findAll({
@@ -58,6 +60,17 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 		await Order.CartItem.destroy({ where: { id: item_id.id } });
 		res.redirect('/cart/cart');
 	}
+
+    else if (req.body.apply =='apply'){
+		console.log("apply")
+		if(req.body.code.length==0){
+			console.log("no code")
+			flashMessage(res, 'error', 'No code entered');
+			res.redirect('/cart/cart');
+		}
+        console.log(req.body.code)
+	}
+
 	else if (req.body.checkout == 'checkout') {
 		if (req.body.sum == 0) {
 			flashMessage(res, 'error', 'There is no product in the cart');
@@ -67,11 +80,12 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 
 			// create a new order
 			let userId = req.user.id;
-			let totalamount = req.body.totalamount
+			let totalamount = req.body.totalamount;
 			let status = "Unshipped";
 			let payment = "Unpaid";
 			let address = req.body.address;
 			let Vanaddress = "30 Jalan Kilang Barat Singapore 159363";
+			let code = req.body.code;
 			console.log("address: " + address);
 			Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress})
 				.then(() => {

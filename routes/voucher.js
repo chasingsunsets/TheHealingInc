@@ -10,46 +10,73 @@ router.get('/addVoucher', (req, res) => {
     res.render('./voucher/addVoucher', { layout: 'staffMain' });
 });
 
-router.post('/addVoucher', (req, res) => {
-    let vname = req.body.vname; 
+router.post('/addVoucher', async function (req, res) {
+    let vname = req.body.vname;
     let dtype = req.body.dtype;
     let discount = req.body.discount; //float
     let minspend = req.body.minspend; //float
-    let limituse= req.body.limituse; //int
-    let code = req.body.code; 
+    let limituse = req.body.limituse; //int
+    let code = req.body.code;
     let valid = moment(req.body.valid, 'DD/MM/YYYY');
     let displaydate = moment(valid).utc().format('DD/MM/YYYY');
     let displaytoday = moment().utc().format('DD/MM/YYYY');
     // let valid = req.body.valid;
-    let isValid=true;
+    let isValid = true;
 
-    if (isNaN(discount)){
+    if (isNaN(discount)) {
         console.log('discount not digit')
         flashMessage(res, 'error', 'Discount must be in digits');
         isValid = false;
     }
 
-    if (isNaN(minspend)){
+    if (isNaN(minspend)) {
         console.log('minspend not digit')
         flashMessage(res, 'error', 'Minimum Spend must be in digits');
         isValid = false;
     }
 
-    if (isNaN(limituse)){
+    if (isNaN(limituse)) {
         console.log('limituse not digit')
         flashMessage(res, 'error', 'Limit Use must be in digits');
         isValid = false;
     }
 
-    if ((!(displaytoday<displaydate))){
+    if ((!(displaytoday < displaydate))) {
         console.log('invalid expire date');
         flashMessage(res, 'error', 'Expire date cannot be today or the past dates');
         isValid = false;
-    } 
-    
-    if(dtype=="$ off"){
-        console.log("$ off")
     }
+
+
+    if (dtype == "$ off") {
+        console.log("$ off d" + discount + " " + minspend)
+        if (parseInt(discount) > parseInt(minspend)) {
+            console.log('discount more than minspend');
+            flashMessage(res, 'error', 'Discount cannot be more than Minimum Spend');
+            isValid = false;
+        }
+    }
+
+    if (dtype == "% off") {
+        console.log("% off")
+        if (discount > 50) {
+            console.log('discount more than minspend');
+            flashMessage(res, 'error', 'Currently do not allow more than 50% off');
+            isValid = false;
+        }
+    }
+
+    if (discount == 0) {
+        flashMessage(res, 'error', 'Discount cannot be 0 or below');
+        isValid = false;
+    }
+
+    if (minspend < 0 || discount < 0 || limituse < 0) {
+        console.log("negative");
+        flashMessage(res, 'error', 'Digits cannot be negative value');
+        isValid = false;
+    }
+
 
     if (!isValid) {
         // User.findByPk(req.params.id)
@@ -57,22 +84,62 @@ router.post('/addVoucher', (req, res) => {
         //         res.render('user/editprofile', { user });
         //     })
         //     .catch(err => console.log(err));
-        res.render('./voucher/addVoucher', { layout: 'staffMain', 
-        vname,dtype,discount,minspend,limituse,code,valid
-    });
+        res.render('./voucher/addVoucher', {
+            layout: 'staffMain',
+            vname, dtype, discount, minspend, limituse, code, valid
+        });
         return;
     }
 
 
 
-    
+    try {
+        let vName = await Voucher.Voucher.findOne({ where: { vname: vname } });
+        let Code = await Voucher.Voucher.findOne({ where: { code: code } });
+
+        if (vName) {
+            // If vName is found, that means vname has already been registered
+            flashMessage(res, 'error', 'Voucher Name: "'+  vname + '" already exists');
+            res.render('./voucher/addVoucher', {
+                layout: 'staffMain',
+                vname, dtype, discount, minspend, limituse, code, valid
+            });
+        }
+
+        else if (Code) {
+            // If code is found, that means code has already been registered
+            flashMessage(res, 'error', 'Code: "' + code + '" already exists');
+            res.render('./voucher/addVoucher', {
+                layout: 'staffMain',
+                vname, dtype, discount, minspend, limituse, code, valid
+            });
+        }
+
+        else {
+
+            Voucher.Voucher.create(
+                { vname, discount, dtype, minspend, code, limituse, usecount: 0, valid, displaydate, invalidtype: "valid" }
+            )
+            console.log('voucher created')
+
+            flashMessage(res, 'success', vname + ' voucher added successfully');
+            res.redirect('/voucher/listVoucher');
+
+
+        }
+
+    }
+    catch (err) {
+        console.log(err);
+    }
+
     // User.findAll({
     //     where: { type:"customer" },
     //     // order: [['dateRelease', 'DESC']],
     //     raw: true
     // })
     //     .then((user) => {
-            
+
     //         Voucher.create(
     //             { vname, discount, minspend, code, valid, used: 0, userID:user.id}
     //         )
@@ -81,14 +148,6 @@ router.post('/addVoucher', (req, res) => {
     //         res.render('voucher/listVoucher', { layout: 'staffMain'});
     //     })
     //     .catch(err => console.log(err)); 
-
-    Voucher.Voucher.create(
-        { vname,discount,dtype,minspend,code,limituse,usecount:0,valid,displaydate, invalidtype: "valid"  }
-    )
-    console.log('voucher created')
-
-    flashMessage(res, 'success', vname + ' voucher added successfully');
-    res.redirect('/voucher/listVoucher');
 });
 
 router.get('/listVoucher', (req, res) => {

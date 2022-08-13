@@ -219,9 +219,9 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
                 where: { invalidtype: "valid" }
             })
                 .then((voucher) => {
-                    console.log(voucher)
+                    // console.log(voucher)
                     voucher.forEach(element=> {
-                        console.log(req.user.id)
+                        // console.log(req.user.id)
                         let userId=req.user.id;
                         let voucherId = element.id
                         let vname = element.vname
