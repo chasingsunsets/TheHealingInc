@@ -93,28 +93,28 @@ router.get('/quizResult/:id', ensureAuthenticated, (req, res) => {
                     healthAreas = quizzes.area.split(",");
                     prodForHealthAreas = []
                     const forImmunity = {
-                        id: 1,
+                        id: 0,
                         prodName: "",
                         image: "",
                         description: "",
                         area: ""
                     }
                     const forEyes = {
-                        id: 2,
+                        id: 0,
                         prodName: "",
                         image: "",
                         description: "",
                         area: ""
                     }
                     const forGut = {
-                        id: 3,
+                        id: 0,
                         prodName: "",
                         image: "",
                         description: "",
                         area: ""
                     }
                     const forSkin = {
-                        id: 4,
+                        id: 0,
                         prodName: "",
                         image: "",
                         description: "",
@@ -123,55 +123,63 @@ router.get('/quizResult/:id', ensureAuthenticated, (req, res) => {
 
                     for (i in healthAreas) {
                         if (healthAreas[i] == "immunity") {
-                            immunity = "Dang Gui (Angelica Sinensis)"
+                            immunity = "Astragalus Root"
                             for (x in products) {
-                                if (products[x].name == "Dang Gui (Angelica sinensis)")
+                                if (products[x].name == "Astragalus Root")
                                 {
                                     posterURL = products[x].posterURL;
+                                    prodID = products[x].id;
                                 }
                             }
+                            forImmunity["id"] = prodID
                             forImmunity["prodName"] = immunity
                             forImmunity["image"] = posterURL
-                            forImmunity["description"] = "Dang Gui is one of the most commonly used herbs in the Chinese herbal system. It is primarily known as a “women’s herb,” though many men consume it as well. Most famously and importantly, it known as a superior blood tonic, and that is one reason women use so much of it. It is also used conjunctively as a “blood vitalizer,” meaning that it supports healthy blood circulation, especially in the abdomen and pelvic basin. Men and women benefit from superior circulation. Dang Gui is very widely used to help establish, support and maintain healthy menstrual balance in women. It also has analgesic and mild sedative (calming, relaxing) actions."
+                            forImmunity["description"] = "Its root is used for health care purposes. Commonly combined with other herbs, astragalus has been promoted as a dietary supplement for many conditions, including upper respiratory infections, allergic rhinitis (hay fever), asthma, chronic fatigue syndrome, and chronic kidney disease, among others."
                             forImmunity["area"] = "Immunity"
                             // prodForHealthAreas.push(immunity)
                             prodForHealthAreas.push(forImmunity);
                         }
                         else if (healthAreas[i] == "eyes") {
-                            eyes = "Dang Gui (Angelica Sinensis)"
+                            eyes = "Goji Berry"
                             for (x in products) {
-                                if (products[x].name == "Dang Gui (Angelica sinensis)") {
+                                if (products[x].name == "Goji Berry") {
                                     posterURL = products[x].posterURL;
+                                    prodID = products[x].id;
                                 }
                             }
+                            forEyes["id"] = prodID
                             forEyes["prodName"] = eyes
                             forEyes["image"] = posterURL
-                            forEyes["description"] = "Dang Gui is one of the most commonly used herbs in the Chinese herbal system. It is primarily known as a “women’s herb,” though many men consume it as well. Most famously and importantly, it known as a superior blood tonic, and that is one reason women use so much of it. It is also used conjunctively as a “blood vitalizer,” meaning that it supports healthy blood circulation, especially in the abdomen and pelvic basin. Men and women benefit from superior circulation. Dang Gui is very widely used to help establish, support and maintain healthy menstrual balance in women. It also has analgesic and mild sedative (calming, relaxing) actions."
+                            forEyes["description"] = "Goji berries are also known as Lycium barbarum. The goji berry is native to Asia, and people in Asia have been using this brightly colored fruit for more than 2,000 years as a medicinal herb and food supplement. Goji berries are widely available for purchase in health food stores and online. One study reported in the American Academy of Optometry’s journal Optometry and Vision Science found that seniors who drank goji berry juice for 90 days increased zeaxanthin and other antioxidant levels significantly."
                             forEyes["area"] = "Eyes"
                             // prodForHealthAreas.push(eyes)
                             prodForHealthAreas.push(forEyes);
                         }
                         else if (healthAreas[i] == "gut") {
-                            gut = "Star Anise"
+                            gut = "Dang Gui (Angelica Sinensis)"
                             for (x in products) {
-                                if (products[x].name == "Star Anise") {
+                                if (products[x].name == "Dang Gui") {
                                     posterURL = products[x].posterURL;
+                                    prodID = products[x].id;
                                 }
                             }
+                            forGut["id"] = prodID
                             forGut["prodName"] = gut
                             forGut["image"] = posterURL
-                            forGut["description"] = "Numerous active compounds within star anise contribute to an extensive list of health benefits and have been used by Asian traditional medicines for centuries. One of the major compounds within star anise is shikimic acid which is the primary ingredient used for the past 15 plus years to synthesize antiviral drug oseltamivir, known by the common name as Tamilflu. [2,3]  Besides shikimic acid, star anise contains number of other potent ingredients that have been linked to numerous healing properties such as healing gut health."
+                            forGut["description"] = "Dang Gui is one of the most commonly used herbs in the Chinese herbal system. It is primarily known as a “women’s herb,” though many men consume it as well. Most famously and importantly, it known as a superior blood tonic, and that is one reason women use so much of it. It is also used conjunctively as a “blood vitalizer,” meaning that it supports healthy blood circulation, especially in the abdomen and pelvic basin. Men and women benefit from superior circulation. Dang Gui is very widely used to help establish, support and maintain healthy menstrual balance in women. It also has analgesic and mild sedative (calming, relaxing) actions."
                             forGut["area"] = "Gut"
                             // prodForHealthAreas.push(gut)
                             prodForHealthAreas.push(forGut);
                         }
                         else if (healthAreas[i] == "skin") {
-                            skin = "Red Dates"
+                            skin = "Red Date"
                             for (x in products) {
-                                if (products[x].name == "Red Dates") {
+                                if (products[x].name == "Red Date") {
                                     posterURL = products[x].posterURL;
+                                    prodID = products[x].id;
                                 }
                             }
+                            forSkin["id"] = prodID
                             forSkin["prodName"] = skin
                             forSkin["image"] = posterURL
                             forSkin["description"] = "According to Food Data central by USDA, every 100g of dried red dates has 218 mg of Vitamin C. Red dates are potent antioxidants. Due to high vitamin C content, this ingredient has been associated with health benefits such as wound healing, especially in Traditional Chinese Medicine. This remains to be true since scientific research also suggests that vitamin C helps to improve the absorption of iron into the body. This is particularly helpful during wound healing as the body may have lost some blood and needs to produce new red blood cells. "
