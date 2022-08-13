@@ -1,43 +1,31 @@
 <div class="container">
 	<div class="card card-body">
-		<h3>Edit Product</h3>
+		<h3>Add Product</h3>
 		<form action="" method="post">
-			<div class="form-group">
-				<label class="font-italic" for="name">Name</label>
-				<input class="form-control" id="name" name="name" value="{{product.name}}"
-                    onblur="initialiseProductName()" required />
-
-			</div>
-
-			<div class="form-group">
-				<div class="row mb-2">
-					<div class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4">
+			<div class="row mb-3">
+				<div class="col-lg-9">
+					<div class="form-group">
+						<label class="font-italic" for="name">Name</label>
+						<input class="form-control mb-1" id="name" name="name" 
+						value="{{product.name}}" onblur="initialiseProductName()" required/>
+					</div>
+					<div class="form-group">
                         <label class="font-italic" for="stock">Stock</label>
-                        <input class="form-control" type="number" id="stock" name="stock"  value="{{product.stock}}" required />
+                        <input class="form-control" type="number" id="stock" name="stock" 
+						value="{{product.stock}}" required/>
 					</div>
-					<div class="col-lg-3">
-						<div class="custom-file mb-2">
-							<input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
-								accept="image/png,image/jpeg,image/jpg,image/gif">
-							<label class="custom-file-label" for="customFile">Choose File</label>
-						</div>
-						<div class="text-danger small mb-2" id="posterErr" style="display:none"></div>
-						<img id="poster" src="{{product.posterURL}}" alt="Poster" class="border img-thumbnail img-fluid"
-							onerror="this.src='/img/no-image.jpg'">
-						{{!—- Hidden field to submit URL of poster to the server --}}
-						<input id="posterURL" type="hidden" name="posterURL" value="{{product.posterURL}}">
-					</div>				
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="row">                   
-					<div class="col-12 col-sm-12 col-md-12 col-lg-6">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6" style="padding-left: 0px; padding-right: 0px; padding-bottom: 10px">
+						<label class="font-italic" for="weight">Weight</label>
+						<input class="form-control" type="text" id="weight" name="weight" 
+						value="{{product.weight}}" required/>
+					</div>
+					<div class="col-12 col-sm-12 col-md-12 col-lg-6" style="padding-left: 0px; padding-right: 0px; padding-bottom: 10px">
 						<label class="font-italic" for="price">Price</label>
-						<input class="form-control" type="text" id="price" name="price"  value="{{product.price}}" required/>
+						<input class="form-control" type="text" id="price" name="price" 
+						value="{{product.price}}" required/>
 					</div>
-					<div class="col-12 col-sm-12 col-md-6 col-lg-6">
-						<label class="font-italic" >Category</label>
+					<div class="col-12 col-sm-12 col-md-6 col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+						<label class="font-italic">Category</label>
 						<br>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="checkbox" name="category" id="heart" value="Heart" 
@@ -52,8 +40,8 @@
 							<label class="form-check-label" for="brain">Brain</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="gut" value="Gut" 
-								{{checkboxCheck product.category "Gut" }}
+							<input class="form-check-input" type="checkbox" name="category" id="gut" value="Gut"
+								{{checkboxCheck product.category "Gut" }} 
 								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="gut">Gut</label>
 						</div>
@@ -64,19 +52,19 @@
 							<label class="form-check-label" for="eyes">Eyes</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="immunity" value="Immunity" 
+							<input class="form-check-input" type="checkbox" name="category" id="immunity" value="Immunity"
 								{{checkboxCheck product.category "Immunity" }}
 								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="immunity">Immunity</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="joints" value="Joints" 
+							<input class="form-check-input" type="checkbox" name="category" id="joints" value="Joints"
 								{{checkboxCheck product.category "Joints" }}
 								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="joints">Joints</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" name="category" id="skin" value="Skin" 
+							<input class="form-check-input" type="checkbox" name="category" id="skin" value="Skin"
 								{{checkboxCheck product.category "Skin" }}
 								onclick="ensureOneCheck('category', 'categoryErr', 'btnSubmit')">
 							<label class="form-check-label" for="skin">Skin</label>
@@ -84,13 +72,22 @@
 						<p class="text-danger m-0" id="categoryErr" style="display:none">Please select one category</p>
 					</div>
 				</div>
+				<div class="col-lg-3">
+					<div class="custom-file mb-2">
+						<input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
+							accept="image/png,image/jpeg,image/jpg,image/gif">
+						<label class="custom-file-label" for="customFile">Choose File</label>
+					</div>
+					<div class="text-danger small mb-2" id="posterErr" style="display:none"></div>
+					<img id="poster" src="/img/no-image.jpg" alt="Poster" class="border img-thumbnail img-fluid"
+						onerror="this.src='/img/no-image.jpg'">
+					{{!—- Hidden field to submit URL of poster to the server --}}
+					<input id="posterURL" type="hidden" name="posterURL" value="{{product.posterURL}}">
+				</div>
 			</div>
 			<br>
-			<button id="btnSubmit" type="submit" class="btn btn-primary">Save
+			<button id="btnSubmit" type="submit" class="btn btn-primary">Add
 			</button>
 		</form>
 	</div>
 </div>
-
-{{!-- <script>
-</script> --}}

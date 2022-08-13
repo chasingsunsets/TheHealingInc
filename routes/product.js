@@ -38,12 +38,13 @@ router.post('/addProduct', (req, res) => {
     let name = req.body.name;
     let posterURL = req.body.posterURL;
     let stock = req.body.stock;
+    let weight = req.body.weight;
     let price = req.body.price;
     // Multi-value components return array of strings or undefined
     let category = req.body.category === undefined ? '' : req.body.category.toString();
 
     Product.create(
-        { name, posterURL, stock, price, category}
+        { name, posterURL, stock, weight, price, category}
     )
         .then((product) => {
             console.log(product.toJSON());
@@ -70,10 +71,11 @@ router.post('/editProduct/:id', (req, res) => {
     let name = req.body.name;
     let posterURL = req.body.posterURL;
     let stock = req.body.stock;
+    let weight = req.body.weight;
     let price = req.body.price;
     let category = req.body.category === undefined ? '' : req.body.category.toString();
     Product.update(
-        { name, posterURL, stock, price, category },
+        { name, posterURL, stock, weight, price, category },
         { where: { id: req.params.id } }
     )
         .then((result) => {

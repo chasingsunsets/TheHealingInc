@@ -7,6 +7,7 @@ const Product = db.define('product',
         name: { type: Sequelize.STRING },
         posterURL: { type: Sequelize.STRING },
         stock: { type: Sequelize.INTEGER },
+        weight: { type: Sequelize.INTEGER },
         price: { type: Sequelize.FLOAT },
         category: { type: Sequelize.STRING }
     });
