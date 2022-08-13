@@ -41,7 +41,6 @@
                     <article class="product-info-aside">
 
                         <h2 class="title mt-3 productName">{{product.name}}</h2>
-                        <a href="#" class="title mb-2">{{replaceCommas product.category}}</a>
 
                         <div class="rating-wrap mb-2">
                             <ul class="rating-stars">
@@ -62,6 +61,8 @@
 
                         <div class="price-wrap">
                             <var class="price h4">$<span class="priceValue">{{product.price}}</span></var>
+                            <br>
+                            <h7> {{product.weight}}g <small class="text-muted">(Per Pack)</small></h7>
                         </div> <!-- price-wrap.// -->
 
                         <hr>
@@ -71,10 +72,13 @@
                             <span class="tag"><i class="far fa-clock"></i> Next Day Delivery</span>
                             <span class="tag text-danger font-weight-bold"> HIT ITEM </span>
                         </h7>
-
-
+                        <br>
+                        <br>
                         <h7>
-                            Lorem Ipsum
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ultrices dictum pellentesque. 
+                            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris luctus tristique ex, et euismod libero pharetra vitae. 
+                            Integer vel sodales est, quis rhoncus elit. Praesent ut vehicula massa. Nulla eu eros suscipit, viverra velit at, varius quam. Phasellus nec ligula sit amet tellus viverra laoreet. 
+                            Vestibulum sit amet dolor eu est varius sollicitudin at nec odio. Pellentesque mollis risus vel laoreet egestas. Suspendisse potenti. Nunc nec sollicitudin arcu.
                         </h7>
 
                         <hr>
@@ -82,11 +86,12 @@
                         <dl class="row">
                             <dt class="col-sm-3">Delivery time</dt>
                             <dd class="col-sm-9">3-4 days</dd>
-
                             <dt class="col-sm-3">Availabilty</dt>
                             <dd class="col-sm-9">
                                 {{product.stock}}
                             </dd>
+                            <dt class="col-sm-3">Typically good for</dt>
+                            <dd class="col-sm-9">{{spaceCommas product.category}}</dd>
                         </dl>
 
                         <div class="form-row  mt-4">
@@ -96,7 +101,7 @@
                                 <div>
                                     <form action="" method="post">
                                     <button id="btnSubmit" type="submit" class="btn btn-outline-danger addToCart">
-                                    <i class="fa fa-cart-plus"></i>Add to cart
+                                    <i class="fa fa-cart-plus"></i> Add to cart
                                     </button>
                                     </form>
                                 </div>

@@ -37,7 +37,7 @@
 								</div>
 								<div>
 									<!-- Button HTML (to Trigger Modal) -->
-									<a href="#myModal" class="trigger-btn delete text-danger" data-toggle="modal"> 
+									<a href="#myModal_{{id}}" class="trigger-btn delete text-danger" data-toggle="modal"> 
 										<i class="far fa-trash-alt"></i>
 										Delete
 									</a>
@@ -45,7 +45,7 @@
 
 								<!-- Modal HTML -->
 								<form action="/booking/deleteBooking/{{id}}">
-									<div id="myModal" class="modal fade">
+									<div id="myModal_{{id}}" class="modal fade">
 										<div class="modal-dialog modal-confirm">
 											<div class="modal-content">
 												<div class="modal-header">
