@@ -65,7 +65,7 @@ router.post('/addQuiz', ensureAuthenticated, (req, res) => {
         .then((quiz) => {
             console.log(quiz.toJSON());
             flashMessage(res, 'success', "Quiz" + ' has been created!');
-            res.redirect('/quiz/listQuizzes');
+            res.redirect('/quiz/quizResult/' + quiz.id);
         })
         .catch(err => console.log(err))
 });
@@ -189,7 +189,7 @@ router.get('/quizResult/:id', ensureAuthenticated, (req, res) => {
                         }
                     }
                     console.log(prodForHealthAreas);
-                    res.render('quiz/quizResult', { quizzes, products, prodForHealthAreas, prodLenght: prodForHealthAreas.length, layout: 'account' });
+                    res.render('quiz/quizResult', { quizzes, products, quizID: quizzes.id, prodForHealthAreas, prodLenght: prodForHealthAreas.length, layout: 'account' });
                 })
         })
         .catch(err => console.log(err));
