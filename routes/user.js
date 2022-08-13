@@ -112,6 +112,12 @@ router.post('/register', async function (req, res) {
         flashMessage(res, 'error', 'Passwords do not match');
         isValid = false;
     }
+
+    if (isNaN(phoneno)) {
+        flashMessage(res, 'error', 'Phone number must be in digits');
+        isValid = false;
+    }
+
     if (phoneno.length != 8) {
         flashMessage(res, 'error', 'Phone number must be 8 digits');
         isValid = false;
@@ -193,7 +199,7 @@ router.post('/login', (req, res, next) => {
         // Failure redirect URL
         failureRedirect: '/user/login',
 
-        
+
         /* Setting the failureFlash option to true instructs Passport to flash
         an error message using the message given by the strategy's verify callback.
         When a failure occur passport passes the message object as error */
@@ -220,9 +226,9 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
             })
                 .then((voucher) => {
                     // console.log(voucher)
-                    voucher.forEach(element=> {
+                    voucher.forEach(element => {
                         // console.log(req.user.id)
-                        let userId=req.user.id;
+                        let userId = req.user.id;
                         let voucherId = element.id
                         let vname = element.vname
                         let dtype = element.dtype
@@ -234,22 +240,22 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
                         let invalidtype = element.invalidtype
 
                         Voucher.UserVoucher.findOrCreate({
-                            where: { userId: userId, voucherId:voucherId  },
+                            where: { userId: userId, voucherId: voucherId },
                             defaults: {
-                            //   job: 'Technical Lead JavaScript'
-                            vname,
-                            dtype, 
-                            discount, 
-                            minspend, 
-                            code, 
-                            valid, 
-                            displaydate, 
-                            invalidtype, 
-                            use:0,
-                            userId, 
-                            voucherId 
+                                //   job: 'Technical Lead JavaScript'
+                                vname,
+                                dtype,
+                                discount,
+                                minspend,
+                                code,
+                                valid,
+                                displaydate,
+                                invalidtype,
+                                use: 0,
+                                userId,
+                                voucherId
                             }
-                          });
+                        });
 
                         // .then((uservoucher) => {
                         //     if (!uservoucher) {
@@ -269,13 +275,15 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
                         // })
                         // .catch(err => console.log(err));
                     })
-                    
-                    
-                    
+
+
+
 
                 })
                 .catch(err => console.log(err));
-            });
+        })
+        .catch(err => console.log(err));
+
     res.render('user/profile', { layout: 'account', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
 
@@ -310,6 +318,11 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res) {
     let email = req.body.email;
 
     let isValid = true;
+
+    if (isNaN(phoneno)) {
+        flashMessage(res, 'error', 'Phone number must be in digits');
+        isValid = false;
+    }
 
     if (phoneno.length != 8) {
         flashMessage(res, 'error', 'Phone number must be 8 digits');
@@ -569,7 +582,7 @@ router.get('/deleteaccount/:id', ensureAuthenticated, async function (req, res) 
 
 
 
-router.get('/listUserVoucher',ensureAuthenticated,  (req, res) => {
+router.get('/listUserVoucher', ensureAuthenticated, (req, res) => {
     Voucher.UserVoucher.findAll({
         where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
@@ -586,7 +599,7 @@ router.get('/listUserVoucher',ensureAuthenticated,  (req, res) => {
 
 
 
-router.get('/listOrder',ensureAuthenticated,  async (req, res) => {
+router.get('/listOrder', ensureAuthenticated, async (req, res) => {
     let userId = req.user.id
     const orders = await Order.Order.findAll({
         where: { userId },
@@ -601,7 +614,7 @@ router.get('/listOrder',ensureAuthenticated,  async (req, res) => {
 
 // });
 
-router.get('/cancelOrder/:id', ensureAuthenticated,  async (req, res) => {
+router.get('/cancelOrder/:id', ensureAuthenticated, async (req, res) => {
     let status = "Cancelled";
     const order = await Order.Order.findByPk(req.params.id);
     Order.update(
