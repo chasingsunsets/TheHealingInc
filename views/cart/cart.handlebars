@@ -22,13 +22,15 @@
             var shipping = 12;
             var GST = parseFloat(sum) * 0.07
             var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping;
-            document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
-            document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
+            document.getElementById("afterGST").innerHTML = "SG$" + afterGST;
+            document.getElementById("gst").innerHTML = "SG$" + GST.toFixed(2);
             
             document.getElementById("totalamountforvoucher").value = afterGST; //checkout with voucher
 
             document.getElementById("totalamount").value = afterGST; //if checkout wothout voucher
             document.getElementById("sum").value = sum;
+            document.getElementById("sum2").value = sum;
+
         }
     </script>
 </head>
@@ -93,7 +95,7 @@
                             </form>
                         </div>
                         <p class="text-muted col-sm-3 col-md-3 col-lg-3">
-                            SG $ <span class="price text-muted">{{totalprice}}</span>
+                            SG$ <span class="price text-muted">{{totalprice}}</span>
                         </p>
                         <div class=" row col-sm-3 col-md-3 col-lg-3">
                             <form action="" method="POST" class=" col-sm-12 col-md-12 col-lg-12">
@@ -123,13 +125,13 @@
                 {{#each cartItem}}
                 <div class="row">
                     <p class="col-sm-3" style="float: left;">{{product}}</p>
-                    <p class="col-sm-3" style="float: right;" id="item_price">SG ${{totalprice}}</p>
+                    <p class="col-sm-3" style="float: right;" id="item_price">SG${{totalprice}}</p>
                 </div>
                 {{/each}}
                 <hr size="12px" width="100%">
                 <div class="row">
                     <h5 class="col-sm-3" style="float: left;"><b>Shipping</b></h5>
-                    <p class="col-sm-3" style="float: right;">SG $12.00</p>
+                    <p class="col-sm-3" style="float: right;">SG$12.00</p>
                 </div>
                 <hr size="12px" width="100%">
                 <div class="row">
@@ -152,7 +154,7 @@
                         <button type="submit" class="btn btn-secondary col-sm-3" style="float: right ;" id="apply">Apply</button>
                         <input type="hidden" name="apply" value="apply">
                         <input type="hidden" id="totalamountforvoucher" name="totalamountforvoucher" value="">
-                        <input type="hidden" id="sum" name="sum" value="">
+                        <input type="hidden" id="sum2" name="sum2" value="">
 
 
                     </div>
@@ -181,7 +183,7 @@
                     </div>
                 </form>
                 <div class="text-center">
-                    <a type="button" class="btn" href="/catalogue"><u>Add More?</u></a>
+                    <a type="button" class="btn" href="../product/catalogue"><u>Add More?</u></a>
                 </div>
 
             </div>

@@ -37,8 +37,13 @@ const if_equal = function(a, b, opts) {
 
 const dollaroff = function(a, b) {
     result=parseFloat(a)-parseFloat(b);
-    return result  
+    return result.toFixed(2);  
 }; 
 
-module.exports = { formatDate, replaceCommas,spaceCommas, checkboxCheck, radioCheck, comparison, if_equal, dollaroff }
+const percentoff = function(a, b) {
+    result=parseFloat(a)*((parseFloat(100)-parseFloat(b))/100);
+    return result.toFixed(2);  
+}; 
+
+module.exports = { formatDate, replaceCommas,spaceCommas, checkboxCheck, radioCheck, comparison, if_equal, dollaroff,percentoff }
 

@@ -77,7 +77,7 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 	if (req.body.minus == "minus") {
 		const amount = parseInt(req.body.amount)
 		if (amount <= 1) {
-			flashMessage(res, 'success', 'Product has deleted for you');
+			flashMessage(res, 'success', 'Product has been deleted for you');
 			await Order.CartItem.destroy({ where: { id: item_id.id } });
 			res.redirect('/cart/cart');
 		}
@@ -110,125 +110,168 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 
 	else if (req.body.apply == 'apply') {        ///////////////////////////////////////apply voucher
 		console.log("apply")
-		if (req.body.sum == 0) {
+		if (req.body.sum2 == 0) {
 			flashMessage(res, 'error', 'There is no product in the cart');
 			res.redirect('/cart/cart');
 		}
 
-		if (req.body.code.length == 0) {
+		else if (req.body.code.length == 0) {
 			console.log("no code")
 			flashMessage(res, 'error', 'No code entered');
 			res.redirect('/cart/cart');
 		}
-		
+
 		else {
 			let totalamountforvoucher = req.body.totalamountforvoucher;
 
-			uservoucher = await Voucher.UserVoucher.findOne({ where: {  code: req.body.code, use: 0 } });
-			if (!uservoucher){
+			uservoucher = await Voucher.UserVoucher.findOne({ where: { code: req.body.code, use: 0 } });
+			if (!uservoucher) {
 				console.log("invalid")
 				flashMessage(res, 'error', 'Invalid Voucher');
-			    res.redirect('/cart/cart');
+				res.redirect('/cart/cart');
 			}
-			
-			if (uservoucher){
-                console.log("totalamt:" +totalamountforvoucher)
-				console.log("minspend:" +uservoucher.minspend)
-				console.log(parseFloat(totalamountforvoucher)+" "+parseFloat(uservoucher.minspend))
 
-				if(parseFloat(totalamountforvoucher)<parseFloat(uservoucher.minspend)){
-					console.log(parseFloat(totalamountforvoucher)+" "+parseFloat(uservoucher.minspend))
-					flashMessage(res, 'error', 'Minimum spend of'+' $'+parseFloat(uservoucher.minspend)+" to use the voucher: '"+uservoucher.code+"'");
-			        res.redirect('/cart/cart');
+			if (uservoucher) {
+				console.log("totalamt:" + totalamountforvoucher)
+				console.log("minspend:" + uservoucher.minspend)
+				console.log(parseFloat(totalamountforvoucher) + " " + parseFloat(uservoucher.minspend))
+
+				if (parseFloat(totalamountforvoucher) < parseFloat(uservoucher.minspend)) {
+					console.log(parseFloat(totalamountforvoucher) + " " + parseFloat(uservoucher.minspend))
+					flashMessage(res, 'error', 'Minimum spend of' + ' $' + parseFloat(uservoucher.minspend) + " to use the voucher: '" + uservoucher.code + "'");
+					res.redirect('/cart/cart');
 				}
 
-				else{
-                    
+				else {
 
+					let pricecount = 0
 					Order.CartItem.findAll({
 						where: { userId: req.user.id },
 						order: [['createdat', 'DESC']],
 						// raw: true
 					})
 						.then((cartItem) => {
-							// console.log(cartItem);
-							// pass object to cart.handlebars
-							console.log("voucher applied")
-					        res.render('../views/cart/cartvoucher.handlebars', { cartItem, uservoucher });
+
+							cartItem.forEach(element => {
+								// let userId = element.userId;
+								// let amount = element.amount;
+								let price = element.totalprice;
+								// let product = element.product;
+
+
+								console.log("voucher applied");
+								pricecount = parseFloat(pricecount) + parseFloat(price) * 1.07;
+								console.log("pricecount " + pricecount);
+
+							});
+							let totaltotal = parseFloat(pricecount + 12)
+							res.render('../views/cart/cartvoucher.handlebars', { cartItem, uservoucher, pricecount, totaltotal });
 						})
 						.catch(err => console.log(err));
 				}
 
-                
+
 			}
-			
-			
-			// if (!item_id) {
-			// 	flashMessage(res, 'error', 'There is no product in the cart');
-			// 	res.redirect('/cart/cart');
-			// }
-        
+
 
 		}
 	}                                                  ////////////////////////////////apply voucher
 
 	else if (req.body.checkout == 'checkout') {
-		if (req.body.sum == 0) {
+		if (req.body.sum == 0 && req.body.sum2 == 0) {
 			flashMessage(res, 'error', 'There is no product in the cart');
 			res.redirect('/cart/cart');
 		}
 		else {
-
-			// create a new order
-			let userId = req.user.id;
-			let totalamount = req.body.totalamount;
-			let status = "Unshipped";
-			let payment = "Unpaid";
-			let address = req.body.address;
-			let Vanaddress = "30 Jalan Kilang Barat Singapore 159363";
-			let code = req.body.code;
-			console.log("address: " + address);
-			Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress })
-				.then(() => {
-					Order.Order.findOne({
-						where: { userId },
-						order: [['createdAt', 'DESC']],
-						raw: true
-					})
-						.then((order) => {
-							let orderId = order.id
-							//move cart items to orderIttem table
-							Order.CartItem.findAll({
-								where: { userId },
-								order: [['createdat', 'DESC']],
-								//raw: true
-							})
-								.then((cartItem) => {
-									console.log("cartItem");
-									cartItem.forEach(element => {
-										let userId = element.userId;
-										let amount = element.amount;
-										let price = element.totalprice;
-										let product = element.product;
-
-										Order.OrderItem.create(
-											{ userId, amount, price, product, orderId }
-										)
-											.then(() => {
-												Order.CartItem.destroy({ where: { userId: req.user.id } });
-											})
-									});
-									res.redirect('/payment/payment/' + orderId);
-								})
+			if (req.body.final != null) {
+				console.log("final price:"+req.body.final);
+				let userId = req.user.id;
+				let totalamount = req.body.final; //final price with voucher
+				let status = "Unshipped";
+				let payment = "Unpaid";
+				let address = req.body.address;
+				let Vanaddress = "30 Jalan Kilang Barat Singapore 159363";
+				console.log("address: " + address);
+				Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress })
+					.then(() => {
+						Order.Order.findOne({
+							where: { userId },
+							order: [['createdAt', 'DESC']],
+							raw: true
 						})
+							.then((order) => {
+								let orderId = order.id
+								//move cart items to orderIttem table
+								Order.CartItem.findAll({
+									where: { userId },
+									order: [['createdat', 'DESC']],
+									//raw: true
+								})
+									.then((cartItem) => {
+										console.log("cartItem");
+										cartItem.forEach(element => {
+											let userId = element.userId;
+											let amount = element.amount;
+											let price = element.totalprice;
+											let product = element.product;
 
+											Order.OrderItem.create(
+												{ userId, amount, price, product, orderId }  
+											)
+												.then(() => {
+													Order.CartItem.destroy({ where: { userId: req.user.id } });
+												})
+										});
+										res.redirect('/payment/payment/' + orderId);
+									})
+							})
+					})
+			}
+			else {
+				// create a new order
+				console.log("no voucher used");
+				let userId = req.user.id;
+				let totalamount = req.body.totalamount;
+				let status = "Unshipped";
+				let payment = "Unpaid";
+				let address = req.body.address;
+				let Vanaddress = "30 Jalan Kilang Barat Singapore 159363";
+				console.log("address: " + address);
+				Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress })
+					.then(() => {
+						Order.Order.findOne({
+							where: { userId },
+							order: [['createdAt', 'DESC']],
+							raw: true
+						})
+							.then((order) => {
+								let orderId = order.id
+								//move cart items to orderIttem table
+								Order.CartItem.findAll({
+									where: { userId },
+									order: [['createdat', 'DESC']],
+									//raw: true
+								})
+									.then((cartItem) => {
+										console.log("cartItem");
+										cartItem.forEach(element => {
+											let userId = element.userId;
+											let amount = element.amount;
+											let price = element.totalprice;
+											let product = element.product;
 
-				}
-
-
-
-
-				)
+											Order.OrderItem.create(
+												{ userId, amount, price, product, orderId }
+											)
+												.then(() => {
+													Order.CartItem.destroy({ where: { userId: req.user.id } });
+												})
+										});
+										res.redirect('/payment/payment/' + orderId);
+									})
+							})
+					})
+			}
 		}
 	}
 });

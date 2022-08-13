@@ -22,18 +22,16 @@
             var shipping = 12;
             var GST = parseFloat(sum) * 0.07
             var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping;
-            document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
-            document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
-            
+            document.getElementById("afterGST").innerHTML = "SG$" + afterGST;
+            document.getElementById("gst").innerHTML = "SG$" + GST.toFixed(2);
+
 
             document.getElementById("totalamountforvoucher").value = afterGST; //checkout with voucher
 
             document.getElementById("totalamount").value = afterGST; //if checkout wothout voucher
             document.getElementById("sum").value = sum;
+            document.getElementById("sum2").value = sum;
 
-            var disc = document.getElementsByClassName("discount");
-            var final = parseFloat(afterGST)-parseFloat(disc);
-            document.getElementById("finall").innerHTML = final;
 
         }
     </script>
@@ -99,7 +97,7 @@
                             </form>
                         </div>
                         <p class="text-muted col-sm-3 col-md-3 col-lg-3">
-                            SG $ <span class="price text-muted">{{totalprice}}</span>
+                            SG$ <span class="price text-muted">{{totalprice}}</span>
                         </p>
                         <div class=" row col-sm-3 col-md-3 col-lg-3">
                             <form action="" method="POST" class=" col-sm-12 col-md-12 col-lg-12">
@@ -129,13 +127,13 @@
                 {{#each cartItem}}
                 <div class="row">
                     <p class="col-sm-3" style="float: left;">{{product}}</p>
-                    <p class="col-sm-3" style="float: right;" id="item_price">SG ${{totalprice}}</p>
+                    <p class="col-sm-3" style="float: right;" id="item_price">SG${{totalprice}}</p>
                 </div>
                 {{/each}}
                 <hr size="12px" width="100%">
                 <div class="row">
                     <h5 class="col-sm-3" style="float: left;"><b>Shipping</b></h5>
-                    <p class="col-sm-3" style="float: right;">SG $12.00</p>
+                    <p class="col-sm-3" style="float: right;">SG$12.00</p>
                 </div>
                 <hr size="12px" width="100%">
                 <div class="row">
@@ -154,19 +152,19 @@
                 {{!-- <form action="#" style="display: inline;"> --}}
                     <form method="POST" action="#">
                         <div class="form-group">
-                            
+
                             <input type="text" class="form-control col-sm-9" id="promo_code" name="code"
                                 value="{{uservoucher.code}}" placeholder="{{uservoucher.code}} " readonly
                                 style="float: left; width: 450px;">
 
-                                <a class="btn btn" style="float:left;" href="/cart/cart">
-                                    <i class="fa fa-close" style="font-size:25px;color:red"></i>
-                                </a>
+                            <a class="btn btn" style="float:left;" href="/cart/cart">
+                                <i class="fa fa-close" style="font-size:25px;color:red"></i>
+                            </a>
 
-                            <button type="#" class="btn btn-secondary col-sm-3"  id="">Applied</button>
+                            <button type="#" class="btn btn-secondary col-sm-3" id="">Applied</button>
                             {{!-- <input type="hidden" name="apply" value="apply"> --}}
                             <input type="hidden" id="totalamountforvoucher" name="totalamountforvoucher" value="">
-                            <input type="hidden" id="sum" name="sum" value="">
+                            <input type="hidden" id="sum2" name="sum2" value="">
 
 
                         </div>
@@ -176,21 +174,47 @@
                     <br>
                     <div class="row">
                         <h4 class="col-sm-9" style="float: left;"><b>Total Cost: </b></h4>
-                        <h4 class="col-sm-3" style="float: right; text-decoration: line-through; color:red;" id="afterGST">
-                        </h4>
+                        <div style="float:right;">
+
+                            <h4 class="col-sm-3" style="text-decoration: line-through; color:red;" id="afterGST"></h4>
+                            <h4 class="col-sm-3" style="" id="final" value="final">SGD${{#dollaroff totaltotal
+                                uservoucher.discount}}</h4>
+                            {{/dollaroff}}
+                            <h4 class="col-sm-11" style="">{{uservoucher.discount}}{{uservoucher.dtype}}</h4>
+                        </div>
                     </div>
+                    <hr size="12px" width="100%">
+                    <br>
+                    <label for="email"><b>Address: </b></label>
+                    <form action="#" style="display: inline;" method="POST">
+                        <div class="form-group">
+                            <input type="text" class="form-control col-sm-12" id="address" name="address"
+                                placeholder="Enter Your Address Here..."
+                                style="float: left; width: 95%; margin-bottom: 3.5%;">
+                            <button type="submit" class="btn btn-success btn-block" id="checkout">
+                                <h4>Check Out</h4>
+                            </button>
+                            <input type="hidden" name="checkout" value="checkout">
+                            <input type="hidden" id="totalamountvoucher" name="totalamountvoucher" value="">
+                            <input type="hidden" id="final" name="final"
+                                value="{{#dollaroff totaltotal  uservoucher.discount}}{{/dollaroff}}">
+                        </div>
+                    </form>
                     {{else}}
                     <hr size="12px" width="100%">
                     <br>
                     <div class="row">
                         <h4 class="col-sm-9" style="float: left;"><b>Total Cost: </b></h4>
                         <div style="float:right;">
-                        <h4 class="col-sm-3" style="text-decoration: line-through; color:red;" id="afterGST"></h4>
-                        {{!-- <h4 class="col-sm-3" style="" id="final" value="final">SGD${{#dollaroff id="afterGST"  uservoucher.discount}}</h4>
-                        {{/dollaroff}} --}}
+
+                            <h4 class="col-sm-3" style="text-decoration: line-through; color:red;" id="afterGST"></h4>
+                            <h4 class="col-sm-3" style="" id="final" value="{{totaltotal}}">SGD${{#percentoff totaltotal
+                                uservoucher.discount}}</h4>
+                            {{/percentoff}}
+                            <h4 class="col-sm-11" style="">{{uservoucher.discount}}{{uservoucher.dtype}}</h4>
+
                         </div>
                     </div>
-                    {{/if_equal}}
                     <hr size="12px" width="100%">
                     <br>
                     <label for="email"><b>Address: </b></label>
@@ -205,10 +229,31 @@
                             <input type="hidden" name="checkout" value="checkout">
                             <input type="hidden" id="totalamountvoucher" name="totalamountvoucher" value="">
                             <input type="hidden" id="sum" name="sum" value="">
+                            <input type="hidden" id="final" name="final"
+                                value="{{#percentoff totaltotal  uservoucher.discount}}{{/percentoff}}">
                         </div>
                     </form>
+                    {{/if_equal}}
+                    {{!--
+                    <hr size="12px" width="100%">
+                    <br>
+                    <label for="email"><b>Address: </b></label>
+                    <form action="#" style="display: inline;" method="POST">
+                        <div class="form-group">
+                            <input type="text" class="form-control col-sm-12" id="address" name="address"
+                                placeholder="Enter Your Address Here..."
+                                style="float: left; width: 95%; margin-bottom: 3.5%;">
+                            <button type="submit" class="btn btn-success btn-block" id="checkout">
+                                <h4>Check Out</h4>
+                            </button>
+                            <input type="hidden" name="checkout" value="checkout">
+                            <input type="hidden" id="totalamountvoucher" name="totalamountvoucher" value="">
+                            <input type="hidden" id="final" name="final"
+                                value="{{#percentoff totaltotal  uservoucher.discount}}{{/percentoff}}">
+                        </div>
+                    </form> --}}
                     <div class="text-center">
-                        <a type="button" class="btn" href="/catalogue"><u>Add More?</u></a>
+                        <a type="button" class="btn" href="../product/catalogue"><u>Add More?</u></a>
                     </div>
 
             </div>
