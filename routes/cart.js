@@ -45,7 +45,6 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 						let minspend = element.minspend
 						let code = element.code
 						let valid = element.valid
-						let displaydate = element.displaydate
 						let invalidtype = element.invalidtype
 
 						Voucher.UserVoucher.findOrCreate({
@@ -58,7 +57,6 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 								minspend,
 								code,
 								valid,
-								displaydate,
 								invalidtype,
 								use: 0,
 								userId,

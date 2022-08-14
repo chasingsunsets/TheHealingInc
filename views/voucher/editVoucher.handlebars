@@ -1,0 +1,110 @@
+<div class="row">
+    <a href="/voucher/listVoucher" style="color: grey ;float:left; padding-left:40px; font-size:large"><u> <i
+                class="fa-solid fa-chevron-left"></i>Back</u></a>
+
+    <div id="content">
+        <div class="container-fluid">
+            <h1 class="display-4">Edit Voucher</h1>
+        </div>
+    </div>
+
+
+    <div class="col-md-10 mx-auto">
+        <div class="card card-body" style="border-radius: 60px ; top: 20px; ">
+            {{!-- <img class="logo2 cen2" src="/img/whitelogo.png"> --}}
+            <form action="" method="post">
+                <div>
+
+                    <div class="form-group left spacingv" style="padding-top:30px;">
+                        <label for="vname">Voucher Name:</label>
+                        <input type="text" class="form-control" name="vname" value="{{voucher.vname}}" id="firstname"
+                            onblur="initialiseFirstname()" required>
+                    </div>
+
+                    <div class="form-group left spacingv2" style="padding-top:30px;">
+                        <label for="code">Code: </label>
+                        <input type="text" class="form-control" name="code" value="{{voucher.code}}" required>
+                    </div>
+
+                    <div class="form-group clear left spacingv">
+                        <label for="dtype">Discount Type:</label>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="% off" value="% off" name="dtype" 
+                            {{radioCheck voucher.dtype "% off" }} required>
+                            <label class="form-check-label" for="% off">% off</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="$ off" value="$ off" name="dtype" 
+                            {{radioCheck voucher.dtype "$ off" }} required>
+                            <label class="form-check-label" for="$ off">$ off</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group left spacingsv2">
+                        <label for="discount">Discount: ($/%)</label>
+                        <input type="text" class="form-control" name="discount" value="{{voucher.discount}}" required>
+                    </div>
+                    <div class="form-group clear left spacingv">
+                        <label for="minspend">Minimum Spend ($) </label>
+                        <input type="text" class="form-control" name="minspend" value="{{voucher.minspend}}" required>
+                    </div>
+                    <div class="form-group left spacingv2">
+                        <label for="limituse">Limit Use: </label>
+                        <input type="text" class="form-control" name="limituse" value="{{voucher.limituse}}" required>
+                    </div>
+
+                    <div class="form-group clear left spacingv" style="padding-bottom:30px ;">
+                        <label for="valid">Valid Till</label>
+                        <input id="datepick" width="222" name="valid" value="{{formatDate voucher.valid 'DD/MM/YYYY'}}" required/>
+                        
+                    </div> 
+
+
+                    <div class="left spacingv2" style="padding-top:25px; padding-left:20px">
+                    <button type="submit" class="staffbtn" >EDIT VOUCHER</button>
+                </div>
+
+            </form>   
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+
+.spacingv {
+  margin-left: 13%
+}
+
+.spacingv2 {
+  margin-left: 30%
+}
+
+.spacingsv2{
+  margin-left: 37.5%
+}
+
+</style>
+<script>
+    $('#datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        uiLibrary: 'bootstrap4',
+        value: moment().add(3, 'day').format('DD-MM-YYYY')
+
+    });
+    $('#datepick').datepicker({
+        format: 'dd/mm/yyyy',
+        uiLibrary: 'bootstrap4',
+    });
+
+
+</script>
+
+
+
+
+
+
