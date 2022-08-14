@@ -14,7 +14,7 @@ Order = require('../models/Order');
 const fs = require('fs');
 const upload = require('../helpers/imageUpload');
 
-router.get('/listProducts', (req, res) => {
+router.get('/listProducts', ensureAuthenticatedStaff, (req, res) => {
     Product.findAll()
         .then((product) => {
             res.render('product/listProducts', { product, layout: 'staffMain' });
@@ -30,11 +30,11 @@ router.get('/catalogue', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/addProduct', (req, res) => {
+router.get('/addProduct', ensureAuthenticatedStaff, (req, res) => {
     res.render('product/addProduct', { layout: 'staffMain' });
 });
 
-router.post('/addProduct', (req, res) => {
+router.post('/addProduct', ensureAuthenticatedStaff, (req, res) => {
     let name = req.body.name;
     let posterURL = req.body.posterURL;
     let stock = req.body.stock;
@@ -53,7 +53,7 @@ router.post('/addProduct', (req, res) => {
         .catch(err => console.log(err))
 });
 
-router.get('/editProduct/:id', (req, res) => {
+router.get('/editProduct/:id', ensureAuthenticatedStaff, (req, res) => {
     Product.findByPk(req.params.id)
         .then((product) => {
             if (!product) {
@@ -67,7 +67,7 @@ router.get('/editProduct/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editProduct/:id', (req, res) => {
+router.post('/editProduct/:id', ensureAuthenticatedStaff, (req, res) => {
     let name = req.body.name;
     let posterURL = req.body.posterURL;
     let stock = req.body.stock;
@@ -85,7 +85,7 @@ router.post('/editProduct/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/deleteProduct/:id', async function (req, res) {
+router.get('/deleteProduct/:id', ensureAuthenticatedStaff, async function (req, res) {
     try {
         let product = await Product.findByPk(req.params.id);
         if (!product) {

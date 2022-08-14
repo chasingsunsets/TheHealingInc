@@ -10,10 +10,6 @@
                     <figure class="card card-product-grid">
                         <div class="img-wrap product-image">
                             <span class="badge badge-danger"> NEW </span>
-                            {{!-- <a href="{{posterURL}}" data-title="{{title}}" data-toggle="lightbox">
-                                <img src="{{posterURL}}" alt="Poster" class="img-thumbnail img-fluid mb-2"
-                                    onerror="this.src='/img/no-image.jpg'" style="max-height:160px">
-                            </a> --}}
                             <a href="/product/itemDesc/{{id}}" data-title="{{title}}" data-toggle="lightbox">
                                 <img src="{{posterURL}}" alt="Poster" onerror="this.src='/img/no-image.jpg'" >
                             </a>
@@ -40,28 +36,6 @@
                                 <span class="tag"> China </span>
                                 <span class="tag"> {{replaceCommas category}} </span>
                             </p>
-
-                            <div class="form-row  mt-4">
-                                <!-- col.// -->
-                            
-                                <div>
-                                    <div>
-                                        <form action="" method="post">
-                                        {{!-- <a href="/product/itemDesc/{{id}}" class="title mb-2"><i class="fa fa-cart-plus"></i>Details</a> --}}
-                                            <button id="btnSubmit" type="submit" class="btn btn-outline-danger addToCart">
-                                                <i class="fa fa-cart-plus"></i>Add to cart
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            
-                            </div> <!-- row.// -->
-
-                            {{!-- <a href="/product/itemDesc/{{id}}"> Enlarge  </a> --}}
-
-                            {{!-- <input type="hidden" name="user_id" value="{{id}}">
-                            <input type="hidden" name="amount" value="{{amount}}">
-                            <button id="btnSubmit" type="submit" class="btn btn-primary">Add to Cart</button> --}}
                         </figcaption>
                     </figure>
                     </form>
