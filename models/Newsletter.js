@@ -9,6 +9,7 @@ const Newsletter = db.define('newsletter',
         htmlContent: { type: Sequelize.STRING },
         posterURL: { type: Sequelize.STRING },
         status: { type: Sequelize.STRING },
+        schedule: { type: Sequelize.DATE },
         createdBy: { type: Sequelize.STRING }
     });
 
