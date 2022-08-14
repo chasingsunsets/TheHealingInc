@@ -1,7 +1,6 @@
 const express = require('express');
 const sgMail = require('@sendgrid/mail');
 const sgClient = require('@sendgrid/client');
-const expressFileUpload = require('express-fileupload');
 const { engine } = require('express-handlebars');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const Handlebars = require('handlebars');
@@ -25,7 +24,6 @@ const app = express();
 // newsletter
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 sgClient.setApiKey(process.env.SENDGRID_API_KEY);
-// app.use(expressFileUpload());
 
 app.engine('handlebars', engine({
 	handlebars: allowInsecurePrototypeAccess(Handlebars),
