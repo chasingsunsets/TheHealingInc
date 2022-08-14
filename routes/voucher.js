@@ -344,7 +344,28 @@ router.post('/editVoucher/:id', ensureAuthenticatedStaff, async function (req, r
         console.log(err);
     }
 
-
+    await Voucher.UserVoucher.findAll({
+        where: {voucherId:req.params.id, invalidtype: "valid"},
+        
+    })
+        .then((uservoucher) => {
+            console.log("editing voucher for user side");
+            uservoucher.forEach(element => {
+                // let userId = element.userId;
+                let voucherId= element.voucherId;
+                // let id = element.id;
+                // Voucher.UserVoucher.destroy({ where: { voucherId: voucherId } });
+                Voucher.UserVoucher.update(
+                    { vname, discount, dtype, minspend, code,  valid,  invalidtype: "valid" , use:0},
+                    { where: { voucherId: voucherId } }
+                )
+                    .then((result) => {
+                        console.log('user voucher updated');
+                    })
+                    .catch(err => console.log(err));
+                    
+            });
+        })
 
 
     Voucher.Voucher.update(
@@ -387,8 +408,6 @@ router.get('/deleteVoucher/:id', ensureAuthenticatedStaff, async function (req, 
 
         let result = await Voucher.Voucher.destroy({ where: { id: voucher.id } });
        
-
-
         console.log(result + ' voucher deleted');
         res.redirect('/voucher/listVoucher');
     }
