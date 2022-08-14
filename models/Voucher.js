@@ -11,7 +11,7 @@ const Voucher = db.define('voucher',
         limituse:{ type: Sequelize.INTEGER },
         usecount: { type: Sequelize.INTEGER },
         valid: { type: Sequelize.DATE },
-        displaydate: { type: Sequelize.STRING },
+        // displaydate: { type: Sequelize.STRING },
         // expire: { type: Sequelize.BOOLEAN },
         invalidtype:{ type: Sequelize.STRING }, //expired, max use count, deleted
     });
@@ -24,7 +24,7 @@ const UserVoucher = db.define('uservoucher',
         minspend: { type: Sequelize.INTEGER },
         code: { type: Sequelize.STRING },
         valid: { type: Sequelize.DATE },
-        displaydate: { type: Sequelize.STRING },
+        // displaydate: { type: Sequelize.STRING },
         invalidtype:{ type: Sequelize.STRING },
         // expire: { type: Sequelize.BOOLEAN },
         use: { type: Sequelize.BOOLEAN }

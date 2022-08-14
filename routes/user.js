@@ -236,7 +236,6 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
                         let minspend = element.minspend
                         let code = element.code
                         let valid = element.valid
-                        let displaydate = element.displaydate
                         let invalidtype = element.invalidtype
 
                         Voucher.UserVoucher.findOrCreate({
@@ -249,7 +248,6 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
                                 minspend,
                                 code,
                                 valid,
-                                displaydate,
                                 invalidtype,
                                 use: 0,
                                 userId,
@@ -260,7 +258,7 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
                         // .then((uservoucher) => {
                         //     if (!uservoucher) {
                         //         Voucher.UserVoucher.create(
-                        //             { vname,dtype, discount, minspend, code, valid, displaydate, invalidtype, used: 0, userId, voucherId }
+                        //             { vname,dtype, discount, minspend, code, valid,  invalidtype, used: 0, userId, voucherId }
                         //         )
                         //     }
                         // })
@@ -269,7 +267,7 @@ router.get('/profile', ensureAuthenticated, (req, res) => {
                         // .then((uservoucher) => {
                         //     if (!uservoucher) {
                         //         Voucher.UserVoucher.create(
-                        //             { vname,dtype, discount, minspend, code, valid, displaydate, invalidtype, used: 0, userId, voucherId }
+                        //             { vname,dtype, discount, minspend, code, valid,  invalidtype, used: 0, userId, voucherId }
                         //         )
                         //     }
                         // })

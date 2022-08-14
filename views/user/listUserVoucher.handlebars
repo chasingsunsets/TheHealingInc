@@ -47,7 +47,7 @@
                   <div class="content">
                     <div style="text-align:left ;">
                       <h3>{{vname}}</h3>
-                      <p>Valid till {{displaydate}}</p>
+                      <p>Valid till {{formatDate valid 'DD/MM/YYYY'}}</p>
                     </div>
                   </div>
 
@@ -56,8 +56,8 @@
                     <h6>Minimum spend ${{minspend}}</h6>
                     <div style="padding-right:10% ;">
                       <div class="copy-button">
-                        <input id="copyvalue" type="text" readonly value={{code}} />
-                        <button onclick="copyIt()" class="copybtn">COPY</button>
+                        <input id="copyvalue{{code}}" type="text" readonly value={{code}} />
+                        <button onclick="copyToClipboard('#copyvalue{{code}}')" class="copybtn">COPY</button>
                       </div>
                     </div>
                   </div>
@@ -205,9 +205,19 @@
     rootSelector: '[data-toggle=confirmation]',
   });
 
-  let copybtn = document.querySelector(".copybtn");
+
+function copyToClipboard(element) {
+
+  let copyInput = document.querySelector(element);
+
+    copyInput.select();
+
+    document.execCommand("copy");
 
 
+};
+
+/////this nv use but just leave it here 
   function copyIt() {
     let copyInput = document.querySelector('#copyvalue');
 
