@@ -84,10 +84,12 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 		else {
 			const new_amount = amount - 1;
 			const price = parseFloat(req.body.totalprice) - parseFloat(req.body.price);
+			const weight = parseFloat(req.body.weight) - parseFloat(req.body.m_weight);
 			await item_id.update({
 				product: req.body.product,
 				amount: new_amount,
-				totalprice: price
+				totalprice: price,
+				weight: weight
 			})
 			res.redirect('/cart/cart');
 		}
@@ -95,10 +97,12 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 	else if (req.body.plus == "plus") {
 		const amount = parseInt(req.body.amount) + 1
 		const price = parseFloat(req.body.totalprice) + parseFloat(req.body.price);
+		const weight = parseFloat(req.body.weight) + parseFloat(req.body.m_weight);
 		await item_id.update({
 			product: req.body.product,
 			amount: amount,
-			totalprice: price
+			totalprice: price,
+			weight: weight
 		})
 		res.redirect('/cart/cart');
 	}

@@ -5,10 +5,9 @@
 		<div class="card shadow mb-4">
 			<div class="card-header py-3" style="background-color:#8BAD97;">
 				<h5 class="m-0 font-weight-bold" style="color:white; ">Order List
-                    <a href="/staff/listOrderbyCustomer" class="card-link mb-2"
-                        style="color:white; padding-right:20px ; padding-top:6px; float:right;">
-                        <i class="fa-solid fa-rotate"></i> Order by Customer</a>
-                </h5>
+					<a href="/staff/listOrderbyCustomer" class="card-link mb-2" style="color:white; padding-right:20px ; padding-top:6px; float:right;">
+					<i class="fa-solid fa-arrow-left"></i> Back</a>
+				</h5>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -71,7 +70,7 @@
 													</button>
 												</div>
 												<div class="modal-body">
-													<p>Do you want to cancel this Order? This process cannot be undone.</p>
+													<p>Do you want to delete this Order? This process cannot be undone.</p>
 												</div>
 												<div class="modal-footer justify-content-center">
 													<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -90,10 +89,9 @@
 		</div>
 	</div>
 	{{else}}
-	<h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Order Created by Any User 
-		<a href="/staff/listOrderbyCustomer" class="card-link mb-2"
-                        style="color:white; padding-right:20px ; padding-top:6px; float:right;">
-                        <i class="fa-solid fa-rotate"></i> Order by Customer</a>
+	<h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Order Created 
+		<a href="/staff/listOrderbyCustomer" class="card-link mb-2" style="color:white; padding-right:20px ; padding-top:6px; float:right;">
+					<i class="fa-solid fa-arrow-left"></i> Back</a>
 	</h3>
 	<hr>
 	{{/if}}

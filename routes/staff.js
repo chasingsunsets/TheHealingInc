@@ -7,6 +7,8 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const ensureAuthenticatedStaff = require('../helpers/auth2');
+const Order = require('../models/Order');
+const { request } = require('express');
 
 router.get('/login', (req, res) => {
     try {
@@ -496,12 +498,60 @@ router.get('/dashboard', ensureAuthenticatedStaff, (req, res) => {
 });
 
 
-router.get('/listCustOrder',ensureAuthenticatedStaff, async (req, res) => {
+router.get('/listOrderbyTime',ensureAuthenticatedStaff, async (req, res) => {
     const orders = await Order.Order.findAll({
         order: [['createdat', 'DESC']],
         raw: true
     })
     res.render('./staff/listCustOrder', {layout: 'staffMain' ,orders});
+});
+
+
+router.post('/listOrderbyTime',ensureAuthenticatedStaff, async (req, res) => {
+    const order = await Order.Order.findByPk(req.body.order_id);
+    let status = req.body.status
+    order.update(
+        { status: status }
+        );
+    res.redirect("/staff/listCustOrder")
+})
+
+router.get('/deleteOrder/:id', async function (req, res) {
+    try {
+        let order = await Order.Order.findByPk(req.params.id);
+        if (!order) {
+            flashMessage(res, 'error', 'Product not found');
+            res.redirect('/staff/listOrderbyTime');
+            return;
+        }
+        let status = "Cancelled";
+        order.update(
+            { status: status },
+            { where: { id: order.id } },
+        )
+        console.log('product canceled');
+        res.redirect('/staff/listOrderbyTime');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/listOrderbyCustomer', async  (req, res) => {
+    const users = await User.findAll({
+        where: {type: "customer"},
+        raw: true
+    })
+    console.log(users);
+    res.render('./staff/listOrderbyCustomer.handlebars', {layout: 'staffMain' ,users})
+});
+
+router.get('/manageCustOrder/:id', async (req, res) => {
+    const orders = await Order.Order.findAll({
+        where: {userId: req.params.id},
+        raw: true
+    });
+    res.render('staff/manageCustOrder.handlebars', { layout: 'staffMain', orders });
 });
 
 module.exports = router;
