@@ -1,0 +1,68 @@
+<div>
+    {{#if users}}
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3" style="background-color:#8BAD97;">
+                <h5 class="m-0 font-weight-bold" style="color:white; ">Order List
+                    <a href="/staff/listOrderbyTime" class="card-link mb-2"
+                        style="color:white; padding-right:20px ; padding-top:6px; float:right;">
+                        <i class="fa-solid fa-rotate"></i> Order by Time</a>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead style="background-color: #F1EDE5;">
+                            <tr>
+                                <th>&nbsp;ID</th>
+                                <th>&nbsp;Actual Name</th>
+                                <th>&nbsp;User Name</th>
+                                <th>&nbsp;Phone Number</th>
+                                <th>&nbsp;Address</th>
+                                <th>&nbsp;Email</th>
+                                <th>&nbsp;Action</th>
+
+                            </tr>
+                        </thead>
+                        {{#each users}}
+                        <tr>
+                            <td>&nbsp;{{id}}</td>
+                            <td>&nbsp;{{firstname}} {{lastname}}</td>
+                            <td>&nbsp;{{username}}</td>
+                            <td>&nbsp;{{phoneno}}</td>
+                            <td>&nbsp;{{address}}</td>
+                            <td>&nbsp;{{email}}</td>
+                            <td>
+                                {{!-- <div>
+                                    <a href="/product/editProduct/{{id}}" class="text-primary card-link mb-2">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        Modify Order Status
+                                    </a>
+                                </div> --}}
+                                <a href="/staff/manageCustOrder/{{id}}" class="trigger-btn text-info">
+                                    Details
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <h3 class="m-0 font-weight-bold" style="padding-left:20px ;">No Order Created by any User
+        <a href="/staff/listOrderbyTime" class="card-link mb-2"
+                        style="color:white; padding-right:20px ; padding-top:6px; float:right;">
+                        <i class="fa-solid fa-rotate"></i> Order by Time</a>
+    </h3>
+    <hr>
+    {{/if}}
+</div>
+<script>
+    $('[data-toggle=confirmation]').confirmation({
+        rootSelector: '[data-toggle=confirmation]',
+    });
+</script>
