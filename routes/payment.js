@@ -13,12 +13,13 @@ router.get('/payment/:id', ensureAuthenticated, (req, res) => {
 		.then((order) => {
 			let orderId = order.id
 			let status = order.status
+			let final = order.totalamount
 			Order.OrderItem.findAll({
 				where: { orderId },
 				order: [['createdat', 'DESC']],
 			})
 				.then((orderItem) => {
-					res.render('../views/cart/purchase.handlebars', { orderItem, status, orderId });
+					res.render('../views/cart/purchase.handlebars', { orderItem, status, orderId, final });
 				})
 		})
 		.catch(err => console.log(err));

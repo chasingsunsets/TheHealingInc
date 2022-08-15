@@ -22,19 +22,19 @@
             var sum = arr.reduce((a, b) => a + b, 0)
             var weight_sum = s_arr.reduce((a, b) => a + b, 0)
 
-            var shipping_sum = weight_sum * 0.01;
+            var shipping_sum = 12;
             var GST = parseFloat(sum) * 0.07
             var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping_sum;
             console.log("AfterGST: " + afterGST);
 
 
             //add to page
-            document.getElementById("ship").innerHTML = "SG $" + shipping_sum;
-            document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
+            document.getElementById("ship").innerHTML = "SG $" + shipping_sum.toFixed(2);
+            document.getElementById("afterGST").innerHTML = "SG $" + afterGST.toFixed(2);
             document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
-            document.getElementById("totalamount").value = afterGST;
-            document.getElementById("sum").value = sum;
-            document.getElementById("final").value = afterGST;
+            document.getElementById("totalamount").value = afterGST.toFixed(2);
+            document.getElementById("sum").value = sum.toFixed(2);
+            document.getElementById("final").value = afterGST.toFixed(2);
         }
     </script>
 </head>
@@ -68,7 +68,7 @@
                     <div class="row">
                         <p class="font-italic col-sm-3 col-md-3 col-lg-3">Name</p>
                         <p class="font-italic col-sm-3 col-md-3 col-lg-3">Quantity</p>
-                        <p class="font-italic col-sm-3 col-md-3 col-lg-3">Price | Weight(g)</p>
+                        <p class="font-italic col-sm-3 col-md-3 col-lg-3">Price</p>
                         <p class="font-italic col-sm-3 col-md-3 col-lg-3">Action</p>
                     </div>
                 </div>
@@ -104,7 +104,6 @@
                         </div>
                         <p class="text-muted col-sm-3 col-md-3 col-lg-3">
                             SG $ <span class="price text-muted">{{totalprice}}</span>
-                            | <span class="shipping text-muted">{{weight}}</span>
                         </p>
                         <div class=" row col-sm-3 col-md-3 col-lg-3">
                             <form action="" method="POST" class=" col-sm-12 col-md-12 col-lg-12">
@@ -180,7 +179,7 @@
                             <h4>Check Out</h4>
                         </button>
                         <input type="hidden" name="checkout" value="checkout">
-                        <input type="" id="final" name="final" value="">
+                        <input type="hidden" id="final" name="final" value="">
                         <input type="hidden" id="sum" name="sum" value="">
                     </div>
                 </form>
