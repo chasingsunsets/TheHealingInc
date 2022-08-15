@@ -29,13 +29,15 @@ router.post('/payment/:id', ensureAuthenticated, async (req, res) => {
 		flashMessage(res, 'success', 'Order has canceled for you');
 		let status = "Cancelled";
 		const order = await Order.Order.findByPk(req.params.id);
-		Order.update(
+		Order.Order.update(
 			{ status: status },
 			{ where: { id: order.id } },
 		)
-		res.redirect('/user/listOrder')
+
+		res.redirect('/user/listOrder');
+	}else{
+		res.redirect('/payment/payment_is_successful/' + req.params.id, "PAYMENT", "height=600,width=600,toolbar=no, menubar=no,scrollbars=no, resizeable=no,location=no,status=no");
 	}
-	res.redirect('/payment/payment_is_successful/' + req.params.id, "PAYMENT", "height=600,width=600,toolbar=no, menubar=no,scrollbars=no, resizeable=no,location=no,status=no");
 });
 
 router.get('/payment_card/:id', ensureAuthenticated, async (req, res) => {
@@ -46,7 +48,7 @@ router.post('/payment_card/:id', ensureAuthenticated, async (req, res) => {
 	let payment = "Paid"
 	Order.Order.update(
 		{ payment: payment },
-		{ where: {id: req.params.id }});
+		{ where: { id: req.params.id } });
 	res.redirect("/payment/payment_card_successful")
 });
 
@@ -61,7 +63,7 @@ router.post('/payment_is_successful/:id', ensureAuthenticated, async (req, res) 
 		flashMessage(res, 'success', 'Thanks for purchase!!!');
 		res.redirect("/")
 	}
-	else{
+	else {
 		flashMessage(res, 'error', 'You have not pay the order');
 		res.redirect("/payment/payment_is_successful/" + req.params.id)
 	}

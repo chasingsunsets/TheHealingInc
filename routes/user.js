@@ -617,7 +617,7 @@ router.get('/listOrder', ensureAuthenticated, async (req, res) => {
 router.get('/cancelOrder/:id', ensureAuthenticated, async (req, res) => {
     let status = "Cancelled";
     const order = await Order.Order.findByPk(req.params.id);
-    Order.update(
+    Order.Order.update(
         { status: status },
         { where: { id: order.id } },
     )
