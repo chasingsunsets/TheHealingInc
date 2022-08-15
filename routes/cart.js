@@ -203,7 +203,8 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 
 				else {
 
-					let pricecount = 0
+					let pricecount = 0;
+					let shippingcount=0;
 					Order.CartItem.findAll({
 						where: { userId: req.user.id },
 						order: [['createdat', 'DESC']],
@@ -215,15 +216,17 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 								// let userId = element.userId;
 								// let amount = element.amount;
 								let price = element.totalprice;
+								let shipping = element.weight;
 								// let product = element.product;
 
-
+                                
 								console.log("voucher applied");
 								pricecount = parseFloat(pricecount) + parseFloat(price) * 1.07;
+								shippingcount= parseFloat(shippingcount)+parseFloat(shipping);
 								console.log("pricecount " + pricecount);
 
 							});
-							let totaltotal = parseFloat(pricecount + 12)
+							let totaltotal = parseFloat(pricecount + shippingcount)
 							res.render('../views/cart/cartvoucher.handlebars', { cartItem, uservoucher, pricecount, totaltotal });
 						})
 						.catch(err => console.log(err));
