@@ -589,7 +589,7 @@ await Voucher.UserVoucher.findAll({
 router.get('/listOrder', ensureAuthenticated, async (req, res) => {
     let userId = req.user.id
     const orders = await Order.Order.findAll({
-        where: { userId },
+        where: { userId:userId },
         order: [['createdat', 'DESC']],
         raw: true
     })
@@ -604,12 +604,19 @@ router.get('/listOrder', ensureAuthenticated, async (req, res) => {
 router.get('/cancelOrder/:id', ensureAuthenticated, async (req, res) => {
     let status = "Cancelled";
     const order = await Order.Order.findByPk(req.params.id);
-    Order.update(
+    Order.Order.update(
         { status: status },
         { where: { id: order.id } },
     )
 
     res.redirect('/user/listOrder');
+});
+
+router.get('/delivery_tracing/:id', ensureAuthenticated, async (req, res) =>{
+    let id = req.params.id;
+    const order = await Order.Order.findByPk(id);
+    console.log(order);
+    res.render('user/delivery_tracing.handlebars',{ layout: 'payment', order })
 });
 
 module.exports = router;
