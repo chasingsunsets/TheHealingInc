@@ -251,7 +251,7 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 				let address = req.body.address;
 				let Vanaddress = "30 Jalan Kilang Barat Singapore 159363";
 				console.log("address: " + address);
-				Order.Order.create({ totalamount, userId, status, payment, address, Vanaddress })
+				Order.Order.create({ totalamount:req.body.final, userId, status, payment, address, Vanaddress })
 					.then(() => {
 						Order.Order.findOne({
 							where: { userId },

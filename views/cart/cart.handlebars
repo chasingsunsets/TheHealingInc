@@ -2,6 +2,7 @@
     <script>
         window.onload = function () {
             var sum = 0;
+
             //get price of each product
             var obj = document.getElementsByClassName("price");
             var shipping = document.getElementsByClassName("shipping");
@@ -35,6 +36,7 @@
             document.getElementById("totalamount").value = afterGST.toFixed(2);
             document.getElementById("sum").value = sum.toFixed(2);
             document.getElementById("final").value = afterGST.toFixed(2);
+            document.getElementById("sum2").value = sum;
         }
     </script>
 </head>
@@ -149,6 +151,10 @@
                 <hr size="12px" width="100%">
                 
                 <label for="code"><b>Voucher: </b></label>
+                 <div class="" style="float:right; padding-right: 20px ">
+                    <a class="btn btn" href="../user/listUserVoucher">
+                        <i class="fa-solid fa-ticket"></i> </span> View Voucher </a>
+                </div>
                 {{!-- <form action="#" style="display: inline;"> --}}
                 <form method="POST" action="#">
                     <div class="form-group">
@@ -157,15 +163,15 @@
                         <button type="submit" class="btn btn-secondary col-sm-3" style="float: right ;" id="apply">Apply</button>
                         <input type="hidden" name="apply" value="apply">
                         <input type="hidden" id="totalamount" name="totalamount" value="">
+                                                <input type="hidden" id="sum2" name="sum2" value="">
                     </div>
                 </form>
                 <hr size="12px" width="100%">
                 <br>
                 <div class="row">
                     <h4 class="col-sm-9" style="float: left;"><b>Total Cost: </b></h4>
-                    <p class="col-sm-3" style="float: right;" id="afterGST">
-                    <h5></h5>
-                    </p>
+                    <h4 class="col-sm-3" style="float: right;" id="afterGST">
+                    </h4>
                 </div>
                 <hr size="12px" width="100%">
                 <br>
@@ -181,6 +187,8 @@
                         <input type="hidden" name="checkout" value="checkout">
                         <input type="hidden" id="final" name="final" value="">
                         <input type="hidden" id="sum" name="sum" value="">
+                        <input type="hidden" id="sum2" name="sum2" value="">
+                        
                     </div>
                 </form>
                 <div class="text-center">
