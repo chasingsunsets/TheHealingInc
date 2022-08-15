@@ -32,8 +32,8 @@
 
             console.log(shipping_sum);
             var GST = parseFloat(sum) * 0.07
-            var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping_sum;
-            document.getElementById("ship").innerHTML = "SG $" + shipping_sum;
+            var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + 12;
+            document.getElementById("ship").innerHTML = "SG $" + 12;
             document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
             document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
             document.getElementById("totalamount").value = afterGST;
@@ -105,10 +105,16 @@
                                 <input type="hidden" name="m_weight" value="{{m_weight}}">
                             </form>
                         </div>
-                        <p class="text-muted col-sm-3 col-md-3 col-lg-3">
+                        {{!-- <p class="text-muted col-sm-3 col-md-3 col-lg-3">
                             SG $ <span class="price text-muted">{{totalprice}}</span>
                             | S: <span class="shipping text-muted">{{weight}}</span>
+                        </p> --}}
+                        
+                        <p class="text-muted col-sm-3 col-md-3 col-lg-3">
+                            SG $ <span class="price text-muted">{{totalprice}}</span>
+                            {{!-- | S: <span class="shipping text-muted">{{weight}}</span> --}}
                         </p>
+                        
                         <div class=" row col-sm-3 col-md-3 col-lg-3">
                             <form action="" method="POST" class=" col-sm-12 col-md-12 col-lg-12">
 

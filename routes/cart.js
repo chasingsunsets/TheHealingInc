@@ -216,17 +216,17 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 								// let userId = element.userId;
 								// let amount = element.amount;
 								let price = element.totalprice;
-								let shipping = element.weight;
+								// let shipping = element.weight;
 								// let product = element.product;
 
                                 
 								console.log("voucher applied");
 								pricecount = parseFloat(pricecount) + parseFloat(price) * 1.07;
-								shippingcount= parseFloat(shippingcount)+parseFloat(shipping);
+								// shippingcount= parseFloat(shippingcount)+parseFloat(shipping);
 								console.log("pricecount " + pricecount);
 
 							});
-							let totaltotal = parseFloat(pricecount + shippingcount)
+							let totaltotal = parseFloat(pricecount + 12)
 							res.render('../views/cart/cartvoucher.handlebars', { cartItem, uservoucher, pricecount, totaltotal });
 						})
 						.catch(err => console.log(err));

@@ -30,8 +30,8 @@
 
             console.log(shipping_sum);            
             var GST = parseFloat(sum) * 0.07
-            var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping_sum;
-            document.getElementById("ship").innerHTML = "SG $" + shipping_sum;
+            var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) +12;
+            document.getElementById("ship").innerHTML = "SG $" + 12;
 
             document.getElementById("afterGST").innerHTML = "SG$" + afterGST;
             document.getElementById("gst").innerHTML = "SG$" + GST.toFixed(2);
@@ -42,6 +42,7 @@
             document.getElementById("totalamount").value = afterGST; //if checkout wothout voucher
             document.getElementById("sum").value = sum;
             document.getElementById("sum2").value = sum;
+
 
 
         }
@@ -113,7 +114,7 @@
                         </div>
                         <p class="text-muted col-sm-3 col-md-3 col-lg-3">
                             SG$ <span class="price text-muted">{{totalprice}}</span>
-                            | S: <span class="shipping text-muted">{{weight}}</span>
+                            {{!-- | S: <span class="shipping text-muted">{{weight}}</span> --}}
 
                         </p>
                         <div class=" row col-sm-3 col-md-3 col-lg-3">
