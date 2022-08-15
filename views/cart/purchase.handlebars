@@ -37,7 +37,7 @@
 
     <script>
         function payment(){
-            var orderid = document.getElementById("id").innerHTML
+            var orderid = document.getElementById("id").innerHTML;
             window.open("../payment_card/" + orderid,
             "PAYMENT","height=700,width=600,toolbar=no, menubar=no,scrollbars=no, resizeable=no,location=no,status=no");
         }
@@ -159,7 +159,7 @@
         </div>
     </div>
     </div>
-
+<p id="id" name="id" style="color: #f1ede5;">{{orderId}}</p>
     </div> <!-- container .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
