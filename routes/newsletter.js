@@ -75,9 +75,10 @@ router.get('/listNewsletters', ensureAuthenticatedStaff, (req, res) => {
                     sentTab.push(newsletters[i])
                 }
             }
-            // console.log(draftTab)
-            // console.log(sentTab);
-            // console.log(scheduleTab)
+            // console.log("draft" + draftTab.newsletterName)
+            // console.log("complete" + completedTab.newsletterName)
+            // console.log("schedule" + scheduleTab.newsletterName);
+            // console.log("sent" + sentTab.newsletterName)
             res.render('newsletter/listNewsletters', {
                 newsletters, layout: 'staffMain', draftTab, completedTab, sentTab, scheduleTab, newsletterName: newsletters.newsletterName,
                 category: newsletters.category, htmlContent: newsletters.htmlContent, fileUpload: newsletters.fileUpload, status: newsletters.status, createdBy: newsletters.createdBy
@@ -121,7 +122,30 @@ router.post('/editNewsletter/:id', ensureAuthenticatedStaff, (req, res) => {
 router.get('/scheduleNewsletter/:id', ensureAuthenticatedStaff, (req, res) => {
     Newsletter.findByPk(req.params.id)
         .then((newsletter) => {
+            // console.log(newsletter.newsletterName);
+            res.render('newsletter/scheduleNewsletter', { newsletter, layout: 'staffMain' });
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/scheduleNewsletter/:id', ensureAuthenticatedStaff, (req, res) => {
+    let schedule = moment(req.body.schedule, 'DD/MM/YYYY');
+    Newsletter.update(
+        {
+            schedule
+        },
+        { where: { id: req.params.id } }
+    )
+    Newsletter.findByPk(req.params.id)
+        .then((newsletter) => {
             console.log(newsletter.newsletterName);
+            // newsletter stuff
+            let htmlContent = newsletter.htmlContent;
+            let subject = newsletter.newsletterName;
+            let unixTime = moment(schedule).unix();
+            console.log(unixTime)
+            pathToAttachment = './public/' + newsletter.posterURL;
+            attachment = fs.readFileSync(pathToAttachment).toString("base64");
             Subscription.findAll({
                 raw: true
             })
@@ -143,32 +167,25 @@ router.get('/scheduleNewsletter/:id', ensureAuthenticatedStaff, (req, res) => {
                     else {
                         for (let i = 0; i < subscriptions.length; i++) {
                             let unSubURL = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscriptions[i].id}`;
-                            let htmlContent = newsletter.htmlContent;
-                            let subject = newsletter.newsletterName;
                             let toEmail = subscriptions[i].email;
                             let firstName = subscriptions[i].firstName;
-                            console.log(newsletter.createdBy)
                             let lastName = subscriptions[i].lastName;
-                            let unixTime = moment(newsletter.schedule).unix();
-                            console.log(unixTime)
-                            pathToAttachment = './public/' + Newsletter.posterURL;
-                            attachment = fs.readFileSync(pathToAttachment).toString("base64");
 
                             if (subscriptions[i].verified == 1) {
                                 sendEmail1(toEmail, subject, firstName, lastName, htmlContent, unSubURL, attachment, unixTime)
                                     .then(response => {
                                         console.log(response);
-                                        let result = Newsletter.update(
-                                            { status: "Sent" },
-                                            { where: { id: newsletter.id } });
-                                        console.log(result, newsletter.newsletterName + ' newsletter updated');
+                                        // let result = Newsletter.update(
+                                        //     { status: "Sent" },
+                                        //     { where: { id: newsletter.id } });
+                                        // console.log(result, newsletter.newsletterName + ' newsletter updated');
                                         // flashMessage(res, 'success', subscription.email + ' signed up successfully');
                                         // res.redirect('/');
-                                        res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Newsletter Sent Successfully", card_title2: "Newsletter Details:", message1: "ID = " + newsletter.id, message2: "Newsletter Name = " + newsletter.newsletterName, button: "Return", link: "/newsletter/listNewsletters" });
+                                        // res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Newsletter Sent Successfully", card_title2: "Newsletter Details:", message1: "ID = " + newsletter.id, message2: "Newsletter Name = " + newsletter.newsletterName, button: "Return", link: "/newsletter/listNewsletters" });
                                     })
                                     .catch(err => {
                                         console.log(err);
-                                        res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "An error occurred.", button: "Return", link: "/newsletter/listNewsletters" });
+                                        // res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "An error occurred.", button: "Return", link: "/newsletter/listNewsletters" });
                                         // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
                                         // res.redirect('/');
                                     });
@@ -177,85 +194,9 @@ router.get('/scheduleNewsletter/:id', ensureAuthenticatedStaff, (req, res) => {
                     }
                 })
                 .catch(err => console.log(err));
-            res.render('newsletter/scheduleNewsletter', { newsletter, layout: 'staffMain' });
-        })
-        .catch(err => console.log(err));
-});
-
-router.post('/scheduleNewsletter/:id', ensureAuthenticatedStaff, (req, res) => {
-    let newsletterName = req.body.newsletterName;
-    let category = req.body.category;
-    let htmlContent = req.body.htmlContent;
-    let posterURL = req.body.posterURL;
-    let status = req.body.status;
-    let schedule = moment(req.body.schedule, 'DD/MM/YYYY');
-    let createdBy = req.body.createdBy;
-    Newsletter.update(
-        {
-            newsletterName, category, htmlContent, posterURL, schedule, status, createdBy
-        },
-        { where: { id: req.params.id } }
-    )
-        .then((newsletter) => {
-            // console.log(newsletter.newsletterName);
-            // Subscription.findAll({
-            //     raw: true
-            // })
-            //     .then((subscriptions) => {
-            //         // check for verified users in the subscriptions
-            //         for (i in subscriptions) {
-            //             // console.log(subscriptions[i])
-            //             verifiedList.push(subscriptions[i].verified)
-            //         }
-
-            //         if (subscriptions.length == 0) {
-            //             res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "There is currently no subscribers in your subscription list.", button: "Return", link: "/newsletter/listNewsletters" });
-            //         }
-
-            //         else if (!verifiedList.includes(1)) {
-            //             res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "There is currently no subscribers in your subscription list who are verified.", button: "Return", link: "/newsletter/listNewsletters" });
-            //         }
-
-            //         else {
-            //             for (let i = 0; i < subscriptions.length; i++) {
-            //                 let unSubURL = `${process.env.BASE_URL}:${process.env.PORT}/subscription/deleteSub/${subscriptions[i].id}`;
-            //                 let htmlContent = newsletter.htmlContent;
-            //                 let subject = newsletter.newsletterName;
-            //                 let toEmail = subscriptions[i].email;
-            //                 let firstName = subscriptions[i].firstName;
-            //                 console.log(newsletter.createdBy)
-            //                 let lastName = subscriptions[i].lastName;
-            //                 let unixTime = moment(newsletter.schedule).unix();
-            //                 console.log(unixTime)
-            //                 pathToAttachment = './public/' + Newsletter.posterURL;
-            //                 attachment = fs.readFileSync(pathToAttachment).toString("base64");
-
-            //                 if (subscriptions[i].verified == 1) {
-            //                     sendEmail1(toEmail, subject, firstName, lastName, htmlContent, unSubURL, attachment, unixTime)
-            //                         .then(response => {
-            //                             console.log(response);
-            //                             let result = Newsletter.update(
-            //                                 { status: "Sent" },
-            //                                 { where: { id: newsletter.id } });
-            //                             console.log(result, newsletter.newsletterName + ' newsletter updated');
-            //                             // flashMessage(res, 'success', subscription.email + ' signed up successfully');
-            //                             // res.redirect('/');
-            //                             res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Newsletter Sent Successfully", card_title2: "Newsletter Details:", message1: "ID = " + newsletter.id, message2: "Newsletter Name = " + newsletter.newsletterName, button: "Return", link: "/newsletter/listNewsletters" });
-            //                         })
-            //                         .catch(err => {
-            //                             console.log(err);
-            //                             res.render('newsletter/newsletterMessage', { layout: 'staffMain', card_title: "Unable To Send Newsletter", card_title2: "Reason(s):", message1: "An error occurred.", button: "Return", link: "/newsletter/listNewsletters" });
-            //                             // flashMessage(res, 'error', 'Error when sending email to ' + subscription.email);
-            //                             // res.redirect('/');
-            //                         });
-            //                 }
-            //             }
-            //         }
-            //     })
-            //     .catch(err => console.log(err));
-            console.log(newsletter[0] + ' newsletter scheduled');
+            console.log(subject + ' newsletter scheduled');
             // console.log(moment(schedule).unix()); // Gives UNIX timestamp)
-            flashMessage(res, 'success', 'Newsletter has been scheduled.');
+            flashMessage(res, 'success', 'Newsletter: ' + subject + ' has been scheduled.');
             res.redirect('/newsletter/listNewsletters');
         })
         .catch(err => console.log(err));
@@ -571,7 +512,7 @@ function sendEmail1(toEmail, subject, firstName, lastName, htmlContent, unSubURL
 
 		</table>
 		`,
-        sendAt: 1660502000,
+        sendAt: unixTime,
         files: [
             {
                 filename: "attachment.jpeg",
