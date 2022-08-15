@@ -1,65 +1,7 @@
 
 {{#if_equal order.status "Delivered"}}
 <div class="modal-body">
-    <h5 style="text-align: center;">Order id: {{order.id}}
-    </h5>
-    {{!-- order细节 --}}
-    <div class="order-track">
-        <div class="order-track-step">
-            <div class="order-track-status">
-                <span class="order-track-status-dot"></span>
-                <span class="order-track-status-line"></span>
-            </div>
-            <div class="order-track-text">
-                <p class="order-track-text-stat">Package
-                    Preparation</p>
-                <span class="order-track-text-sub">Status:
-                </span>
-            </div>
-        </div>
-        <div class="order-track-step">
-            <div class="order-track-status">
-                <span class="order-track-status-dot"></span>
-                <span class="order-track-status-line"></span>
-            </div>
-            <div class="order-track-text">
-                <p class="order-track-text-stat"> Delivery -
-                    {{this.Vanaddress}}
-
-                </p>
-                <span class="order-track-text-sub">1st
-                    November, 2019</span>
-            </div>
-        </div>
-        <div class="order-track-step">
-            <div class="order-track-status">
-                <span class="order-track-status-dot"></span>
-                <span class="order-track-status-line"></span>
-            </div>
-            <div class="order-track-text">
-                <p class="order-track-text-stat"> Shipped
-                    - {{this.address}}
-                </p>
-                <span class="order-track-text-sub">3rd
-                    November, 2019</span>
-            </div>
-        </div>
-    </div>
-    </ul>
-    <div class="card-body">
-        Created on: {{formatDate createdAt
-        'DD/MM/YYYY'}}
-        <br>
-        <hr>
-        Modified on: {{formatDate updatedAt
-        'DD/MM/YYYY'}}
-    </div>
-</div>
-{{/if_equal}}
-
-
-{{!-- {{#if_equal order.status "Unshipped"}} --}}
-<div class="modal-body">
+    <input href="" class="btn btn-warning btn-outline" onclick="history.back()" value="Back">
     <h5 style="text-align: center;">Order id: {{order.id}}
     </h5>
     {{!-- order细节 --}}
@@ -76,6 +18,30 @@
                 </span>
             </div>
         </div>
+        <div class="order-track-step">
+            <div class="order-track-status">
+                <span class="order-track-status-dot"></span>
+                <span class="order-track-status-line"></span>
+            </div>
+            <div class="order-track-text">
+                <p class="order-track-text-stat"> Delivery -
+                    {{order.Vanaddress}}
+
+                </p>
+                <span class="order-track-text-sub">By Ninjia Van Express</span>
+            </div>
+        </div>
+        <div class="order-track-step">
+            <div class="order-track-status">
+                <span class="order-track-status-dot"></span>
+                <span class="order-track-status-line"></span>
+            </div>
+            <div class="order-track-text">
+                <p class="order-track-text-stat"> Shipped
+                    - {{order.address}}
+                </p>
+            </div>
+        </div>
     </div>
     </ul>
     <div class="card-body">
@@ -87,7 +53,109 @@
         'DD/MM/YYYY'}}
     </div>
 </div>
-{{!-- {{/if_equal}} --}}
+{{/if_equal}}
+
+
+{{#if_equal order.status "Deliverying"}}
+<div class="modal-body">
+    <input href="" class="btn btn-warning btn-outline" onclick="history.back()" value="Back">
+    <h5 style="text-align: center;">Order id: {{order.id}}
+    </h5>
+    {{!-- order细节 --}}
+    <div class="order-track">
+        <div class="order-track-step">
+            <div class="order-track-status">
+                <span class="order-track-status-dot"></span>
+                <span class="order-track-status-line"></span>
+            </div>
+            <div class="order-track-text">
+                <p class="order-track-text-stat">Package
+                    Preparation</p>
+                <span class="order-track-text-sub">Status: {{order.status}}
+                </span>
+            </div>
+        </div>
+        <div class="order-track-step">
+            <div class="order-track-status">
+                <span class="order-track-status-dot"></span>
+                <span class="order-track-status-line"></span>
+            </div>
+            <div class="order-track-text">
+                <p class="order-track-text-stat"> Delivery -
+                    {{order.Vanaddress}}
+
+                </p>
+                <span class="order-track-text-sub">By Ninjia Van Express</span>
+            </div>
+        </div>
+        <br>
+    </div>
+    </ul>
+    <div class="card-body">
+        Created on: {{formatDate createdAt
+        'DD/MM/YYYY'}}
+        <br>
+        <hr>
+        Modified on: {{formatDate updatedAt
+        'DD/MM/YYYY'}}
+    </div>
+</div>
+{{/if_equal}}
+
+{{#if_equal order.status "Unshipped"}}
+<div class="modal-body">
+    <input href="" class="btn btn-warning btn-outline" onclick="history.back()" value="Back">
+    <h5 style="text-align: center;">Order id: {{order.id}}
+    </h5>
+    {{!-- order细节 --}}
+    <div class="order-track">
+        <div class="order-track-step">
+            <div class="order-track-status">
+                <span class="order-track-status-dot"></span>
+                <span class="order-track-status-line"></span>
+            </div>
+            <div class="order-track-text">
+                <p class="order-track-text-stat">Package
+                    Preparation</p>
+                <span class="order-track-text-sub">Status: {{order.status}}
+                </span>
+            </div>
+        </div>
+        <br>
+    </div>
+    <br>
+    <div class="card-body">
+        Created on: {{formatDate createdAt
+        'DD/MM/YYYY'}}
+        <br>
+        <hr>
+        Modified on: {{formatDate updatedAt
+        'DD/MM/YYYY'}}
+    </div>
+</div>
+{{/if_equal}}
+
+
+
+{{#if_equal order.status "Cancelled"}}
+<div class="modal-body">
+    <input href="" class="btn btn-warning btn-outline" onclick="history.back()" value="Back">
+    <h5 style="text-align: center;">Order id: {{order.id}}
+    </h5>
+    <br><br><br>
+    <h5 style="text-align: center;">This Order has been cancelled, Please go back to previous page.
+    </h5>
+    <br><br>
+    <div class="card-body">
+        Created on: {{formatDate createdAt
+        'DD/MM/YYYY'}}
+        <br>
+        <hr>
+        Modified on: {{formatDate updatedAt
+        'DD/MM/YYYY'}}
+    </div>
+</div>
+{{/if_equal}}
 
 <style>
     h2,

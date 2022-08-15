@@ -1,7 +1,8 @@
 <head>
     <script>
         function tracing() {
-            var orderid = document.getElementById("id").innerHTML
+            var orderid = document.getElementById("order_id").innerHTML
+            console.log(orderid)
             window.open("../user/delivery_tracing/" + orderid,
                 "PAYMENT", "height=500,width=600,toolbar=no, menubar=no,scrollbars=no, resizeable=no,location=no,status=no");
         }
@@ -58,7 +59,7 @@
                                         {{#if orders}}
                                         {{#each orders}}
                                         <tr style="border: solid; border-width: 1px 0;">
-                                            <td id="id">{{id}}</td>
+                                            <td id="order_id">{{id}}</td>
                                             <td>{{totalamount}}</td>
                                             <td>{{payment}}</td>
                                             <td>{{status}}</td>
@@ -66,10 +67,11 @@
                                                         class="fa-solid fa-xmark"></i></a>
                                             </td>
                                             <td>
-                                                <button type="submit" class="btn btn-info" id="checkout"
+                                                {{!-- <button type="submit" class="btn btn-info" id="checkout"
                                                     onclick="tracing()">
                                                     <i class="fa-solid fa-eye"></i>
-                                                </button>
+                                                </button> --}}
+                                                <a href="/user/delivery_tracing/{{id}}" class="btn btn-info"><i class="fa-solid fa-eye"></i></a>
                                             </td>
                                             <td><a href="/payment/payment/{{id}}" class="btn btn-warning"><i
                                                         class="fa-solid fa-bag-shopping"></i></a>
