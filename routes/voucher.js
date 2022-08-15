@@ -165,7 +165,88 @@ router.post('/addVoucher', ensureAuthenticatedStaff, async function (req, res) {
     //     .catch(err => console.log(err)); 
 });
 
-router.get('/listVoucher', ensureAuthenticatedStaff, (req, res) => {
+router.get('/listVoucher', ensureAuthenticatedStaff, async function (req, res) {
+    
+   await Voucher.Voucher.findAll({
+        where: { invalidtype: "valid" }
+    })
+        .then((voucher) => {
+            // console.log(voucher)
+            voucher.forEach(element => {
+                let id=element.id
+                let usecount=element.usecount;
+                let limituse = element.limituse;
+                let valid = element.valid;
+                let invalidtype = element.invalidtype;
+                let displaydate = moment(valid).utc().format('DD/MM/YYYY');
+                let displaytoday = moment().utc().format('DD/MM/YYYY');
+                if (usecount>=limituse){
+                    Voucher.Voucher.update(
+                        { invalidtype: "Max Usage" },
+                        { where: { id: id } }
+                    )
+
+                     Voucher.UserVoucher.findAll({
+                        where: {voucherId:id, invalidtype: "valid"},
+                    })
+                        .then((uservoucher) => {
+                            console.log("editing voucher for user side");
+                            uservoucher.forEach(element => {
+                                // let userId = element.userId;
+                                let voucherId= element.voucherId;
+        
+                                Voucher.UserVoucher.update(
+                                    { invalidtype: "Max Usage"},
+                                    { where: { voucherId: voucherId } }
+                                )
+                                    .then((result) => {
+                                        console.log('user voucher updated');
+                                    })
+                                    .catch(err => console.log(err));
+                                    
+                            });
+                        })
+                }
+
+                else if (!(displaytoday < displaydate)){
+                    Voucher.Voucher.update(
+                        { invalidtype: "Expired" },
+                        { where: { id: id } }
+                    )
+
+                     Voucher.UserVoucher.findAll({
+                        where: {voucherId:id, invalidtype: "valid"},
+                    })
+                        .then((uservoucher) => {
+                            console.log("editing voucher for user side");
+                            uservoucher.forEach(element => {
+                                // let userId = element.userId;
+                                let voucherId= element.voucherId;
+        
+                                Voucher.UserVoucher.update(
+                                    { invalidtype: "Expired"},
+                                    { where: { voucherId: voucherId } }
+                                )
+                                    .then((result) => {
+                                        console.log('user voucher updated');
+                                    })
+                                    .catch(err => console.log(err));
+                                    
+                            });
+                        })
+                }
+
+                
+
+            })
+
+        })
+        .catch(err => console.log(err));
+
+
+
+   
+
     Voucher.Voucher.findAll({
         // where: { userId: req.user.id },
         // order: [['dateRelease', 'DESC']],
@@ -286,7 +367,7 @@ router.post('/editVoucher/:id', ensureAuthenticatedStaff, async function (req, r
             .then((voucher) => {
                 res.render('./voucher/editVoucher', {
                     layout: 'staffMain',
-                    vname, dtype, discount, minspend, limituse, code, valid
+                    voucher
                 });
             })
             .catch(err => console.log(err));
@@ -344,7 +425,28 @@ router.post('/editVoucher/:id', ensureAuthenticatedStaff, async function (req, r
         console.log(err);
     }
 
-
+    await Voucher.UserVoucher.findAll({
+        where: {voucherId:req.params.id, invalidtype: "valid"},
+        
+    })
+        .then((uservoucher) => {
+            console.log("editing voucher for user side");
+            uservoucher.forEach(element => {
+                // let userId = element.userId;
+                let voucherId= element.voucherId;
+                // let id = element.id;
+                // Voucher.UserVoucher.destroy({ where: { voucherId: voucherId } });
+                Voucher.UserVoucher.update(
+                    { vname, discount, dtype, minspend, code,  valid,  invalidtype: "valid" , use:0},
+                    { where: { voucherId: voucherId } }
+                )
+                    .then((result) => {
+                        console.log('user voucher updated');
+                    })
+                    .catch(err => console.log(err));
+                    
+            });
+        })
 
 
     Voucher.Voucher.update(
@@ -387,8 +489,6 @@ router.get('/deleteVoucher/:id', ensureAuthenticatedStaff, async function (req, 
 
         let result = await Voucher.Voucher.destroy({ where: { id: voucher.id } });
        
-
-
         console.log(result + ' voucher deleted');
         res.redirect('/voucher/listVoucher');
     }
@@ -397,32 +497,5 @@ router.get('/deleteVoucher/:id', ensureAuthenticatedStaff, async function (req, 
     }
 });
 
-// router.get('/omdb', ensureAuthenticated, (req, res) => {
-//     let apikey = process.env.OMDB_API_KEY;
-//     let title = req.query.title;
-//     fetch(`https://www.omdbapi.com/?t=${title}&apikey=${apikey}`)
-//         .then(res => res.json())
-//         .then(data => {
-//             console.log(data);
-//             res.json(data);
-//         });
-// });
-
-// router.post('/upload', ensureAuthenticated, (req, res) => {
-//     // Creates user id directory for upload if not exist
-//     if (!fs.existsSync('./public/uploads/' + req.user.id)) {
-//         fs.mkdirSync('./public/uploads/' + req.user.id, { recursive: true });
-//     }
-
-//     upload(req, res, (err) => {
-//         if (err) {
-//             // e.g. File too large
-//             res.json({ file: '/img/no-image.jpg', err: err });
-//         }
-//         else {
-//             res.json({ file: `/uploads/${req.user.id}/${req.file.filename}` });
-//         }
-//     });
-// });
 
 module.exports = router;

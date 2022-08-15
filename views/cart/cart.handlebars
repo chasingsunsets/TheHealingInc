@@ -5,7 +5,8 @@
             //get price of each product
             var obj = document.getElementsByClassName("price");
             var shipping = document.getElementsByClassName("shipping");
-            console.log("price:" + obj)
+
+            //add them to the array
             var arr = new Array();
             var s_arr = new Array();
             for (var i = 0; i < obj.length; i++) {
@@ -14,30 +15,26 @@
             for (var i = 0; i < shipping.length; i++) {
                 s_arr[i] = parseFloat(shipping[i].innerHTML);
             }
-            console.log("shipping:" + s_arr);
 
 
-            //get sum of aall products
-            function getSumForEach(arr) {
-                arr.forEach(function (item) {
-                    f_item = parseFloat(item)
-                    sum += f_item;
-                });
-                return sum;
-            }
 
-
+            //get sum of aall products        
             var sum = arr.reduce((a, b) => a + b, 0)
-            var shipping_sum = s_arr.reduce((a, b) => a + b, 0)
+            var weight_sum = s_arr.reduce((a, b) => a + b, 0)
 
-            console.log(shipping_sum);
+            var shipping_sum = weight_sum * 0.01;
             var GST = parseFloat(sum) * 0.07
             var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping_sum;
+            console.log("AfterGST: " + afterGST);
+
+
+            //add to page
             document.getElementById("ship").innerHTML = "SG $" + shipping_sum;
             document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
             document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
             document.getElementById("totalamount").value = afterGST;
             document.getElementById("sum").value = sum;
+            document.getElementById("final").value = afterGST;
         }
     </script>
 </head>
@@ -71,7 +68,7 @@
                     <div class="row">
                         <p class="font-italic col-sm-3 col-md-3 col-lg-3">Name</p>
                         <p class="font-italic col-sm-3 col-md-3 col-lg-3">Quantity</p>
-                        <p class="font-italic col-sm-3 col-md-3 col-lg-3">Price</p>
+                        <p class="font-italic col-sm-3 col-md-3 col-lg-3">Price | Weight(g)</p>
                         <p class="font-italic col-sm-3 col-md-3 col-lg-3">Action</p>
                     </div>
                 </div>
@@ -107,7 +104,7 @@
                         </div>
                         <p class="text-muted col-sm-3 col-md-3 col-lg-3">
                             SG $ <span class="price text-muted">{{totalprice}}</span>
-                            | S: <span class="shipping text-muted">{{weight}}</span>
+                            | <span class="shipping text-muted">{{weight}}</span>
                         </p>
                         <div class=" row col-sm-3 col-md-3 col-lg-3">
                             <form action="" method="POST" class=" col-sm-12 col-md-12 col-lg-12">
@@ -122,7 +119,6 @@
                     </div>
                 </div>
                 {{/each}}
-                <p class=" text-muted text-center">"S" means the Shipping Fee of this product(s)</p>
                 {{else}}
                 <div class="col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
                     <h4>There is nothing in your
@@ -161,7 +157,7 @@
                             placeholder="Enter Your Voucher Code Here..." style="float: left; width: 450px;">
                         <button type="submit" class="btn btn-secondary col-sm-3" style="float: right ;" id="apply">Apply</button>
                         <input type="hidden" name="apply" value="apply">
-
+                        <input type="hidden" id="totalamount" name="totalamount" value="">
                     </div>
                 </form>
                 <hr size="12px" width="100%">
@@ -184,7 +180,7 @@
                             <h4>Check Out</h4>
                         </button>
                         <input type="hidden" name="checkout" value="checkout">
-                        <input type="hidden" id="totalamount" name="totalamount" value="">
+                        <input type="" id="final" name="final" value="">
                         <input type="hidden" id="sum" name="sum" value="">
                     </div>
                 </form>

@@ -1,0 +1,44 @@
+<div class="row">
+    <a href="/newsletter/listNewsletters" style="color: grey ;float:left; padding-left:40px; font-size:large"><u> <i
+                class="fa-solid fa-chevron-left"></i>Back</u></a>
+    <div class="col-md-6 mx-auto">
+        <div class="card card-body" style="border-radius: 60px ; top: 20px; right:40px;">
+            <h3 class="text-center" style="padding-top: 15px;">Schedule Newsletter</h3>
+            <form action="" method="post">
+                {{!-- <div class="form-group left spacing1">
+                    <label class="font-italic" for="schedule">schedule</label>
+                    <input class="form-control" id="schedule" name="schedule" type="text" required />
+                </div> --}}
+                <p style="text-align: center;">Pick A Date</p>
+                <div class="form-group d-flex align-items-center justify-content-center">
+                    
+                    <input id="datepicker" data-date-end-date="0d" width="200" name="schedule" required />
+                </div>
+                <p class="text-muted" style="text-align: center;">**Please take note that emails can only be sent 3 days in advance.</p>
+                
+                <div class=" centered clear" style="padding-top:25px;">
+                    <button type="submit" class="staffbtn">Confirm Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#datepicker').datepicker({
+        maxDate: 3,
+        format: 'dd/mm/yyyy',
+        uiLibrary: 'bootstrap4',
+        value: moment().format('DD/MM/YYYY'),
+        minDate: 0,
+        stepMonths: 0,
+        todayHighlight:'TRUE',
+        autoclose: true,
+        endDate: '+3d',
+    });
+
+    var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
+        $.fn.bootstrapDP = datepicker;                 // give $().bootstrapDP the bootstrap-datepicker functionality
+
+    
+</script>
