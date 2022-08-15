@@ -17,9 +17,8 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 		// raw: true
 	})
 		.then((cartItem) => {
-			// console.log(cartItem);
 			// pass object to cart.handlebars
-			res.render('../views/cart/cart.handlebars', { cartItem });
+			res.render('../views/cart/cart.handlebars', { cartItem});
 		})
 		.catch(err => console.log(err));
 });
