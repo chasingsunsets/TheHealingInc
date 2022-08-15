@@ -95,6 +95,7 @@ router.get('/deleteProduct/:id', ensureAuthenticatedStaff, async function (req, 
         }
         let result = await Product.destroy({ where: { id: product.id } });
         console.log(result + ' product deleted');
+        flashMessage(res, 'success', 'Product successfully deleted');
         res.redirect('/product/listProducts');
     }
     catch (err) {

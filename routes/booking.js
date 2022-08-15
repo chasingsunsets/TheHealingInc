@@ -81,6 +81,7 @@ router.get('/deleteBooking/:id', ensureAuthenticatedStaff, async function (req, 
         }
         let result = await Booking.destroy({ where: { id: booking.id } });
         console.log(result + ' booking deleted');
+        flashMessage(res, 'success', 'Booking successfully deleted');
         res.redirect('/booking/listBookings');
     }
     catch (err) {
