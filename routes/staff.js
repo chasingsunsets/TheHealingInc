@@ -554,4 +554,13 @@ router.get('/manageCustOrder/:id', async (req, res) => {
     res.render('staff/manageCustOrder.handlebars', { layout: 'staffMain', orders });
 });
 
+router.post('/manageCustOrder/:id', async (req, res) => {
+    const order = await Order.Order.findByPk(req.body.order_id);
+    let status = req.body.status
+    order.update(
+        { status: status }
+        );
+    res.redirect("/staff/manageCustOrder/"+ req.params.id);
+});
+
 module.exports = router;

@@ -22,10 +22,10 @@
             var shipping = 12;
             var GST = parseFloat(sum) * 0.07
             var voucher = parseFloat(sum) * 0.1
-            var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping - voucher;
-            document.getElementById("afterGST").innerHTML = "SG $" + afterGST;
+            var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping;
+            document.getElementById("afterGST").innerHTML = "SG $" + afterGST.toFixed(2);
             document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
-            document.getElementById("totalamount").value = afterGST;
+            document.getElementById("totalamount").value = afterGST.toFixed(2);
         }
     </script>
     <script>
@@ -37,7 +37,7 @@
 
     <script>
         function payment(){
-            var orderid = document.getElementById("id").innerHTML
+            var orderid = document.getElementById("id").innerHTML;
             window.open("../payment_card/" + orderid,
             "PAYMENT","height=700,width=600,toolbar=no, menubar=no,scrollbars=no, resizeable=no,location=no,status=no");
         }
@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="col-sm-6" style="float:left;">
-                    <input href="" class="btn btn-secondary" onclick="history.back()" value="Back">
+                   <a class="btn btn-secondary" href="../../user/listOrder">
                         <span class="fa-solid fa-circle-arrow-left"></span> BACK </a>
                 </div>
                 <div class="col-sm-6" style="float:right;">
@@ -99,7 +99,7 @@
                 {{!-- Right side of website --}}
             </div>
             <div class="col-sm-6">
-                <h5><b>Summary</b></h5>
+                {{!-- <h5><b>Summary</b></h5>
                 <hr size="12px" width="100%">
                 {{#each orderItem}}
                 <div class="row">
@@ -116,12 +116,12 @@
                 <div class="row">
                     <h5 class="col-sm-3" style="float: left;"><b>GST</b></h5>
                     <p class="col-sm-3" style="float: right;" id="gst"></p>
-                </div>
-                <hr size="12px" width="100%">
-                <div class="row">
+                </div> --}}
+                {{!-- <hr size="12px" width="100%"> --}}
+                {{!-- <div class="row">
                     <h5 class="col-sm-3" style="float: left;"><b>Voucher: </b></h5>
                     <p class="col-sm-3" style="float: right;" id="voucher">10%</p>
-                </div>
+                </div> --}}
                 <hr size="12px" width="100%">
                 <div class="row">
                     <h5 class="col-sm-3" style="float: left;"><b>Status: </b></h5>
@@ -130,8 +130,8 @@
                 <hr size="12px" width="100%">
                 <div class="row">
                     <h4 class="col-sm-9" style="float: left;"><b>Total Cost: </b></h4>
-                    <p class="col-sm-3" style="float: right;" id="afterGST">
-                    <h5></h5>
+                    <p class="col-sm-3" style="float: right;">
+                    SG$ {{final}}
                     </p>
                 </div>
                 <br>
@@ -159,9 +159,7 @@
         </div>
     </div>
     </div>
-
-<p id="id" name="id">{{orderId}}</p>
-
+<p id="id" name="id" style="color: #f1ede5;">{{orderId}}</p>
     </div> <!-- container .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
