@@ -58,7 +58,7 @@
 {{/if_equal}}
 
 
-{{#if_equal order.status "Unshipped"}}
+{{!-- {{#if_equal order.status "Unshipped"}} --}}
 <div class="modal-body">
     <h5 style="text-align: center;">Order id: {{order.id}}
     </h5>
@@ -72,7 +72,7 @@
             <div class="order-track-text">
                 <p class="order-track-text-stat">Package
                     Preparation</p>
-                <span class="order-track-text-sub">Status:
+                <span class="order-track-text-sub">Status: {{order.status}}
                 </span>
             </div>
         </div>
@@ -87,7 +87,7 @@
         'DD/MM/YYYY'}}
     </div>
 </div>
-{{/if_equal}}
+{{!-- {{/if_equal}} --}}
 
 <style>
     h2,
