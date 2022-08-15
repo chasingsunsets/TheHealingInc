@@ -25,6 +25,7 @@
             var shipping_sum = weight_sum * 0.01;
             var GST = parseFloat(sum) * 0.07
             var afterGST = parseFloat(sum) + parseFloat(GST.toFixed(2)) + shipping_sum;
+            console.log("AfterGST: " + afterGST);
 
 
             //add to page
@@ -33,6 +34,7 @@
             document.getElementById("gst").innerHTML = "SG $" + GST.toFixed(2);
             document.getElementById("totalamount").value = afterGST;
             document.getElementById("sum").value = sum;
+            document.getElementById("final").value = afterGST;
         }
     </script>
 </head>
@@ -178,7 +180,7 @@
                             <h4>Check Out</h4>
                         </button>
                         <input type="hidden" name="checkout" value="checkout">
-                        <input type="hidden" id="totalamount" name="totalamount" value="">
+                        <input type="" id="final" name="final" value="">
                         <input type="hidden" id="sum" name="sum" value="">
                     </div>
                 </form>

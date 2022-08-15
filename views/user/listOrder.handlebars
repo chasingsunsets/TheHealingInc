@@ -1,19 +1,12 @@
-{{!--
-
 <head>
     <script>
-        window.onload = function () {
-            if (document.getElementById("btn") == 'Cancelled') {
-                console.log("Cancelled");
-                document.getElementById("btn").className = "badge badge-danger";
-            }
-            else if (document.getElementById("btn") == "unshipped") {
-                console.log("unshipped");
-                document.getElementById("btn").className = "badge badge-alert";
-            }
+        function tracing() {
+            var orderid = document.getElementById("id").innerHTML
+            window.open("../user/delivery_tracing/" + orderid,
+                "PAYMENT", "height=500,width=600,toolbar=no, menubar=no,scrollbars=no, resizeable=no,location=no,status=no");
         }
     </script>
-</head> --}}
+</head>
 
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -33,24 +26,10 @@
                             <form>
                                 <div class="d-none d-sm-inline-block form-inline navbar-search "
                                     style='padding-bottom: 20px;'>
-                                    {{!-- <div class="input-group">
-                                        <input type="text" class="form-control bg-light bvoucher-0 small"
-                                            placeholder="Newsletter ID..." aria-label="Search"
-                                            aria-describedby="basic-addon2" id='search-voucher'>
-                                        <div class="input-group-append">
-                                            <button class="btn voucher-search-button" type="button"
-                                                style="background-color:#8BAD97; border: 0px;">
-                                                <i class="fas fa-search fa"></i>
-                                            </button>
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </form>
                         </div>
                         <div class="col-2 col-md-4 col-sm-10 text-right">
-                            {{!-- <a href="/newsletter/addNewsletter" class="btn btn"
-                                style="background-color: #e0d1b5; color:white; font-weight: bold;">Create Newsletter</a>
-                            --}}
                         </div>
                     </div>
                     <br>
@@ -60,21 +39,6 @@
                         <input type="radio" name="slider" checked id="draft">
                         <input type="radio" name="slider" id="scheduled">
                         <input type="radio" name="slider" id="past">
-                        {{!-- <input type="radio" name="slider" id="help"> --}}
-
-                        {{!-- <nav>
-                            <label for="draft" class="draft" data-rel="1"><i class="fa-solid fa-pen-ruler"></i>Current
-                                Orders</label>
-                            <label for="scheduled" class="scheduled" data-rel="2"><i
-                                    class="fa-solid fa-calendar-check"></i>Completed
-                                Orders</label>
-                            <label for="past" class="past" data-rel="3"><i
-                                    class="fa-solid fa-clock-rotate-left"></i>Past
-                                Orders</label>
-                            <div class="slider"></div>
-                        </nav> --}}
-
-                        <!-- Section: Draft -->
                         <section>
                             <div class="content content-1"
                                 style="height: 400px;  overflow-y:scroll; overflow-x: hidden; border-style: none;">
@@ -94,175 +58,36 @@
                                         {{#if orders}}
                                         {{#each orders}}
                                         <tr style="border: solid; border-width: 1px 0;">
-                                            <td>{{this.id}}</td>
-                                            <td>{{this.totalamount}}</td>
-                                            <td>{{this.payment}}</td>
-                                            <td>{{this.status}}</td>
-                                            <td>
-                                                <form action="/user/cancelOrder/{{id}}">
-
-                                                    <!-- Button to Open the Modal -->
-                                                    <button type="button" title="Cancel" class="btn btn-danger "
-                                                        data-bs-toggle="modal" data-bs-target="#modal_delete">
-                                                        <i class="fa-solid fa-xmark"></i>
-                                                    </button>
-
-                                                    <!-- The Modal -->
-                                                    <div class="modal" id="modal_delete">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Cancel Confirmation</h4>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"></button>
-                                                                </div>
-
-                                                                <!-- Modal body -->
-                                                                <div class="modal-body">
-                                                                    Are you sure you want to Cancel Order #{{this.id}}?
-                                                                </div>
-
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                    <input type="submit" value="Yes"
-                                                                        class="btn btn-danger">
-
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">No</button>
-                                                                </div>
-                                                </form>
+                                            <td id="id">{{id}}</td>
+                                            <td>{{totalamount}}</td>
+                                            <td>{{payment}}</td>
+                                            <td>{{status}}</td>
+                                            <td> <a href="/user/cancelOrder/{{id}}" class="btn btn-danger"><i
+                                                        class="fa-solid fa-xmark"></i></a>
                                             </td>
                                             <td>
-                                                <button type="button" title="View" class="btn btn-info"
-                                                    data-bs-toggle="modal" data-bs-target="#weModal_">
-                                                    <i class="far fa-eye"></i>
+                                                <button type="submit" class="btn btn-info" id="checkout"
+                                                    onclick="tracing()">
+                                                    <i class="fa-solid fa-eye"></i>
                                                 </button>
-
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby=""
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="">Order Detail</h5>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"><i
-                                                                        class="fa-solid fa-xmark"></i></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <h5 style="text-align: center;">Order id: {{this.id}}
-                                                                </h5>
-                                                                {{!-- order细节 --}}
-                                                                <div class="order-track">
-                                                                    <div class="order-track-step">
-                                                                        <div class="order-track-status">
-                                                                            <span class="order-track-status-dot"></span>
-                                                                            <span
-                                                                                class="order-track-status-line"></span>
-                                                                        </div>
-                                                                        <div class="order-track-text">
-                                                                            <p class="order-track-text-stat">Package
-                                                                                Preparation</p>
-                                                                            <span class="order-track-text-sub">Status:
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="order-track-step">
-                                                                        <div class="order-track-status">
-                                                                            <span class="order-track-status-dot"></span>
-                                                                            <span
-                                                                                class="order-track-status-line"></span>
-                                                                        </div>
-                                                                        <div class="order-track-text">
-                                                                            <p class="order-track-text-stat"> Delivery -
-                                                                                {{this.Vanaddress}}
-
-                                                                            </p>
-                                                                            <span class="order-track-text-sub">1st
-                                                                                November, 2019</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="order-track-step">
-                                                                        <div class="order-track-status">
-                                                                            <span class="order-track-status-dot"></span>
-                                                                            <span
-                                                                                class="order-track-status-line"></span>
-                                                                        </div>
-                                                                        <div class="order-track-text">
-                                                                            <p class="order-track-text-stat"> Shipped
-                                                                                - {{this.address}}
-                                                                            </p>
-                                                                            <span class="order-track-text-sub">3rd
-                                                                                November, 2019</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                </ul>
-                                                                <div class="card-body">
-                                                                    Created on: {{formatDate createdAt
-                                                                    'DD/MM/YYYY'}}
-                                                                    <br>
-                                                                    <hr>
-                                                                    Modified on: {{formatDate updatedAt
-                                                                    'DD/MM/YYYY'}}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                            </div>
-                            </td>
-                            <td>
-                                <button type="button" title="payment" class="btn btn-warning " data-bs-toggle="modal"
-                                    data-bs-target="#my_">
-                                    <i class="fa-solid fa-bag-shopping"></i>
-                                </button>
-
-                                <!-- The Modal -->
-                                <div class="modal" id="my_">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-
-                                            <!-- Modal Header -->
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Payment</h4>
-                                                <button type="button" class="btn-close"
-                                                    data-bs-dismiss="modal"></button>
-                                            </div>
-
-                                            <!-- Modal body -->
-                                            <div class="modal-body">
-                                                Are you sure you continue to buy ?
-                                            </div>
-
-                                            <!-- Modal footer -->
-                                            <div class="modal-footer">
-                                                <a href="/payment/payment/{{id}}" class="btn btn-danger">Yes</a>
-
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">No</button>
-                                            </div>
+                                            </td>
+                                            <td><a href="/payment/payment/{{id}}" class="btn btn-warning"><i
+                                                        class="fa-solid fa-bag-shopping"></i></a>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                        {{else}}
+                                        <div>
+                                            <td colspan="8" style="text-align:center;">
+                                                <h6 class="empty">You currently have no Order.</h6>
+                                            </td>
                                         </div>
-                                    </div>
-                                </div>
-                            </td>
-                            </tr>
-                            {{/each}}
-                            {{else}}
-                            <div>
-                                <td colspan="8" style="text-align:center;">
-                                    <h6 class="empty">You currently have no Order.</h6>
-                                </td>
-                            </div>
-                            {{/if}}
-                            </tbody>
-                            </table>
-                            <h1>{{address}}</h1>
+                                        {{/if}}
+                                    </tbody>
+                                </table>
                         </section>
 
-                       
+
                     </div>
 
                 </div>
@@ -538,20 +363,27 @@
         text-align: justify;
     }
 
-    #draft:checked ~ section .content-1,
-    #scheduled:checked ~ section .content-2,
-    #past:checked ~ section .content-3,
-    {{!-- #help:checked ~ section .content-4, --}}
-    #about:checked ~ section .content-4{
+    #draft:checked~section .content-1,
+    #scheduled:checked~section .content-2,
+    #past:checked~section .content-3,
+    {
+        {
+         !-- #help: checked ~ section .content-4, --
+    }
+    }
+
+    #about:checked~section .content-4 {
         display: block;
     }
-    section .content .title{
+
+    section .content .title {
         font-size: 21px;
         font-weight: 500;
         margin: 30px 0 10px 0;
     }
-    section .content p{
-    text-align: justify;
+
+    section .content p {
+        text-align: justify;
     }
 </style>
 
