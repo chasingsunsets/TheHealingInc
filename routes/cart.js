@@ -27,50 +27,105 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 router.post('/cart', ensureAuthenticated, async (req, res) => {
 	let item_id = await Order.CartItem.findByPk(req.body.item_id);
 
-	User.findByPk(req.user.id)///////////////////////////////////////////////add voucher to uservoucherdb
-		.then((user) => {
-			Voucher.Voucher.findAll({
-				where: { invalidtype: "valid" }
-			})
-				.then((voucher) => {
-					// console.log(voucher)
-					voucher.forEach(element => {
-						// console.log(req.user.id)
-						let userId = req.user.id;
-						let voucherId = element.id
-						let vname = element.vname
-						let dtype = element.dtype
-						let discount = element.discount
-						let minspend = element.minspend
-						let code = element.code
-						let valid = element.valid
-						let displaydate = element.displaydate
-						let invalidtype = element.invalidtype
+	//////////////////////////////////////////////////////////////add voucher to uservoucherdb
+	await Voucher.Voucher.findAll({
+        where: { invalidtype: "valid" }
+    })
+        .then((voucher) => {
+            // console.log(voucher)
+            voucher.forEach(element => {
+                let id = element.id;
+                let userId = req.user.id;
+                let voucherId = element.id
+                let vname = element.vname
+                let dtype = element.dtype
+                let discount = element.discount
+                let minspend = element.minspend
+                let code = element.code
+                let usecount = element.usecount;
+                let limituse = element.limituse;
+                let valid = element.valid;
+                let invalidtype = element.invalidtype;
+                let displaydate = moment(valid).utc().format('DD/MM/YYYY');
+                let displaytoday = moment().utc().format('DD/MM/YYYY');
+                if (usecount >= limituse) {
+                    Voucher.Voucher.update(
+                        { invalidtype: "Max Usage" },
+                        { where: { id: id } }
+                    )
 
-						Voucher.UserVoucher.findOrCreate({
-							where: { userId: userId, voucherId: voucherId },
-							defaults: {
-								//   job: 'Technical Lead JavaScript'
-								vname,
-								dtype,
-								discount,
-								minspend,
-								code,
-								valid,
-								displaydate,
-								invalidtype,
-								use: 0,
-								userId,
-								voucherId
-							}
-						});
+                    Voucher.UserVoucher.findAll({
+                        where: { voucherId: id, invalidtype: "valid" },
+                    })
+                        .then((uservoucher) => {
+                            console.log("editing voucher for user side");
+                            uservoucher.forEach(element => {
+                                // let userId = element.userId;
+                                let voucherId = element.voucherId;
 
-					})
+                                Voucher.UserVoucher.update(
+                                    { invalidtype: "Max Usage" },
+                                    { where: { voucherId: voucherId } }
+                                )
+                                    .then((result) => {
+                                        console.log('user voucher updated');
+                                    })
+                                    .catch(err => console.log(err));
 
-				})
-				.catch(err => console.log(err));
-		})
-		.catch(err => console.log(err));
+                            });
+                        })
+                }
+
+                else if (!(displaytoday < displaydate)) {
+                    Voucher.Voucher.update(
+                        { invalidtype: "Expired" },
+                        { where: { id: id } }
+                    )
+
+                    Voucher.UserVoucher.findAll({
+                        where: { voucherId: id, invalidtype: "valid" },
+                    })
+                        .then((uservoucher) => {
+                            console.log("editing voucher for user side");
+                            uservoucher.forEach(element => {
+                                let voucherId = element.voucherId;
+
+                                Voucher.UserVoucher.update(
+                                    { invalidtype: "Expired" },
+                                    { where: { voucherId: voucherId } }
+                                )
+                                    .then((result) => {
+                                        console.log('user voucher updated');
+                                    })
+                                    .catch(err => console.log(err));
+
+                            });
+                        })
+                }
+
+                else {
+                    Voucher.UserVoucher.findOrCreate({
+                        where: { userId: userId, voucherId: voucherId },
+                        defaults: {
+                            vname,
+                            dtype,
+                            discount,
+                            minspend,
+                            code,
+                            valid,
+                            invalidtype,
+                            use: 0,
+                            userId,
+                            voucherId
+                        }
+                    });
+
+                }
+
+
+            })
+        })
+        .catch(err => console.log(err));
 	//////////////////////////////////////////////////////////////////^add voucher to uservoucher db
 
 	if (req.body.minus == "minus") {
@@ -147,7 +202,8 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 
 				else {
 
-					let pricecount = 0
+					let pricecount = 0;
+					let shippingcount=0;
 					Order.CartItem.findAll({
 						where: { userId: req.user.id },
 						order: [['createdat', 'DESC']],
@@ -159,15 +215,17 @@ router.post('/cart', ensureAuthenticated, async (req, res) => {
 								// let userId = element.userId;
 								// let amount = element.amount;
 								let price = element.totalprice;
+								let shipping = element.weight;
 								// let product = element.product;
 
-
+                                
 								console.log("voucher applied");
 								pricecount = parseFloat(pricecount) + parseFloat(price) * 1.07;
+								shippingcount= parseFloat(shippingcount)+parseFloat(shipping);
 								console.log("pricecount " + pricecount);
 
 							});
-							let totaltotal = parseFloat(pricecount + 12)
+							let totaltotal = parseFloat(pricecount + shippingcount)
 							res.render('../views/cart/cartvoucher.handlebars', { cartItem, uservoucher, pricecount, totaltotal });
 						})
 						.catch(err => console.log(err));

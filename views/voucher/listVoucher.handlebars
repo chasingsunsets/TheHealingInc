@@ -23,8 +23,9 @@
                                         <th>&nbsp;Code</th>
                                         <th>&nbsp;Use Count</th>
                                         <th>&nbsp;Expiry Date</th>
+                                        <th>&nbsp;Status</th>
                                         <th>&nbsp;Action</th>
-                                    </tr> 
+                                    </tr>
                                 </thead>
                                 {{#each vouchers}}
 
@@ -36,23 +37,51 @@
                                     <td>&nbsp;{{minspend}}</td>
                                     <td>&nbsp;{{code}}</td>
                                     <td>&nbsp;{{usecount}}/{{limituse}}</td>
-                                    <td>&nbsp;{{displaydate}}</td>
+                                    <td>&nbsp;{{formatDate valid 'DD/MM/YYYY'}}</td>
+                                    <td>&nbsp;{{invalidtype}}</td>
                                     <td>
                                         <div>
-                                            <a href="/voucher/editvoucher/{{id}}" class="card-link mb-2"
+                                            <a href="/voucher/editVoucher/{{id}}" class="card-link mb-2"
                                                 style="color: #8BAD97">
                                                 <i class="fas fa-pencil-alt"></i>
                                                 Edit
                                             </a>
                                         </div>
+
+                                        <!-- Logout Modal-->
+                                        <div class="modal fade" id="deleteVoucher" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Delete
+                                                            Voucher</h5>
+                                                        <button class="close" type="button" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">Select "Delete" below if you are
+                                                        deleting this voucher.</div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" type="button"
+                                                            data-dismiss="modal">Cancel</button>
+                                                        <a class="btn btn-primary"
+                                                            href="/voucher/deleteVoucher/{{id}}">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                         <div>
-                                            <a href="/staff/deletevoucher/{{id}}" class="card-link"
-                                                style="color: darkred" data-toggle="confirmation"
-                                                data-title="Confirm delete?">
+                                            <a href="/voucher/listVoucher" data-toggle="modal"
+                                                data-target="#deleteVoucher" class="card-link" style="color: darkred">
                                                 <i class="far fa-trash-alt"></i>
                                                 Delete
                                             </a>
                                         </div>
+
                                     </td>
                                 </tr>
 
@@ -77,9 +106,3 @@
     </div>
     {{/if}}
 </body>
-
-<script>
-    $('[data-toggle=confirmation]').confirmation({
-        rootSelector: '[data-toggle=confirmation]',
-    });
-</script>

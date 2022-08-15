@@ -4,8 +4,9 @@ const moment = require('moment');
 const flashMessage = require('../helpers/messenger');
 const Booking = require('../models/Booking');
 const ensureAuthenticated = require('../helpers/auth');
+const ensureAuthenticatedStaff = require('../helpers/auth2');
 
-router.get('/listBookings', (req, res) => {
+router.get('/listBookings', ensureAuthenticatedStaff, (req, res) => {
     Booking.findAll({
         where:  req.params.id,
         order: [['dateRelease', 'ASC']],
@@ -17,11 +18,11 @@ router.get('/listBookings', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/addBooking', (req, res) => {
+router.get('/addBooking', ensureAuthenticated, (req, res) => {
     res.render('booking/addBooking');
 });
 
-router.post('/addBooking', (req, res) => {
+router.post('/addBooking', ensureAuthenticated, (req, res) => {
     let name = req.body.name;
     let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
     let email = req.body.email;
@@ -38,7 +39,7 @@ router.post('/addBooking', (req, res) => {
         .catch(err => console.log(err))
 });
 
-router.get('/editBooking/:id', (req, res) => {
+router.get('/editBooking/:id', ensureAuthenticatedStaff, (req, res) => {
     Booking.findByPk(req.params.id)
         .then((booking) => {
             if (!booking) {
@@ -52,7 +53,7 @@ router.get('/editBooking/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editBooking/:id', (req, res) => {
+router.post('/editBooking/:id', ensureAuthenticatedStaff, (req, res) => {
     let name = req.body.name;
     let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
     let email = req.body.email;
@@ -70,7 +71,7 @@ router.post('/editBooking/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/deleteBooking/:id', async function (req, res) {
+router.get('/deleteBooking/:id', ensureAuthenticatedStaff, async function (req, res) {
     try {
         let booking = await Booking.findByPk(req.params.id);
         if (!booking) {

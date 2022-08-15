@@ -27,6 +27,8 @@ const setUpDB = (drop) => {
             User.hasMany(Booking);
             Booking.belongsTo(User);
 
+
+
             User.hasMany(Order.CartItem);
             Order.CartItem.belongsTo(User);
 

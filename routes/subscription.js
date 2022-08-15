@@ -15,7 +15,7 @@ const sgMail = require('@sendgrid/mail');
 
 // c: subscribe
 router.get('/addSub', (req, res) => {
-    res.render('newsletter/add');
+    res.render('subscription/addSubscription');
 });
 
 router.post('/addSub', async function (req, res) {
@@ -24,7 +24,7 @@ router.post('/addSub', async function (req, res) {
     let isValid = true;
 
     if (!isValid) {
-        res.render('newsletter/add', {
+        res.render('subscription/addSubscription', {
             firstName, lastName, email
         });
         return;

@@ -3,6 +3,7 @@ const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 
 const User = require('../models/User');
+
 const bcrypt = require('bcryptjs');
 
 const passport = require('passport');
@@ -14,6 +15,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
 // const { Order } = require('../models/Order');
+const moment = require('moment');
 
 const Order = require('../models/Order');
 
@@ -28,19 +30,6 @@ router.get('/login', (req, res) => {
     res.render('user/login');
 });
 
-
-// Order.Order.findByPk(req.params.id)
-//     .then((order) => {
-//         let orderId = order.id
-//         let status = order.status
-//         Order.OrderItem.findAll({
-//             where: { orderId },
-//             order: [['createdat', 'DESC']],
-//         })
-//             .then((orderItem) => {
-//                 res.render('../views/cart/purchase.handlebars', { orderItem, status, orderId });
-//             })
-//     })
 
 router.get('/register', (req, res) => {
     res.render('user/register');
@@ -62,6 +51,23 @@ function sendEmail(toEmail, url) {
             .catch(err => reject(err));
     });
 }
+
+// function sendEmailPW(toEmail, url) {
+//     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+//     const message = {
+//         to: toEmail,
+//         from: `The Healing Inc. <${process.env.SENDGRID_SENDER_EMAIL}>`,
+//         subject: 'Reset Healing Inc Account Password',
+//         html: `As you have requested to reset your password.<br><br> Please
+//     <a href=\"${url}"><strong>click to reset</strong></a> your password.`
+//     };
+//     // Returns the promise from SendGrid to the calling function
+//     return new Promise((resolve, reject) => {
+//         sgMail.send(message)
+//             .then(response => resolve(response))
+//             .catch(err => reject(err));
+//     });
+// }
 
 router.get('/verify/:userId/:token', async function (req, res) {
     let id = req.params.userId;
@@ -182,8 +188,6 @@ router.post('/register', async function (req, res) {
                     res.redirect('/');
                 });
 
-
-
         }
     }
     catch (err) {
@@ -195,7 +199,7 @@ router.post('/register', async function (req, res) {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         // Success redirect URL
-        successRedirect: '/user/profile',
+        successRedirect: '/',
         // Failure redirect URL
         failureRedirect: '/user/login',
 
@@ -218,71 +222,106 @@ router.get('/logout', (req, res) => {
     });
 });
 
-router.get('/profile', ensureAuthenticated, (req, res) => {
-    User.findByPk(req.user.id)
-        .then((user) => {
-            Voucher.Voucher.findAll({
-                where: { invalidtype: "valid" }
-            })
-                .then((voucher) => {
-                    // console.log(voucher)
-                    voucher.forEach(element => {
-                        // console.log(req.user.id)
-                        let userId = req.user.id;
-                        let voucherId = element.id
-                        let vname = element.vname
-                        let dtype = element.dtype
-                        let discount = element.discount
-                        let minspend = element.minspend
-                        let code = element.code
-                        let valid = element.valid
-                        let displaydate = element.displaydate
-                        let invalidtype = element.invalidtype
+router.get('/profile', ensureAuthenticated, async (req, res) => {
+    await Voucher.Voucher.findAll({
+        where: { invalidtype: "valid" }
+    })
+        .then((voucher) => {
+            // console.log(voucher)
+            voucher.forEach(element => {
+                let id = element.id;
+                let userId = req.user.id;
+                let voucherId = element.id
+                let vname = element.vname
+                let dtype = element.dtype
+                let discount = element.discount
+                let minspend = element.minspend
+                let code = element.code
+                let usecount = element.usecount;
+                let limituse = element.limituse;
+                let valid = element.valid;
+                let invalidtype = element.invalidtype;
+                let displaydate = moment(valid).utc().format('DD/MM/YYYY');
+                let displaytoday = moment().utc().format('DD/MM/YYYY');
+                if (usecount >= limituse) {
+                    Voucher.Voucher.update(
+                        { invalidtype: "Max Usage" },
+                        { where: { id: id } }
+                    )
 
-                        Voucher.UserVoucher.findOrCreate({
-                            where: { userId: userId, voucherId: voucherId },
-                            defaults: {
-                                //   job: 'Technical Lead JavaScript'
-                                vname,
-                                dtype,
-                                discount,
-                                minspend,
-                                code,
-                                valid,
-                                displaydate,
-                                invalidtype,
-                                use: 0,
-                                userId,
-                                voucherId
-                            }
-                        });
-
-                        // .then((uservoucher) => {
-                        //     if (!uservoucher) {
-                        //         Voucher.UserVoucher.create(
-                        //             { vname,dtype, discount, minspend, code, valid, displaydate, invalidtype, used: 0, userId, voucherId }
-                        //         )
-                        //     }
-                        // })
-                        // .catch(err => console.log(err));
-                        // Voucher.UserVoucher.findByPk( voucherId)
-                        // .then((uservoucher) => {
-                        //     if (!uservoucher) {
-                        //         Voucher.UserVoucher.create(
-                        //             { vname,dtype, discount, minspend, code, valid, displaydate, invalidtype, used: 0, userId, voucherId }
-                        //         )
-                        //     }
-                        // })
-                        // .catch(err => console.log(err));
+                    Voucher.UserVoucher.findAll({
+                        where: { voucherId: id, invalidtype: "valid" },
                     })
+                        .then((uservoucher) => {
+                            console.log("editing voucher for user side");
+                            uservoucher.forEach(element => {
+                                // let userId = element.userId;
+                                let voucherId = element.voucherId;
+
+                                Voucher.UserVoucher.update(
+                                    { invalidtype: "Max Usage" },
+                                    { where: { voucherId: voucherId } }
+                                )
+                                    .then((result) => {
+                                        console.log('user voucher updated');
+                                    })
+                                    .catch(err => console.log(err));
+
+                            });
+                        })
+                }
+
+                else if (!(displaytoday < displaydate)) {
+                    Voucher.Voucher.update(
+                        { invalidtype: "Expired" },
+                        { where: { id: id } }
+                    )
+
+                    Voucher.UserVoucher.findAll({
+                        where: { voucherId: id, invalidtype: "valid" },
+                    })
+                        .then((uservoucher) => {
+                            console.log("editing voucher for user side");
+                            uservoucher.forEach(element => {
+                                let voucherId = element.voucherId;
+
+                                Voucher.UserVoucher.update(
+                                    { invalidtype: "Expired" },
+                                    { where: { voucherId: voucherId } }
+                                )
+                                    .then((result) => {
+                                        console.log('user voucher updated');
+                                    })
+                                    .catch(err => console.log(err));
+
+                            });
+                        })
+                }
+
+                else {
+                    Voucher.UserVoucher.findOrCreate({
+                        where: { userId: userId, voucherId: voucherId },
+                        defaults: {
+                            vname,
+                            dtype,
+                            discount,
+                            minspend,
+                            code,
+                            valid,
+                            invalidtype,
+                            use: 0,
+                            userId,
+                            voucherId
+                        }
+                    });
+
+                }
 
 
-
-
-                })
-                .catch(err => console.log(err));
+            })
         })
         .catch(err => console.log(err));
+
 
     res.render('user/profile', { layout: 'account', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
 });
@@ -497,44 +536,7 @@ router.post('/changepw/:id', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));
     return;
 
-
-
-
-    // if (password2.length < 6) {
-    //     flashMessage(res, 'error', 'Password must be at least 6 characters');
-    //     isValid = false;
-    // }
-    // if (password2 != password3) {
-    //     flashMessage(res, 'error', 'Passwords do not match');
-    //     isValid = false;
-    // }
-
-    // if (!isValid) {
-    //     User.findByPk(req.params.id)
-    //         .then((user) => {
-    //             res.render('user/changepw', { user });
-    //         })
-    //         .catch(err => console.log(err));
-    //     return;
-    // }
-
-    // var salt = bcrypt.genSaltSync(10);
-    // var hash = bcrypt.hashSync(password2, salt);
-
-    // User.update(
-    //     // { firstname, lastname, username, phoneno, address, email, password: hash },
-    //     { password: hash },
-    //     { where: { id: req.params.id } }
-    // )
-    //     .then((result) => {
-    //         console.log(result[0] + ' pw updated');
-    //         flashMessage(res, 'success', ' Password changed successfully');
-    //         res.redirect('/user/profile');
-    //     })
-    //     .catch(err => console.log(err));
 });
-
-
 
 
 
@@ -566,34 +568,19 @@ router.get('/deleteaccount/:id', ensureAuthenticated, async function (req, res) 
 });
 
 
-// router.get('/listVideos', (req, res) => {
-//     Video.findAll({
-//     where: { userId: req.user.id },
-//     order: [['dateRelease', 'DESC']],
-//     raw: true
-//     })
-//     .then((videos) => {
-//     // pass object to listVideos.handlebar
-//     res.render('video/listVideos', { videos });
-//     })
-//     .catch(err => console.log(err));
-//     });
 
+router.get('/listUserVoucher', ensureAuthenticated, async (req, res) => {
 
-
-
-router.get('/listUserVoucher', ensureAuthenticated, (req, res) => {
-    Voucher.UserVoucher.findAll({
-        where: { userId: req.user.id },
-        // order: [['dateRelease', 'DESC']],
-        raw: true
+await Voucher.UserVoucher.findAll({
+    where: { userId: req.user.id, invalidtype:"valid" },
+    // order: [['dateRelease', 'DESC']],
+    raw: true
+})
+    .then((vouchers) => {
+        // pass object to listVideos.handlebar
+        res.render('user/listUserVoucher', { layout: 'account', vouchers });
     })
-        .then((vouchers) => {
-            // pass object to listVideos.handlebar
-            res.render('user/listUserVoucher', { layout: 'account', vouchers });
-        })
-        .catch(err => console.log(err));
-    // res.render('./staff/listCust', { layout: 'staffMain', user: req.user, firstname: req.user.firstname, lastname: req.user.lastname, username: req.user.username, phoneno: req.user.phoneno, address: req.user.address, email: req.user.email, id: req.user.id });
+    .catch(err => console.log(err));
 });
 
 
