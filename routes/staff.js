@@ -513,7 +513,7 @@ router.post('/listOrderbyTime',ensureAuthenticatedStaff, async (req, res) => {
     order.update(
         { status: status }
         );
-    res.redirect("/staff/listCustOrder")
+    res.redirect("/staff/listOrderbyTime");
 })
 
 router.get('/deleteOrder/:id', async function (req, res) {
