@@ -30,5 +30,12 @@ const CartItem = db.define('cartItem',
         // discount: { type: Sequelize.DECIMAL },
     });
 
+const Reason = db.define('reason',{
+    summary: { type: Sequelize.STRING },
+    category: { type: Sequelize.STRING },
+    content: { type: Sequelize.STRING },
+    createdBy: { type: Sequelize.STRING }
+})
 
-module.exports = { Order, OrderItem, CartItem };
+
+module.exports = { Order, OrderItem, CartItem, Reason };

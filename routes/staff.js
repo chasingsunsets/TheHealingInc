@@ -563,4 +563,28 @@ router.post('/manageCustOrder/:id', async (req, res) => {
     res.redirect("/staff/manageCustOrder/"+ req.params.id);
 });
 
+
+router.get('/Addreason', ensureAuthenticatedStaff, (req, res) => {
+    res.render('staff/addReason', { layout: 'staffMain' });
+});
+
+router.post('/addNewsletter', ensureAuthenticatedStaff,(req, res) => {
+    let summary = req.body.newsletterName;
+    let category = req.body.category;
+    let content = req.body.htmlContent;
+    let createdBy = req.body.createdBy;
+
+    Order.Reason.create({
+        summary, category,content,createdBy
+    })
+    .then((reason) => {
+        console.log(reason.toJSON());
+        res.redirect('/staff/listReasons');
+    })
+});
+
+router.get('listReasons', ensureAuthenticatedStaff, (req, res) => {
+    
+});
+
 module.exports = router;

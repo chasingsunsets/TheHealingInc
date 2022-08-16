@@ -1,0 +1,180 @@
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="display-4">Add Reason for Recall </h1>
+                    <form method="POST" action="/newsletter/addReason">
+
+                        <div class="form-group">
+                            <label for="newsletterName">Reason Summary</label>
+                            <input class="form-control" type="text" id="newsletterName" name="newsletterName" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="promotion" value="Promotion" name="category">
+                                <label class="form-check-label" for="promotion">Package Missing</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="event" value="Event" name="category">
+                                <label class="form-check-label" for="event">Payment canceled</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="other" value="Others" name="category">
+                                <label class="form-check-label" for="other">Others</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="htmlContent">Content</label>
+                            {{!-- <input class="form-control" type="textarea" id="summernote" name="htmlContent" required /> --}}
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <textarea id="ta-1" cols="30" rows="30" name="htmlContent"></textarea>
+                                </div>
+                            </div>
+                            {{!-- <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <button class="btn btn-sm btn-primary" id="btn-get-content">Get Content</button>
+                                    <button class="btn btn-sm btn-primary" id="btn-get-text">Get Text</button>
+                                    <button class="btn btn-sm btn-success" id="btn-set-content">Set Content</button>
+                                    <button class="btn btn-sm btn-danger" id="btn-reset">Reset</button>
+                                </div>
+                            </div> --}}
+                            <div class="row">
+                                <code class="col-xs-12" id="content">
+                                                      </code>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="createdBy">Created By/ Modified By</label>
+                            {{#if_equal user.type "staff"}}
+                            <input class="form-control" type="text" id="createdBy" name="createdBy" value="{{user.username}}" readonly />
+                            {{/if_equal}}
+                        </div>
+                                            
+                        
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                    </form>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    {{!-- <script>
+
+        $(document).ready(function () {
+                $('#summernote').summernote(
+                   {
+                        placeholder: 'Hello stand alone ui',
+                        tabsize: 2,
+                        height: 120,
+                        theme: 'monokai',
+                        toolbar: [
+                            ['style', ['style']],
+                            ['font', ['bold', 'underline', 'clear']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['table', ['table']],
+                            ['insert', ['link', 'picture', 'video']],
+                            ['view', ['fullscreen', 'codeview', 'help']]
+                        ]                     
+                    } 
+                );
+            });
+
+    </script> --}}
+
+    <script>
+        (function () {
+            var content =
+                "<p><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzC_Ho_08G0m7PyxJOPLpPujM9UTLxvaE-5nXewscnqa3GMWjGwg' alt='Image result for summernote.js'></p><h1>Summernote</h1>";
+            var $sumNote = $("#ta-1")
+                .summernote({
+                    callbacks: {
+                        onPaste: function (e, x, d) {
+                            $sumNote.code(($($sumNote.code()).find("font").remove()));
+                        }
+                    },
+
+                    dialogsInBody: true,
+                    dialogsFade: true,
+                    disableDragAndDrop: true,
+                    //                disableResizeEditor:true,
+                    height: "150px",
+                    tableClassName: function () {
+                        alert("tbl");
+                        $(this)
+                            .addClass("table table-bordered")
+
+                            .attr("cellpadding", 0)
+                            .attr("cellspacing", 0)
+                            .attr("border", 1)
+                            .css("borderCollapse", "collapse")
+                            .css("table-layout", "fixed")
+                            .css("width", "100%");
+
+                        $(this)
+                            .find("td")
+                            .css("borderColor", "#ccc")
+                            .css("padding", "4px");
+                    }
+                })
+                .data("summernote");
+
+            //get
+            $("#btn-get-content").on("click", function () {
+                var y = $($sumNote.code());
+
+                console.log(y[0]); console.log(y.find("p> font"));
+                var x = y.find("font").remove();
+                $("#content").text($("#ta-1").val());
+            });
+            //get text$($sumNote.code()).find("font").remove()$($sumNote.code()).find("font").remove()
+            $("#btn-get-text").on("click", function () {
+                $("#content").html($($sumNote.code()).text());
+            });
+            //set
+            $("#btn-set-content").on("click", function () {
+                $sumNote.code(content);
+            }); //reset
+            $("#btn-reset").on("click", function () {
+                $sumNote.reset();
+                $("#content").empty();
+            });
+        })();
+
+    </script>
+
+</body>
