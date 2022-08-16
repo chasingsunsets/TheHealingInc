@@ -21,7 +21,7 @@
 								<th>&nbsp;Payment Status</th>
 								<th>&nbsp;Address</th>
 								<th>&nbsp;Modify Status</th>
-                                <th>&nbsp;Action</th>
+                                <th>&nbsp;Cancel</th>
 
 							</tr>
 						</thead>
@@ -55,7 +55,15 @@
 									<!-- Button HTML (to Trigger Modal) -->
 									<a href="#myModal_{{id}}" class="trigger-btn delete text-danger" data-toggle="modal"> 
 										<i class="fa-solid fa-eject"></i>
-										Cancel
+										Without Reason
+									</a>
+								</div>
+
+								<div>
+									<!-- Button HTML (to Trigger Modal) -->
+									<a href="/staff/selectReason/{{id}}" class="text-danger"> 
+										<i class="fa-solid fa-at"></i>
+										With Reason
 									</a>
 								</div>
 

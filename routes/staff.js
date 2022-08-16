@@ -568,23 +568,71 @@ router.get('/Addreason', ensureAuthenticatedStaff, (req, res) => {
     res.render('staff/addReason', { layout: 'staffMain' });
 });
 
-router.post('/addNewsletter', ensureAuthenticatedStaff,(req, res) => {
+router.post('/Addreason', ensureAuthenticatedStaff,(req, res) => {
+    let summary = req.body.newsletterName;
+    let category = req.body.category;
+    let content = req.body.htmlContent;
+    let createdBy = req.body.createdBy;
+    Order.Reason.create({
+        summary, category,content,createdBy
+    })
+    .then((reason) => {
+        console.log(reason);
+        res.redirect('/staff/listReasons');
+    })
+});
+
+router.get('/listReasons', ensureAuthenticatedStaff, async (req, res) => {
+    let reasons = await Order.Reason.findAll({raw:true});
+    res.render('staff/listReasons', { layout: 'staffMain', reasons });
+});
+
+router.get('/removeReason/:id', ensureAuthenticatedStaff, async (req, res) => {
+    let reason = await Order.Reason.findByPk(req.params.id);
+    let result = await Order.Reason.destroy({ where: { id: reason.id } });
+    console.log(result + ' Reason Removed');
+    flashMessage(res, 'success', 'Reason successfully Removed');
+    res.redirect('/staff/listReasons');
+
+});
+
+router.get('/editReason/:id', ensureAuthenticatedStaff, async (req, res) => {
+    Order.Reason.findByPk(req.params.id)
+        .then((reason) => {
+            res.render('staff/editReason', { layout: 'staffMain', reason });
+        })
+});
+
+router.post('/editReason/:id', ensureAuthenticatedStaff, (req, res) => {
     let summary = req.body.newsletterName;
     let category = req.body.category;
     let content = req.body.htmlContent;
     let createdBy = req.body.createdBy;
 
-    Order.Reason.create({
-        summary, category,content,createdBy
-    })
-    .then((reason) => {
-        console.log(reason.toJSON());
-        res.redirect('/staff/listReasons');
-    })
+            Order.Reason.update(
+            { summary, category, content, createdBy},
+            { where: { id:req.params.id } }
+        )
+            .then((result) => {
+                console.log(result[0] + ' reason updated');
+                flashMessage(res, 'success', ' Profile edited successfully');
+                res.redirect('/staff/listReasons');
+            })
+
+    });
+
+router.get('/selectReason/:id', ensureAuthenticatedStaff, async (req, res) =>{
+    let order = Order.Order.findByPk(req.params.id);
+    let user_id = order.userId;
+
+    let reasons = await Order.Reason.findAll({raw:true});
+    
+    res.render('staff/selectReason', {layout: 'staffMain', reasons, user_id: user_id}); 
+
 });
 
-router.get('listReasons', ensureAuthenticatedStaff, (req, res) => {
-    
-});
+router.get('/sendReasons/:id', ensureAuthenticatedStaff, async (req, res) => {
+
+})
 
 module.exports = router;

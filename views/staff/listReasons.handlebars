@@ -1,0 +1,425 @@
+<head>
+    <script>
+        function tracing() {
+            var orderid = document.getElementById("order_id").innerHTML
+            console.log(orderid)
+            window.open("../user/delivery_tracing/" + orderid,
+                "PAYMENT", "height=500,width=600,toolbar=no, menubar=no,scrollbars=no, resizeable=no,location=no,status=no");
+        }
+    </script>
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="card-header py-3" style="background-color:#8BAD97;">
+                            <h5 class="m-0 font-weight-bold" style="color:white;">Reason List <a href="/staff/Addreason"
+                                    class="card-link mb-2"
+                                    style="color:#F1EDE5; float:right; padding-right:40px; font-size:large"><i class="fa-solid fa-plus"></i> Add Reason</a></h5>
+
+                        </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-10 col-md-8 col-sm-2">
+                            <form>
+                                <div class="d-none d-sm-inline-block form-inline navbar-search "
+                                    style='padding-bottom: 20px;'>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-2 col-md-4 col-sm-10 text-right">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="wrapper">
+
+                        <input type="radio" name="slider" checked id="draft">
+                        <input type="radio" name="slider" id="scheduled">
+                        <input type="radio" name="slider" id="past">
+                        <section>
+                            <div class="content content-1"
+                                style="height: 400px;  overflow-y:scroll; overflow-x: hidden; border-style: none;">
+                                <table class="table table-borderless table-hover"
+                                    style="border-style: None;border-collapse: collapse">
+                                    <thead>
+                                        <tr class="font-weight-bold">
+                                            <th>Id</th>
+                                            <th>Summary</th>
+                                            <th>Category</th>
+                                            <th>Created By</th>
+                                            <th colspan="4">Operations</th>
+                                        </tr>
+                                    </thead>
+                                    <br>
+                                    <tbody>
+                                        {{#if reasons}}
+                                        {{#each reasons}}
+                                        <tr style="border: solid; border-width: 1px 0;">
+                                            <td id="order_id">{{id}}</td>
+                                            <td>{{summary}}</td>
+                                            <td>{{category}}</td>
+                                            <td>{{createdBy}}</td>
+                                            <td> <a href="/staff/removeReason/{{id}}" class="btn btn-danger"><i
+                                                        class="fa-solid fa-xmark"></i></a>
+                                            </td>
+                                            <td>
+                                                {{!-- <button type="submit" class="btn btn-info" id="checkout"
+                                                    onclick="tracing()">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button> --}}
+                                                <a href="/staff/editReason/{{id}}" class="btn btn-info"><i class="fa-solid fa-pencil"></i></a>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                        {{else}}
+                                        <div>
+                                            <td colspan="8" style="text-align:center;">
+                                                <h6 class="empty">You currently have no Reason has been added.</h6>
+                                            </td>
+                                        </div>
+                                        {{/if}}
+                                    </tbody>
+                                </table>
+                        </section>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+</body>
+
+<style>
+    {
+            {
+             !-- order细节 --
+        }
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap");
+
+
+    h2,
+    h4,
+    h6 {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+    }
+
+    .root {
+        padding: 1rem;
+        border-radius: 5px;
+        box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+    }
+
+    figure {
+        display: flex;
+    }
+
+    figure img {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 15%;
+        border: 1.5px solid #f05a00;
+        margin-right: 1.5rem;
+        padding: 1rem;
+    }
+
+    figure figcaption {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    figure figcaption h4 {
+        font-size: 1.4rem;
+        font-weight: 500;
+    }
+
+    figure figcaption h6 {
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    figure figcaption h2 {
+        font-size: 1.6rem;
+        font-weight: 500;
+    }
+
+    .order-track {
+        margin-top: 2rem;
+        padding: 0 1rem;
+        border-top: 1px dashed #2c3e50;
+        padding-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-track-step {
+        display: flex;
+        height: 7rem;
+    }
+
+    .order-track-step:last-child {
+        overflow: hidden;
+        height: 4rem;
+    }
+
+    .order-track-step:last-child .order-track-status span:last-of-type {
+        display: none;
+    }
+
+    .order-track-status {
+        margin-right: 1.5rem;
+        position: relative;
+    }
+
+    .order-track-status-dot {
+        display: block;
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        background: #f05a00;
+    }
+
+    .order-track-status-line {
+        display: block;
+        margin: 0 auto;
+        width: 2px;
+        height: 7rem;
+        background: #f05a00;
+    }
+
+    .order-track-text-stat {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 3px;
+    }
+
+    .order-track-text-sub {
+        font-size: 1rem;
+        font-weight: 300;
+    }
+
+    .order-track {
+        transition: all .3s height 0.3s;
+        transform-origin: top center;
+    }
+
+        {
+            {
+             !-- -------------------------------------------------- --
+        }
+    }
+
+    ::selection {
+        background: #8BAD97(23, 98, 184, 0.3);
+    }
+
+    .wrapper {
+
+        width: 100%;
+        padding: 25px 30px 30px 30px;
+        border-radius: 5px;
+        background: #fff;
+
+    }
+
+    .wrapper header {
+        font-size: 30px;
+        font-weight: 600;
+        padding-bottom: 20px;
+    }
+
+    .wrapper nav {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+
+    .wrapper nav label {
+        display: block;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        color: #8BAD97;
+        font-size: 17px;
+        border-radius: 5px;
+        margin: 0 5px;
+
+        transition: all 0.3s ease;
+    }
+
+    .wrapper nav label:hover {
+        margin-bottom: 10px;
+        background: #e0d1b5;
+    }
+
+
+
+    #about:checked~nav label.about {
+        color: #fff;
+    }
+
+    nav label i {
+        padding-right: 7px;
+    }
+
+    nav .slider {
+        position: absolute;
+        height: 100%;
+        width: 33%;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+        border-radius: 5px;
+        background: #e0d1b5;
+        transition: all 0.3s ease;
+
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    #scheduled:checked~nav .slider {
+        left: 33.33%;
+    }
+
+    #past:checked~nav .slider {
+        left: 66.66%;
+    }
+
+        {
+            {
+             !-- #help:checked~nav .slider {
+                left: 99%;
+            }
+
+            --
+        }
+    }
+
+    #about:checked~nav .slider {
+        left: 99.99%;
+    }
+
+    section .content {
+        display: block;
+        background: #fff;
+        border-collapse: collapse;
+
+    }
+
+
+
+    #about:checked~section .content-4 {
+        display: block;
+    }
+
+    section .content .title {
+        font-size: 21px;
+        font-weight: 500;
+        margin: 30px 0 10px 0;
+    }
+
+    section .content p {
+        text-align: justify;
+    }
+
+    #draft:checked~section .content-1,
+    #scheduled:checked~section .content-2,
+    #past:checked~section .content-3,
+    {
+        {
+         !-- #help: checked ~ section .content-4, --
+    }
+    }
+
+    #about:checked~section .content-4 {
+        display: block;
+    }
+
+    section .content .title {
+        font-size: 21px;
+        font-weight: 500;
+        margin: 30px 0 10px 0;
+    }
+
+    section .content p {
+        text-align: justify;
+    }
+</style>
+
+
+{{!--
+<!-- Bootstrap core JavaScript-->
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/js/demo/datatables-demo.js"></script> --}}
+
+{{!-- JavaScript Bundle with Popper --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/jquery/jquery.slim.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>

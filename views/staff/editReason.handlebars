@@ -15,27 +15,27 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="display-4">Add Reason for Recall </h1>
-                    <form method="POST" action="/staff/Addreason">
+                    <h1 class="display-4">Edit Reason for Recall </h1>
+                    <form method="POST" action="/staff/editReason/{{reason.id}}">
 
                         <div class="form-group">
                             <label for="newsletterName">Reason Summary</label>
-                            <input class="form-control" type="text" id="newsletterName" name="newsletterName" required />
+                            <input class="form-control" type="text" id="newsletterName" name="newsletterName"  value="{{reason.summary}}" required />
                         </div>
 
                         <div class="form-group">
                             <label for="category">Category</label>
                             <br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="Package Missing" value="Package Missing" name="category">
+                                <input class="form-check-input" type="radio" id="Package Missing" value="Package Missing" {{radioCheck reason.category "Package Missing" }} name="category">
                                 <label class="form-check-label" for="promotion">Package Missing</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="Payment canceled" value="Payment canceled" name="category">
+                                <input class="form-check-input" type="radio" id="Payment canceled" value="Payment canceled" {{radioCheck reason.category "Payment canceled" }} name="category">
                                 <label class="form-check-label" for="event">Payment canceled</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="Others" value="Others" name="category">
+                                <input class="form-check-input" type="radio" id="Others" value="Others"  {{radioCheck reason.category "Others" }} name="category">
                                 <label class="form-check-label" for="other">Others</label>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             {{!-- <input class="form-control" type="textarea" id="summernote" name="htmlContent" required /> --}}
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <textarea id="ta-1" cols="30" rows="30" name="htmlContent"></textarea>
+                                    <textarea id="ta-1" cols="30" rows="30" name="htmlContent" value="{{reason.content}}">{{reason.content}}</textarea>
                                 </div>
                             </div>
                             {{!-- <div class="row">
@@ -57,7 +57,7 @@
                                 </div>
                             </div> --}}
                             <div class="row">
-                                <code class="col-xs-12" id="content">
+                                <code class="col-xs-12" id="content" value="{{reason.content}}">
                                                       </code>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <label for="createdBy">Created By/ Modified By</label>
                             {{#if_equal user.type "staff"}}
-                            <input class="form-control" type="text" id="createdBy" name="createdBy" value="{{user.username}}" readonly />
+                            <input class="form-control" type="text" id="createdBy" name="createdBy" value="{{reason.createdBy}}" readonly />
                             {{/if_equal}}
                         </div>
                                             
