@@ -54,7 +54,15 @@
 									<!-- Button HTML (to Trigger Modal) -->
 									<a href="#myModal_{{id}}" class="trigger-btn delete text-danger" data-toggle="modal"> 
 										<i class="fa-solid fa-eject"></i>
-										Cancel
+										Without Reason
+									</a>
+								</div>
+
+								<div>
+									<!-- Button HTML (to Trigger Modal) -->
+									<a href="/staff/selectReason1/{{id}}" class="text-danger"> 
+										<i class="fa-solid fa-at"></i>
+										With Reason
 									</a>
 								</div>
 
@@ -70,7 +78,7 @@
 													</button>
 												</div>
 												<div class="modal-body">
-													<p>Do you want to delete this Order? This process cannot be undone.</p>
+													<p>Do you want to delete this Order Without Reason? It may make customer Unhappy!</p>
 												</div>
 												<div class="modal-footer justify-content-center">
 													<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>

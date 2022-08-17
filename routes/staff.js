@@ -10,6 +10,24 @@ const ensureAuthenticatedStaff = require('../helpers/auth2');
 const Order = require('../models/Order');
 const { request } = require('express');
 
+// models
+const Subscription = require('../models/Subscription');
+const Newsletter = require('../models/Newsletter');
+
+// helpers
+const newsletterUpload = require('../helpers/newsletterImageUpload');
+const fs = require('fs');
+const moment = require('moment');
+
+// api
+require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
+
+// testing summernote:
+router.get('/summernote', (req, res) => {
+    res.render('newsletter/summernote', { layout: 'staffMain' });
+});
+
 router.get('/login', (req, res) => {
     try {
         User.findOne({ where: { email: "thehealinginctester@gmail.com" } })
@@ -631,9 +649,18 @@ router.get('/selectReason/:id', ensureAuthenticatedStaff, async (req, res) => {
 
 });
 
+router.get('/selectReason1/:id', ensureAuthenticatedStaff, async (req, res) => {
+    let order = await Order.Order.findByPk(req.params.id);
+    let user_id = order.userId;
+
+    let reasons = await Order.Reason.findAll({ raw: true });
+
+    res.render('staff/selectReason1', { layout: 'staffMain', reasons, user_id: user_id });
+
+});
+
 router.get('/sendReasons/:id', ensureAuthenticatedStaff, async (req, res) => {
     let user_id = req.body.user_id;
-    
     let reason = await Order.Reason.findByPk(req.params.id);
     let user = await User.findByPk(user_id);
     console.log("reason:"+ reason);
@@ -642,15 +669,123 @@ router.get('/sendReasons/:id', ensureAuthenticatedStaff, async (req, res) => {
 //send email
     let htmlContent = reason.content;
     let summary = reason.summary;
-    let toEmail = user.email;
-    let firstName = user.firstName;
-    let lastName = user.lastName;
+    // let toEmail = user.email;
+    // let firstName = user.firstName;
+    // let lastName = user.lastName;
 
-    sendEmail2(toEmail, subject, firstName, lastName, htmlContent, unSubURL, attachment)
+    let toEmail = "q2467231710@gmail.com";
+    let firstName = "Wang";
+    let lastName = "Zhiyi";
+
+    sendEmail2(toEmail, summary, firstName, lastName, htmlContent, req.params.id)
     .then(response => {
         flashMessage(res, 'success',"Email has been send successfully.")
-        res.redirect('staff/listOrderbyTime')
+        res.redirect('/staff/listOrderbyTime')
     })
 })
+
+
+function sendEmail2(toEmail, subject, firstName, lastName, htmlContent, order_id) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `The Healing Inc. <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: subject,
+        html:
+        `
+		<body style="background-color: #f1ede5; color: black">
+		<br><br>
+		<!-- start preheader -->
+		<div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
+			${subject}
+		</div>
+		<!-- end preheader -->
+
+		<!-- start body -->
+		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+			<!-- start copy block -->
+            <tr>
+			<td align="center" bgcolor="#f1ede5">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+				<!-- start copy -->
+				<tr>
+					<td align="left" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+					<h2 style="margin: 0; text-align:center;">${subject}</h2>
+					</td>
+				</tr>
+				<!-- end copy -->
+
+				</table>
+			</td>
+			</tr>
+
+			<tr>
+			<td align="center" bgcolor="#f1ede5">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+				<!-- start copy -->
+				<tr>
+					<td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+					<p style="margin: 0;">Dear ${firstName} ${lastName}, </p>
+                    <p style="margin: 0;">We are so Sorry to inform you that Your Order No: ${order_id} has been canceled.
+                    Below is the reason: ${htmlContent}</p>
+					</td>             
+				</tr>
+
+                <tr>
+					<td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
+					<p style="margin: 0;">Warmest Regards, </p>
+                    <p style="margin: 0;">The Healing Inc. Team</p>
+					</td>
+				</tr>
+				<!-- end copy -->
+
+				</table>
+			</td>
+			</tr>
+			<!-- end copy block -->
+
+			<!-- start footer -->
+			<tr>
+			<td align="center" bgcolor="#f1ede5" style="padding: 24px;">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+
+				<!-- start permission -->
+                
+				<!-- end permission -->
+				</table>
+			</td>
+			</tr>
+			<!-- end footer -->
+
+		</table>
+		`
+        // files: [
+        //     {
+        //         filename: "attachment.jpeg",
+        //         type: 'image/png,image/jpeg,image/jpg,image/gif',
+        //         cid: 'myimagecid',
+        //         content: attachment,
+        //         disposition: 'inline'
+        //     }
+        // ],
+        // attachments: [
+        //     {
+        //         content: attachment,
+        //         filename: "attachment.jpeg",
+        //         type: "image/png,image/jpeg,image/jpg,image/gif",
+        //         disposition: "attachment",
+        //     }
+        // ]
+        };
+
+        // Returns the promise from SendGrid to the calling function
+        return new Promise((resolve, reject) => {
+            sgMail.send(message)
+                .then(response => resolve(response))
+                .catch(err => reject(err));
+        });
+}
+
 
 module.exports = router;
